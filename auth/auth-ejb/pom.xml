@@ -13,63 +13,6 @@
 
    <name>auth EJB module</name>
 
-   <dependencies>
-
-      <!-- Declare the APIs we depend on and need for compilation. All of 
-         them are provided by JBoss AS 7 -->
-
-      <!-- Import the EJB API, we use provided scope as the API is included 
-         in JBoss AS 7 -->
-      <dependency>
-         <groupId>org.jboss.spec.javax.ejb</groupId>
-         <artifactId>jboss-ejb-api_3.1_spec</artifactId>
-         <scope>provided</scope>
-      </dependency>
-
-      <!-- Import the CDI API, we use provided scope as the API is included 
-         in JBoss AS 7 -->
-      <dependency>
-         <groupId>javax.enterprise</groupId>
-         <artifactId>cdi-api</artifactId>
-         <scope>provided</scope>
-      </dependency>
-
-      <!-- Import the JPA API, we use provided scope as the API is included 
-         in JBoss AS 7 -->
-      <dependency>
-         <groupId>org.hibernate.javax.persistence</groupId>
-         <artifactId>hibernate-jpa-2.0-api</artifactId>
-         <scope>provided</scope>
-      </dependency>
-
-      <!-- JSR-303 (Bean Validation) Implementation -->
-      <!-- Provides portable constraints such as @Email -->
-      <!-- Hibernate Validator is shipped in JBoss AS 7 -->
-      <dependency>
-         <groupId>org.hibernate</groupId>
-         <artifactId>hibernate-validator</artifactId>
-         <scope>provided</scope>
-      </dependency>
-
-
-      <!-- Test scope dependencies -->
-      <dependency>
-         <groupId>junit</groupId>
-         <artifactId>junit</artifactId>
-      </dependency>
-
-      <!-- Optional, but highly recommended -->
-      <!-- Arquillian allows you to test enterprise code such as EJBs and 
-         Transactional(JTA) JPA from JUnit/TestNG -->
-      <dependency>
-         <groupId>org.jboss.arquillian.junit</groupId>
-         <artifactId>arquillian-junit-container</artifactId>
-         <version>1.0.0.CR4</version>
-         <scope>test</scope>
-      </dependency>
-
-   </dependencies>
-
    <build>
       <plugins>
          <plugin>
