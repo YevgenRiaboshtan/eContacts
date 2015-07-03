@@ -19,13 +19,7 @@
 	</http>
 
 	<authentication-manager>
-		<authentication-provider ref="customAuthenticationProvider">
-			<!-- <user-service>
-				<user name="admin" password="pass" authorities="ROLE_ADMIN" />
-				<user name="user1" password="1111" authorities="ROLE_USER" />
-				<user name="user2" password="2222" disabled="true" authorities="ROLE_USER" />
-			</user-service> -->
-		</authentication-provider>
+		<authentication-provider ref="customAuthenticationProvider"></authentication-provider>
 		<authentication-provider ref="customSecAuthenticationProvider"></authentication-provider>
 	</authentication-manager>
 	
