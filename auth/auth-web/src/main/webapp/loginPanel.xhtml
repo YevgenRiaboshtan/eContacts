@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-   xmlns:ui="http://java.sun.com/jsf/facelets"
-   xmlns:f="http://java.sun.com/jsf/core"
-   xmlns:h="http://java.sun.com/jsf/html">
- <div align="right" style="">
-          <h:form id="loginForm" prependId="false">
-        	
-            <h:panelGrid columns="2">  
-                <h:outputLabel for="j_username" value="User: " />  
-                <h:inputText id="j_username" value="#{loginBean.userName}" required="true" requiredMessage="Username !"/>  
-                <h:outputLabel for="j_password" value="Password: " />  
-                <h:inputSecret id="j_password" value="#{loginBean.password}" required="true" requiredMessage="Passwort !"/>  
-				<h:commandButton id="submitButton" value="Start" action="#{loginController.login}" />  
-            </h:panelGrid>  
-        </h:form>  
-    </div>
-    <div>
-        <h:messages></h:messages>
-    </div>
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	 xmlns:p="http://primefaces.org/ui">
+	<div align="right" style="">
+		<h:form action="/auth/j_spring_security_check" method="POST">
+			<label for="j_username">User Id: </label> 
+			<input id="j_username" name="j_username" type="text" /> 
+			<label for="j_password">Password: </label> 
+			<input id="j_password" name="j_password" type="password" /> 
+			<input type="submit" value="Submit" />
+		</h:form>
+	</div>
+	<div>
+		<h:messages></h:messages>
+	</div>
 </ui:composition>

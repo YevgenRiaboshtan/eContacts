@@ -15,7 +15,7 @@
          <div id="sidebar">
             <c:choose>
             	<c:when test="#{webHelper.auth}">
-            		USER CONTENT
+            		<ui:include src="/userPanel.xhtml" />
             	</c:when>		
             	<c:otherwise>
             		<ui:include src="/loginPanel.xhtml" />

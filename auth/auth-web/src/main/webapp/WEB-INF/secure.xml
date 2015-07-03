@@ -8,23 +8,31 @@
 
  
 	<http auto-config="false" create-session="always">
-		<intercept-url pattern="/share/*" access="ROLE_USER,ROLE_ADMIN,ROLE_ANONYMOUS" />
+		<!-- <intercept-url pattern="/share/*" access="ROLE_USER,ROLE_ADMIN,ROLE_ANONYMOUS" /> -->
 		<intercept-url pattern="/user/*" access="ROLE_USER"  />
 		<intercept-url pattern="/admin/*" access="ROLE_ADMIN" />
-		<access-denied-handler error-page="/login.jsp?accessDenied=true"/>
-		<form-login login-page="/login.jsp" default-target-url="/index.html" 
-			authentication-failure-url="/login.jsp?error=true" />
-		<anonymous enabled="true" granted-authority="ROLE_ANONYMOUS"/>
-		<logout invalidate-session="true" delete-cookies="true" logout-success-url="/index.html" />
+		<access-denied-handler error-page="/index.xhtml?accessDenied=true"/>
+		<form-login login-page="/index.xhtml" default-target-url="/index.xhtml" 
+			authentication-failure-url="/index.xhtml?error=true"  login-processing-url="/j_spring_security_check"/>
+		<anonymous enabled="false" granted-authority="ROLE_ANONYMOUS"/>
+		<logout invalidate-session="true" delete-cookies="true" logout-success-url="/index.xhtml" logout-url="/j_spring_security_logout" />
 	</http>
 
 	<authentication-manager>
-		<authentication-provider>
-			<user-service>
+		<authentication-provider ref="customAuthenticationProvider">
+			<!-- <user-service>
 				<user name="admin" password="pass" authorities="ROLE_ADMIN" />
 				<user name="user1" password="1111" authorities="ROLE_USER" />
 				<user name="user2" password="2222" disabled="true" authorities="ROLE_USER" />
-			</user-service>
+			</user-service> -->
 		</authentication-provider>
+		<authentication-provider ref="customSecAuthenticationProvider"></authentication-provider>
 	</authentication-manager>
+	
+	<beans:bean name="customAuthenticationProvider" class="app.security.CustomAuthenticationProvider">
+	
+	</beans:bean>
+		<beans:bean name="customSecAuthenticationProvider" class="app.security.CustomSecAuthenticationProvider">
+	
+	</beans:bean>
 </beans:beans> 

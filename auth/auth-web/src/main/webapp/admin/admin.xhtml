@@ -3,16 +3,17 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
 	template="/WEB-INF/templates/default.xhtml">
 	<ui:define name="content">
 ADMIN CONTENT
 <br />
-		<a href="../index.html">TO MAIN</a>
+<p:inputText value="sd" width="10px"/>
+		<a href="/auth/index.jsf">TO MAIN</a>
 		<br />
-		<a href="../user/user.xhtml">TO USER</a>
+		<a href="/auth/user/user.xhtml">TO USER</a>
 		<br />
-		<a href="../share/share.xhtml">TO SHARE</a>
+		<a href="/auth/share/share.xhtml">TO SHARE</a>
 		<br />
-		<a href="../j_spring_security_logout">Logout</a>
 	</ui:define>
 </ui:composition>
