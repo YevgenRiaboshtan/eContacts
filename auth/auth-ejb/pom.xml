@@ -13,6 +13,14 @@
 
    <name>auth EJB module</name>
 
+   <dependencies>
+   	<dependency>
+   		<groupId>org</groupId>
+   		<artifactId>auth-dataModel</artifactId>
+   		<version>${project.version}</version>
+   	</dependency>
+   </dependencies>
+   
    <build>
       <plugins>
          <plugin>

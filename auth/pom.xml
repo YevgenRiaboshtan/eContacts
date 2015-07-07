@@ -19,12 +19,25 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>3.2.7.RELEASE</spring.version>
 		<java.version>1.8</java.version>
+		<hibernate.version>4.3.9.Final</hibernate.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- Hibernate  -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-core</artifactId>
+				<version>${hibernate.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-envers</artifactId>
+				<version>${hibernate.version}</version>
+				<scope>provided</scope>
+			</dependency>
 
-			
 			<!-- Define the version of the EJB jar so that we don't need to repeat 
 				ourselves in every module -->
 			<dependency>
