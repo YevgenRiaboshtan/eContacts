@@ -17,16 +17,9 @@
 		<anonymous enabled="false" granted-authority="ROLE_ANONYMOUS"/>
 		<logout invalidate-session="true" delete-cookies="true" logout-success-url="/index.xhtml" logout-url="/j_spring_security_logout" />
 	</http>
-
 	<authentication-manager>
-		<authentication-provider ref="customAuthenticationProvider"></authentication-provider>
-		<authentication-provider ref="customSecAuthenticationProvider"></authentication-provider>
-	</authentication-manager>
-	
-	<beans:bean name="customAuthenticationProvider" class="app.security.CustomAuthenticationProvider">
-	
+		<authentication-provider ref="dataBaseAuthenticationProvider"></authentication-provider>
+	</authentication-manager>	
+	<beans:bean name="dataBaseAuthenticationProvider" class="org.auth.authWeb.app.security.DataBaseAuthenticationProvider">
 	</beans:bean>
-		<beans:bean name="customSecAuthenticationProvider" class="app.security.CustomSecAuthenticationProvider">
-	
-	</beans:bean>
-</beans:beans> 
+</beans:beans>  

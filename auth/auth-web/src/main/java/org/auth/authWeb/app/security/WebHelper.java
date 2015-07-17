@@ -1,4 +1,4 @@
-package app.security;
+package org.auth.authWeb.app.security;
 
 import java.io.Serializable;
 

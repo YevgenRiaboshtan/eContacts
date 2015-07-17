@@ -40,6 +40,9 @@ public class UserEntity extends AbstractEntity<BigDecimal> {
 	@Column(name = EntityHelper.ID_F, unique = true, nullable = false, precision = 38, scale = 0)
 	private BigDecimal id;
 
+	@Column(name = "login", nullable = false, length = 100, unique = true)
+	private String login;
+	
 	@Column(name = "first_name", nullable = false, length = 100)
 	private String firstName;
 
@@ -163,6 +166,14 @@ public class UserEntity extends AbstractEntity<BigDecimal> {
 
 	public String getUpdInfo() {
 		return getId() + " " + getFirstName() + " " + getLastName();
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
 	@PrePersist

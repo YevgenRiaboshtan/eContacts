@@ -10,9 +10,15 @@ public final class EntityHelper {
 	
 	public static final String ID_F = "id";
 	public static final String SIGN_F = "sign";
+	public static final String SIGN_A = "sign";
 	public static final String UPD_DATE_F = "upd_date";
 	public static final String UPD_AUTHOR_F = "upd_author";
 	public static final BigDecimal ACTUAL_SIGN = BigDecimal.ZERO;
+	
+	/*--- event audit constants FIXME localization ----*/
+    public static final String EV_NAME_CREATE = "Створення картки";
+    public static final String EV_NAME_UPDATE = "Редагування картки";
+    public static final String EV_NAME_REMOVE = "Знищення картки";
 	
 	private static AtomicLong identifyGenerator = new AtomicLong();
 
