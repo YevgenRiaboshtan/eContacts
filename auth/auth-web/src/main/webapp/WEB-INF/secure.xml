@@ -1,25 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/security"
-	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans 
-                 http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
-                 http://www.springframework.org/schema/security 
-                 http://www.springframework.org/schema/security/spring-security-3.2.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+			http://www.springframework.org/schema/security
+			http://www.springframework.org/schema/security/spring-security-3.2.xsd
+			http://www.springframework.org/schema/context 
+			http://www.springframework.org/schema/context/spring-context.xsd">
  
-	<http auto-config="false" create-session="always">
+	<security:http auto-config="false" create-session="always">
 		<!-- <intercept-url pattern="/share/*" access="ROLE_USER,ROLE_ADMIN,ROLE_ANONYMOUS" /> -->
-		<intercept-url pattern="/user/*" access="ROLE_USER"  />
-		<intercept-url pattern="/admin/*" access="ROLE_ADMIN" />
-		<access-denied-handler error-page="/index.xhtml?accessDenied=true"/>
-		<form-login login-page="/index.xhtml" default-target-url="/index.xhtml" 
+		<security:intercept-url pattern="/user/*" access="ROLE_USER"  />
+		<security:intercept-url pattern="/admin/*" access="ROLE_ADMIN" />
+		<security:access-denied-handler error-page="/index.xhtml?accessDenied=true"/>
+		<security:form-login login-page="/index.xhtml" default-target-url="/index.xhtml" 
 			authentication-failure-url="/index.xhtml?error=true"  login-processing-url="/j_spring_security_check"/>
-		<anonymous enabled="false" granted-authority="ROLE_ANONYMOUS"/>
-		<logout invalidate-session="true" delete-cookies="true" logout-success-url="/index.xhtml" logout-url="/j_spring_security_logout" />
-	</http>
-	<authentication-manager>
-		<authentication-provider ref="dataBaseAuthenticationProvider"></authentication-provider>
-	</authentication-manager>	
-	<beans:bean name="dataBaseAuthenticationProvider" class="org.auth.authWeb.app.security.DataBaseAuthenticationProvider">
-	</beans:bean>
-</beans:beans>  
+		<security:anonymous enabled="false" granted-authority="ROLE_ANONYMOUS"/>
+		<security:logout invalidate-session="true" delete-cookies="true" logout-success-url="/index.xhtml" logout-url="/j_spring_security_logout" />
+	</security:http>
+	<bean id="userDetailsService" class="org.auth.authWeb.app.security.DatabaseUserDetailsServiceImpl"></bean>
+	
+	<context:annotation-config />
+	<context:component-scan base-package="com.joseph" />
+	
+	<bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+	    <property name="userDetailsService" ref="userDetailsService" />
+	</bean>
+	
+	<bean id="authenticationManager" class="org.springframework.security.authentication.ProviderManager">
+	    <property name="providers">
+	        <list>
+	            <ref local="daoAuthenticationProvider"/>
+	        </list>
+	    </property>
+	</bean>
+	
+	<security:authentication-manager>
+	    <security:authentication-provider user-service-ref="userDetailsService">
+	        <security:password-encoder hash="md5"/>
+	    </security:authentication-provider>
+	    <security:authentication-provider user-service-ref="userService">	
+		</security:authentication-provider>
+		<security:authentication-provider ref="dataBaseAuthenticationProvider">
+		</security:authentication-provider>
+	</security:authentication-manager>
+	
+	
+	<security:user-service id="userService">
+		<security:user name="test" authorities="ROLE_USER"/>
+		<security:user name="test2" authorities="ROLE_ADMIN"/>
+	</security:user-service>
+
+	<bean id="dataBaseAuthenticationProvider" class="org.auth.authWeb.app.security.DataBaseAuthenticationProvider">
+	</bean>
+</beans>  

@@ -5,7 +5,8 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-		/WEB-INF/secure.xml</param-value>
+		/WEB-INF/secure.xml
+		/WEB-INF/beans.xml</param-value>
 	</context-param>
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -58,4 +59,5 @@
 		<url-pattern>*.faces</url-pattern>
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
+	
 </web-app>

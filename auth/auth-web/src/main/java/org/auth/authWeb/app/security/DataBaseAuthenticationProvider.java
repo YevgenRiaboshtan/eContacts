@@ -7,6 +7,7 @@ import javax.ejb.EJB;
 
 import org.auth.dataModel.data.service.AuthenticationService;
 import org.auth.dataModel.model.entity.accout.UserEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,7 +17,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 public class DataBaseAuthenticationProvider implements AuthenticationProvider{
 
-	@EJB
+	@Autowired
 	private AuthenticationService authenticationService;
 
 	public DataBaseAuthenticationProvider() {

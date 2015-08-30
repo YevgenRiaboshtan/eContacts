@@ -2,9 +2,14 @@ package org.auth.dataModel.model.entity.accout;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +24,8 @@ import org.auth.dataModel.data.util.EntityHelper;
 import org.auth.dataModel.model.entity.AbstractEntity;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
@@ -42,7 +49,7 @@ public class UserEntity extends AbstractEntity<BigDecimal> {
 
 	@Column(name = "login", nullable = false, length = 100, unique = true)
 	private String login;
-	
+
 	@Column(name = "first_name", nullable = false, length = 100)
 	private String firstName;
 
@@ -72,6 +79,13 @@ public class UserEntity extends AbstractEntity<BigDecimal> {
 
 	@Column(name = "is_admin", nullable = false, precision = 1)
 	private Boolean isAdmin = false;
+
+	@ElementCollection(targetClass=RoleType.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name="user_roles")
+    @Column(name="role_name")
+	@Fetch(FetchMode.SELECT)
+	private Set<RoleType> roles;
 
 	public UserEntity() {
 	}
@@ -174,6 +188,14 @@ public class UserEntity extends AbstractEntity<BigDecimal> {
 
 	public void setLogin(String login) {
 		this.login = login;
+	}
+
+	public Set<RoleType> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<RoleType> roles) {
+		this.roles = roles;
 	}
 
 	@PrePersist
