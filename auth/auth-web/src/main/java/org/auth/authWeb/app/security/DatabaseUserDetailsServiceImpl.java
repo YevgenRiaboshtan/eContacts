@@ -41,7 +41,7 @@ public class DatabaseUserDetailsServiceImpl implements UserDetailsService {
 			//Let's populate user roles
 			Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 			for(RoleType role : user.getRoles()){
-				authorities.add(new SimpleGrantedAuthority(role.toString()));
+				authorities.add(new SimpleGrantedAuthority(role.getName()));
 			}
 			
 			//Now let's create Spring Security User object

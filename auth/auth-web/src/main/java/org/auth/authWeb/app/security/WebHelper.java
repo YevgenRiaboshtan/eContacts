@@ -7,6 +7,7 @@ import javax.faces.bean.ManagedBean;
 import org.auth.dataModel.model.entity.accout.RoleType;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.context.request.RequestContextHolder;
 
 @ManagedBean
 public class WebHelper implements Serializable {
@@ -33,6 +34,6 @@ public class WebHelper implements Serializable {
 				|| SecurityContextHolder.getContext().getAuthentication().getAuthorities().isEmpty()) {
 			return false;
 		} 
-		return SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority(role.toString()));
+		return SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority(role.getName()));
 	}
 }

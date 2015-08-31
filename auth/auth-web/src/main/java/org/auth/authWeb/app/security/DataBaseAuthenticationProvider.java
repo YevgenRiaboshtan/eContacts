@@ -3,8 +3,6 @@ package org.auth.authWeb.app.security;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.EJB;
-
 import org.auth.dataModel.data.service.AuthenticationService;
 import org.auth.dataModel.model.entity.accout.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +17,6 @@ public class DataBaseAuthenticationProvider implements AuthenticationProvider{
 
 	@Autowired
 	private AuthenticationService authenticationService;
-
-	public DataBaseAuthenticationProvider() {
-		
-	}
 	
 	@Override
 	public Authentication authenticate(Authentication authentication)
@@ -35,12 +29,14 @@ public class DataBaseAuthenticationProvider implements AuthenticationProvider{
         } else if (login.equals("user") && password.equals("user")) {
             List<GrantedAuthority> grantedAuths = new ArrayList<>();
             grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
-            Authentication auth = new UsernamePasswordAuthenticationToken(login, password, grantedAuths);
+            
+            Authentication auth = new UsernamePasswordAuthenticationToken(new UserEntity(), password, grantedAuths);
+            
             return auth;
         } else if (login.equals("admin") && password.equals("admin")) {
         	List<GrantedAuthority> grantedAuths = new ArrayList<>();
             grantedAuths.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-            Authentication auth = new UsernamePasswordAuthenticationToken(login, password, grantedAuths);
+            Authentication auth = new UsernamePasswordAuthenticationToken(new UserEntity(), password, grantedAuths);
             return auth;
         } else {
         	return null;
