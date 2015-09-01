@@ -10,9 +10,9 @@
                            http://www.springframework.org/schema/jee
                            http://www.springframework.org/schema/jee/spring-jee-3.2.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 	<jee:local-slsb id="authenticationService"
-		jndi-name="java:app/econtactEjb-0.0.1-SNAPSHOT/AuthenticationServiceImpl!com.econtact.dataModel.data.service.AuthenticationService" 
+		jndi-name="java:app/econtactEjb/AuthenticationServiceImpl!com.econtact.dataModel.data.service.AuthenticationService" 
 		business-interface="com.econtact.dataModel.data.service.AuthenticationService"/>
 	<jee:local-slsb id="univerDictService" 
-		jndi-name="java:app/econtactEjb-0.0.1-SNAPSHOT/UniverDictServiceImpl!com.econtact.dataModel.data.service.UniverDictService"
+		jndi-name="java:app/econtactEjb/UniverDictServiceImpl!com.econtact.dataModel.data.service.UniverDictService"
 		business-interface="com.econtact.dataModel.data.service.UniverDictService"/>
 </beans>
