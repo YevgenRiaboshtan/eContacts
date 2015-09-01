@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	 xmlns:p="http://primefaces.org/ui">
+	<div align="right" style="">
+		<h:form onsubmit="action='/econtact/j_spring_security_check';" prependId="false" method="POST">
+			<p:panelGrid columns="2" layout="grid">
+				<p:outputLabel for="j_username" value="Login:"></p:outputLabel>
+				<p:inputText id="j_username" type="text" ></p:inputText>
+				<p:outputLabel for="j_password" value="Password:"></p:outputLabel>
+				<p:password id="j_password"></p:password>
+				<p:outputLabel></p:outputLabel>
+				<p:commandButton type="submit" value="Login" ajax="false"></p:commandButton>
+			</p:panelGrid>
+			
+			<!-- <label for="j_username">User Id: </label> 
+			<input id="j_username" name="j_username" type="text" /> 
+			<label for="j_password">Password: </label> 
+			<input id="j_password" name="j_password" type="password" /> 
+			<input type="submit" value="Submit" /> -->
+		</h:form>
+	</div>
+	<div>
+		<h:messages></h:messages>
+	</div>
+</ui:composition>
