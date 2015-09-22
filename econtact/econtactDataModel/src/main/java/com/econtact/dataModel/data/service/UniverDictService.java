@@ -11,8 +11,7 @@ public interface UniverDictService {
 
 	List<UniverDictEntity> findUniverDictByParamDict(String paramDict);
 
-	UniverDictEntity findByParamDictAndIdRecDict(String paramDict,
-			Integer idRecDict);
+	UniverDictEntity findByParamDictAndIdRecDict(String paramDict, Integer idRecDict);
 
 	UniverDictEntity saveOrUpdate(UniverDictEntity entity, UserContext userContext);
 

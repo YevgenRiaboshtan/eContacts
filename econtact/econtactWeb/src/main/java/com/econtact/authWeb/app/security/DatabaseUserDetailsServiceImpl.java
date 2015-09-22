@@ -29,10 +29,10 @@ public class DatabaseUserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {		
 
-		UserEntity user = authService.getUserByNameOrEmail(username);
+		UserEntity user = authService.getUserByLogin(username);
 				
 		if(user!=null){
-			String password = user.getPass();
+			String password = "sd";//user.getPass();
 			//additional information on the security object
 			boolean enabled = true;
 			boolean accountNonExpired = true;
@@ -41,16 +41,16 @@ public class DatabaseUserDetailsServiceImpl implements UserDetailsService {
 			
 			//Let's populate user roles
 			Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-			for(RoleType role : user.getRoles()){
+			/*for(RoleType role : user.getRoles()){
 				authorities.add(new SimpleGrantedAuthority(role.getName()));
-			}
+			}*/
 			
 			//Now let's create Spring Security User object
 			User securityUser = new User(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
 			return securityUser;
 		}else{
 			if ("user1".equals(username)) {
-				return new User(username, "5f4dcc3b5aa765d61d8327deb882cf99", Arrays.asList(new SimpleGrantedAuthority(RoleType.ROLE_USER.toString())));
+				return new User(username, "5f4dcc3b5aa765d61d8327deb882cf99", Arrays.asList(new SimpleGrantedAuthority(RoleType.ROLE_REGISTER.toString())));
 			} else if ("admin".equals(username)) {
 				return new User(username, "admin", Arrays.asList(new SimpleGrantedAuthority(RoleType.ROLE_ADMIN.toString())));
 			}

@@ -47,6 +47,7 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
+
  <!-- 	<context-param>
        <param-name>javax.faces.PROJECT_STAGE</param-name>
        <param-value>Development</param-value>

@@ -4,5 +4,9 @@ import com.econtact.dataModel.model.entity.accout.UserEntity;
 
 public interface AuthenticationService {
 
-	UserEntity getUserByNameOrEmail(String login);
+	UserEntity getUserByLogin(String login);
+	
+	UserEntity getUserByEmail(String email);
+	
+	UserEntity getUserByPhone(Long phone);
 }

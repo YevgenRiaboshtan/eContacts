@@ -6,7 +6,6 @@ import javax.faces.bean.ManagedBean;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.context.request.RequestContextHolder;
 
 import com.econtact.dataModel.model.entity.accout.RoleType;
 
@@ -23,7 +22,7 @@ public class WebHelper implements Serializable {
 	}
 	
 	public boolean isAccessForUser() {
-		return isAccessForRole(RoleType.ROLE_USER);
+		return isAccessForRole(RoleType.ROLE_REGISTER);
 	}
 	
 	public boolean isAccessForAdmin() {

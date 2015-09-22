@@ -11,6 +11,8 @@
 		<class>com.econtact.dataModel.model.entity.common.AuditRevEntity</class>
 		<class>com.econtact.dataModel.model.entity.common.AuditRevChangedEntity</class>
 		<class>com.econtact.dataModel.model.entity.accout.UserEntity</class>
+		<class>com.econtact.dataModel.model.entity.accout.AdvanceUserEntity</class>
+		<class>com.econtact.dataModel.model.entity.accout.AbstractUserEntity</class>
 		<properties>
 			<!-- Properties for Hibernate -->
 			<property name="hibernate.show_sql" value="true" />

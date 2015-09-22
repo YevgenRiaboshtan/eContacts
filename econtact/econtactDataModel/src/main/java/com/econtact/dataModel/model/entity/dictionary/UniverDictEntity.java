@@ -143,7 +143,7 @@ public class UniverDictEntity extends AbstractEntity<BigDecimal> implements Audi
     @PreRemove
     public void setUpdateData() {
         setUpdDate(new Date());
-        setUpdAuthor(EJBContext.get().getUser().getUpdInfo());
+        setUpdAuthor(EJBContext.get().getUser().getEmail());
     }
 
 	@Override

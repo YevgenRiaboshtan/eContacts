@@ -14,8 +14,11 @@
 		<!-- <intercept-url pattern="/share/*" access="ROLE_USER,ROLE_ADMIN,ROLE_ANONYMOUS" /> -->
 		<security:intercept-url pattern="/user/*" access="ROLE_USER"  />
 		<security:intercept-url pattern="/admin/*" access="ROLE_ADMIN" />
-		<security:form-login login-page="/index.xhtml" default-target-url="/index.xhtml?default=true" 
-			authentication-failure-url="/index.xhtml?error=true"  login-processing-url="/j_spring_security_check"/>
+		<security:form-login login-page="/index.xhtml" 
+			default-target-url="/index.xhtml?default=true" 
+			authentication-failure-url="/index.xhtml?error=true"  
+			authentication-success-handler-ref="successAuthHandler"
+			login-processing-url="/j_spring_security_check"/>
 		<security:anonymous enabled="false" granted-authority="ROLE_ANONYMOUS"/>
 		<security:logout invalidate-session="true" delete-cookies="true" logout-success-url="/index.xhtml" logout-url="/j_spring_security_logout" />
 	</security:http>
@@ -31,8 +34,9 @@
 		
 	</security:authentication-manager>
 	
-	<bean id="userDetailsService" class="com.econtact.authWeb.app.security.DatabaseUserDetailsServiceImpl"></bean>
+	<bean id="successAuthHandler" class="com.econtact.authWeb.app.security.SuccessAuthenticatedHandler"/>
+	
+	<bean id="userDetailsService" class="com.econtact.authWeb.app.security.DatabaseUserDetailsServiceImpl"/>
 
-	<bean id="dataBaseAuthenticationProvider" class="com.econtact.authWeb.app.security.DataBaseAuthenticationProvider">
-	</bean>
+	<bean id="dataBaseAuthenticationProvider" class="com.econtact.authWeb.app.security.DataBaseAuthenticationProvider"/>
 </beans>  

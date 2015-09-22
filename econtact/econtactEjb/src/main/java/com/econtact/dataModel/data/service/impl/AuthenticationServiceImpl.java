@@ -20,11 +20,22 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	
 	@PersistenceContext(unitName = EntityHelper.E_CONTACT_PU)
 	private EntityManager em;
-	
+
 	@Override
-	public UserEntity getUserByNameOrEmail(String login) {
+	public UserEntity getUserByLogin(String login) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
+	public UserEntity getUserByEmail(String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public UserEntity getUserByPhone(Long phone) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
