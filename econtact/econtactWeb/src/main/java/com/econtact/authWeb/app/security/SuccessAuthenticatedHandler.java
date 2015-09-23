@@ -18,11 +18,10 @@ public class SuccessAuthenticatedHandler implements AuthenticationSuccessHandler
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		if (authentication.getAuthorities().contains(new SimpleGrantedAuthority(RoleType.ROLE_DEF_ADMIN.getName()))) {
-			response.sendRedirect("quickstart.jsf");
+			response.sendRedirect("quick_start/quick_start.jsf");
 		} else {
-			response.sendRedirect("/index.jsf");
+			response.sendRedirect("index.jsf");
 		}
-		
 	}
 
 }

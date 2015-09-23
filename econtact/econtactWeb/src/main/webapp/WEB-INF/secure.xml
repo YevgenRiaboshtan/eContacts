@@ -14,6 +14,7 @@
 		<!-- <intercept-url pattern="/share/*" access="ROLE_USER,ROLE_ADMIN,ROLE_ANONYMOUS" /> -->
 		<security:intercept-url pattern="/user/*" access="ROLE_USER"  />
 		<security:intercept-url pattern="/admin/*" access="ROLE_ADMIN" />
+		<security:intercept-url pattern="/quick_start/quick_start.xhtml" access="ROLE_DEF_ADMIN"/>
 		<security:form-login login-page="/index.xhtml" 
 			default-target-url="/index.xhtml?default=true" 
 			authentication-failure-url="/index.xhtml?error=true"  
