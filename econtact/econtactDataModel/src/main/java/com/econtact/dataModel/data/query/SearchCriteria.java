@@ -33,7 +33,7 @@ public class SearchCriteria<T> implements Serializable {
 	}
 	
 	public TypedQuery<Long> getRowCountQuery(final EntityManager em) {
-		final TypedQuery<Long> result = queries.getRowcountQuery(em, filter);
+		final TypedQuery<Long> result = queries.getRowCountQuery(em, filter);
 		for (Map.Entry<String, String> hint : hints.entrySet()) {
 			result.setHint(hint.getKey(), hint.getValue());
 		}

@@ -7,7 +7,7 @@ body {
 }
 
 #footerBlock {
-	background-image: url(../../resources/img/footer.png);
+	background-image: url(#{resource['img:footer.png']});
 	background-repeat: repeat-x;
 	background-color: #D9EDA8;
 	padding-top: 20px;
@@ -17,7 +17,8 @@ body {
 }
 
 #headerBlock {
-	background-image: url(../../resources/img//header-bg.png);
+	position: relative;
+	background-image: url(#{resource['img:header-bg.png']});
 	background-repeat: repeat-x;
 	height: 115px;
 }
@@ -28,7 +29,7 @@ body {
 	voice-family: "\"}\"";
 	voice-family:inherit;
 	height:42px;
-	background-image: url(../../resources/img/topheadbg.png);
+	background-image: url(#{resource['img:topheadbg.png']});
 	background-repeat: repeat-x;
 	padding-left: 200px;
 }
@@ -58,4 +59,10 @@ body {
 	padding-top: 15px;
 	padding-right: 10px;
 	padding-left: 10px;
+}
+
+.userPanel{
+	position: absolute;
+	bottom: 10px; 
+	right: 10px;
 }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/quick_start/template/baseTemplate.xhtml">
+	<ui:define name="content">
+		<p:outputLabel value="#{viewMsg['admins.list.capture.label']}"></p:outputLabel>
+		<p:dataTable  var="adminItem" lazy="true"
+			value="#{addAdminBean.adminListModel}"
+			paginator="true" rows="10" rowsPerPageTemplate="10,15,20"
+			selectionMode="single" scrollHeight="425" scrollable="true" paginatorPosition="bottom"
+			paginatorTemplate="{CurrentPageReport} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {JumpToPageDropdown} {NextPageLink} {LastPageLink}"
+			emptyMessage="#{viewMsg['datatable.empty.message']}"
+			style="text-align: center;">
+			<p:column style="width:32px;text-align: center">
+				<p:commandButton update=":carDetail"
+					oncomplete="PF('carDialog').show()" icon="ui-icon-search"
+					title="#{viewMsg['btn.view.tooltip.text']}">
+					<f:setPropertyActionListener value="#{adminItem}"
+						target="#{addAdminBean.selectedUser}" />
+				</p:commandButton>
+			</p:column>
+			<p:column headerText="#{viewMsg['add.admin.login.label']}"
+				sortBy="#{adminItem.login}" filterBy="#{adminItem.login}">
+				<p:outputLabel value="#{adminItem.login}"></p:outputLabel>
+			</p:column>
+		</p:dataTable>
+
+		<p:dialog header="Car Info" widgetVar="carDialog" modal="true"
+			showEffect="fade" hideEffect="fade" resizable="false">
+			<p:outputPanel id="carDetail" style="text-align:center;">
+				<p:panelGrid columns="2"
+					rendered="#{not empty addAdminBean.selectedUser}"
+					columnClasses="label,value">
+					<h:outputText value="Id:" />
+					<h:outputText value="#{addAdminBean.selectedUser.id}" />
+
+					<h:outputText value="login" />
+					<h:outputText value="#{addAdminBean.selectedUser.login}" />
+
+				</p:panelGrid>
+			</p:outputPanel>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

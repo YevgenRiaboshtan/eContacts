@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/quick_start/index.xhtml">
+	<ui:define name="content">
+		<div>
+			<h:form id="adminForm" prependId="false">
+				<h:panelGrid columns="3">
+					<p:outputLabel value="${viewMsg['add.admin.login.label']}" for="adminLogin" />
+					<p:inputText id="adminLogin" value="#{addAdminBean.entity.login}" required="true" />
+					<p:message for="adminLogin" showDetail="true" closable="true" autoUpdate="true"/>
+					
+					<p:outputLabel value="#{viewMsg['add.admin.password.label']}" for="adminPassrowd"/>
+					<p:password id="adminPassrowd"  value="#{addAdminBean.entity.password}" required="true" feedback="true" match="adminPassrowdRepeat"/>
+					<p:message for="adminPassrowd" />
+					
+					<p:outputLabel value="#{viewMsg['add.admin.password.label']}" for="adminPassrowdRepeat"/>
+					<p:password id="adminPassrowdRepeat"  value="#{addAdminBean.entity.password}" required="true"/>
+					<p:message for="adminPassrowdRepeat" />
+					
+					<p:outputLabel value="#{viewMsg['add.admin.email.label']}" for="adminEmail"/>
+					<p:inputText id="adminEmail" value="#{addAdminBean.entity.email}" required="true">
+						<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
+					</p:inputText>
+					<p:message for="adminEmail" showDetail="true"/>
+					
+					<p:outputLabel value="#{viewMsg['add.admin.first.name.label']}" for="adminFirstName" />
+					<p:inputText id="adminFirstName" value="#{addAdminBean.entity.firstName}" required="true"/>
+					<p:message for="adminFirstName" showDetail="true"/>
+	
+					<p:outputLabel value="#{viewMsg['add.admin.last.name.label']}" for="adminLastName" />
+					<p:inputText id="adminLastName" value="#{addAdminBean.entity.lastName}" required="true" />
+					<p:message for="adminLastName" showDetail="true" />
+				
+					
+					<p:commandButton value="#{viewMsg['btn.save']}" ajax="true" update="adminForm" actionListener="#{addAdminBean.save()}">
+						<f:ajax execute="adminForm"></f:ajax>
+					</p:commandButton>
+					<p:commandButton value="#{viewMsg['btn.cancel']}" immediate="true" actionListener="#{addAdminBean.cancel}"/>
+					<p:column />
+				</h:panelGrid>
+			</h:form>
+		</div>
+		</ui:define>
+</ui:composition>

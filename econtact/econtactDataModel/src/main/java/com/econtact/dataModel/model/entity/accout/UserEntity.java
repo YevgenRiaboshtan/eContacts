@@ -14,4 +14,7 @@ import com.econtact.dataModel.data.util.EntityHelper;
 public class UserEntity extends AbstractUserEntity {
 	private static final long serialVersionUID = -3747397876193741856L;
 
+	public String getUpdData() {
+		return new StringBuilder(getId().toString()).append("-").append(getLogin()).toString();
+	}
 }

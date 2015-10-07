@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Econtact</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<h:outputStylesheet library="css" name="basicTemplate.css" />
+	<link rel="shortcut icon" type="image/x-icon" href="#{resource['img/favicon.png']}"/>
+</h:head>
+<h:body>
+	<div id="headerBlock" >
+		<div class="userPanel">
+			<h:outputLabel value="#{webHelper.userName}" />
+			<a href="/econtact/j_spring_security_logout"><h:outputLabel value="#{viewMsg['logout.btn.label']}"/></a>
+		</div>
+	</div>
+	<div id="topMenuBlock">
+	<h:form>
+		<p:commandButton value="#{viewMsg['btn.create.label']}" immediate="true" ajax="true" actionListener="#{navigationHelper.navigate(navigationHelper.newPage)}" />
+	</h:form>
+	</div>
+	<div id="contentBlock" style="margin-left: 20px;">
+		<ui:insert name="content"></ui:insert>
+	</div>
+	<div id="footerBlock">
+		<p>
+			&copy; E-contact
+		</p>
+	</div>
+</h:body>
+</html>

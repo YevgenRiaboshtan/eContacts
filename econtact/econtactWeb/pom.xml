@@ -25,6 +25,10 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-api</artifactId>
 			<version>2.1.2</version>
@@ -45,6 +49,7 @@
 			<groupId>com.econtact</groupId>
 			<artifactId>econtactDataModel</artifactId>
 			<version>${project.version}</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- Spring Security -->

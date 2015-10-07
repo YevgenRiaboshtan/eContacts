@@ -18,7 +18,7 @@ public interface EjbService {
 
 	<T> List<T> find(SearchCriteria<T> criteria);
 
-	<T> List<T> fina(SearchCriteria<T> criteria, Integer from, Integer count);
+	<T> List<T> find(SearchCriteria<T> criteria, Integer from, Integer count);
 
-	<T> long getRowCount(SearchCriteria<T> criteria);
+	<T> Long getRowCount(SearchCriteria<T> criteria);
 }

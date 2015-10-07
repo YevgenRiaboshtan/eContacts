@@ -14,5 +14,9 @@
 		business-interface="com.econtact.dataModel.data.service.AuthenticationService"/>
 	<jee:local-slsb id="univerDictService" 
 		jndi-name="java:app/econtactEjb/UniverDictServiceImpl!com.econtact.dataModel.data.service.UniverDictService"
-		business-interface="com.econtact.dataModel.data.service.UniverDictService"/>
+		business-interface="com.econtact.dataModel.data.service.UniverDictService"/>		
+	<jee:local-slsb id="genericService" 
+		jndi-name="java:app/econtactEjb/GenericServiceImpl!com.econtact.dataModel.data.service.GenericService"
+		business-interface="com.econtact.dataModel.data.service.GenericService"/>
+		
 </beans>

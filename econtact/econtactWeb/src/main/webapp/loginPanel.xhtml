@@ -3,23 +3,31 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	 xmlns:p="http://primefaces.org/ui">
-	<div align="right" style="">
-		<h:form onsubmit="action='/econtact/j_spring_security_check';" prependId="false" method="POST">
-			<p:panelGrid columns="2" layout="grid">
-				<p:outputLabel for="j_username" value="Login:"></p:outputLabel>
-				<p:inputText id="j_username" type="text" ></p:inputText>
-				<p:outputLabel for="j_password" value="Password:"></p:outputLabel>
-				<p:password id="j_password"></p:password>
-				<p:outputLabel></p:outputLabel>
-				<p:commandButton type="submit" value="Login" ajax="false"></p:commandButton>
-			</p:panelGrid>
-			
-			<!-- <label for="j_username">User Id: </label> 
-			<input id="j_username" name="j_username" type="text" /> 
-			<label for="j_password">Password: </label> 
-			<input id="j_password" name="j_password" type="password" /> 
-			<input type="submit" value="Submit" /> -->
+	xmlns:p="http://primefaces.org/ui">
+	<div class="userPanel">
+		<h:form onsubmit="action='/econtact/j_spring_security_check';"
+			prependId="false" method="POST">
+			<div>
+				<div style="display: flex">
+					<div>
+						<p:outputLabel for="j_username" value="#{viewMsg['login.label']}:" />
+					</div>
+					<div style="width:200px;">
+						<p:inputText id="j_username" type="text" />
+					</div>
+					<div >
+						<p:outputLabel for="j_password"
+							value="#{viewMsg['password.label']}:" />
+					</div>
+					<div  style="width:200px;">
+						<p:password id="j_password" />
+					</div>
+					<div >
+						<p:commandButton type="submit"
+							value="#{viewMsg['login.btn.label']}" ajax="false" />
+					</div>
+				</div>
+			</div>
 		</h:form>
 	</div>
 	<div>

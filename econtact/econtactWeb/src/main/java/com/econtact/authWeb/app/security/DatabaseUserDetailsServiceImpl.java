@@ -29,7 +29,7 @@ public class DatabaseUserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {		
 
-		UserEntity user = authService.getUserByLogin(username);
+		/*UserEntity user = authService.getUserByLogin(username);
 				
 		if(user!=null){
 			String password = "sd";//user.getPass();
@@ -41,9 +41,10 @@ public class DatabaseUserDetailsServiceImpl implements UserDetailsService {
 			
 			//Let's populate user roles
 			Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-			/*for(RoleType role : user.getRoles()){
+			
+			for(RoleType role : user.getRoles()){
 				authorities.add(new SimpleGrantedAuthority(role.getName()));
-			}*/
+			}
 			
 			//Now let's create Spring Security User object
 			User securityUser = new User(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
@@ -55,6 +56,7 @@ public class DatabaseUserDetailsServiceImpl implements UserDetailsService {
 				return new User(username, "admin", Arrays.asList(new SimpleGrantedAuthority(RoleType.ROLE_ADMIN.toString())));
 			}
 			throw new UsernameNotFoundException("User Not Found!!!");
-		}	
+		}	*/
+		return null;
 	}
 }

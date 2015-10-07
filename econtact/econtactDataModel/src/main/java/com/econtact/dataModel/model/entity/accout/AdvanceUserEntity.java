@@ -2,28 +2,50 @@ package com.econtact.dataModel.model.entity.accout;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Where;
 
+import com.econtact.dataModel.data.context.EJBContext;
 import com.econtact.dataModel.data.util.EntityHelper;
 
 @Entity
-@Table(name = "user_account", schema = EntityHelper.E_CONTACT_SCHEMA)
+@Table(name = "user_account", schema = EntityHelper.E_CONTACT_SCHEMA, 
+	uniqueConstraints = { 
+		@UniqueConstraint(name = AdvanceUserEntity.USER_LOGIN_SIGN_UNIQUE_CONSTRAINT,
+							columnNames = {AbstractUserEntity.LOGIN_A, EntityHelper.SIGN_F })})
 @Cache(usage = CacheConcurrencyStrategy.NONE)
 public class AdvanceUserEntity extends AbstractUserEntity {
 	private static final long serialVersionUID = 5694870185179400515L;
+	public static final String USER_LOGIN_SIGN_UNIQUE_CONSTRAINT = "user_login_sign_unique_constraint";
+	public static final String DISABLE_ACCOUNT_A = "disabledAccount";
 
 	@Column(name = "password", nullable = false, length = 100)
 	private String password;
 
-	@Column(name = "salt", nullable = false, length = 20)
+	@Column(name = "salt", nullable = false, length = 40)
 	private String salt;
+
+	@Column(name = "disabled_account", nullable = false)
+	@Enumerated(EnumType.ORDINAL)
+	private ActiveStatusEnum disabledAccount = ActiveStatusEnum.DISABLE;
 
 	@Column(name = EntityHelper.UPD_AUTHOR_F, nullable = false, length = 200)
 	private String updAuthor;
@@ -33,6 +55,11 @@ public class AdvanceUserEntity extends AbstractUserEntity {
 
 	@Column(name = EntityHelper.SIGN_F, nullable = false, precision = 38, scale = 0)
 	private BigDecimal sign;
+
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = UserRoleRel.USER_A, orphanRemoval = true, cascade = { CascadeType.ALL })
+	@Where(clause = "sign = 0")
+	@Fetch(FetchMode.SELECT)
+	private Set<UserRoleRel> roles = new HashSet<>();
 
 	public String getPassword() {
 		return password;
@@ -73,12 +100,48 @@ public class AdvanceUserEntity extends AbstractUserEntity {
 	public void setSign(BigDecimal sign) {
 		this.sign = sign;
 	}
-	
+
+	public ActiveStatusEnum getDisabledAccount() {
+		return disabledAccount;
+	}
+
+	public void setDisabledAccount(ActiveStatusEnum disabledAccoutn) {
+		this.disabledAccount = disabledAccoutn;
+	}
+
+	public void addRole(RoleType role, AccessStatusEnum confirm) {
+		for (UserRoleRel item : roles) {
+			if (role.equals(item.getRole())) {
+				return;
+			}
+		}
+		UserRoleRel newRole = new UserRoleRel();
+		newRole.setConfirm(confirm);
+		newRole.setRole(role);
+		newRole.setUser(this);
+		roles.add(newRole);
+	}
+
+	public void removeRole(RoleType role) {
+		Iterator<UserRoleRel> iterator = roles.iterator();
+		while (iterator.hasNext()) {
+			UserRoleRel item = iterator.next();
+			if (role.equals(item.getRole())) {
+				iterator.remove();
+				break;
+			}
+		}
+	}
+
+	public Set<UserRoleRel> getRoles() {
+		return roles;
+	}
+
 	@PrePersist
-	public void prePersist(){
+	public void prePersist() {
 		sign = EntityHelper.ACTUAL_SIGN;
-		updAuthor = "System";
+		updAuthor = EJBContext.get().getUser().getUpdData();
 		updDate = new Date();
 	}
-	
+
 }

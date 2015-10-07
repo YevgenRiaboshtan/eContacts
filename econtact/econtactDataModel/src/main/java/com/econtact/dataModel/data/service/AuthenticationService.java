@@ -1,12 +1,12 @@
 package com.econtact.dataModel.data.service;
 
-import com.econtact.dataModel.model.entity.accout.UserEntity;
+import com.econtact.dataModel.model.entity.accout.AdvanceUserEntity;
 
 public interface AuthenticationService {
 
-	UserEntity getUserByLogin(String login);
+	AdvanceUserEntity findUser(String login);
 	
-	UserEntity getUserByEmail(String email);
+	AdvanceUserEntity getUserByLogin(String login);
 	
-	UserEntity getUserByPhone(Long phone);
+	AdvanceUserEntity getUserByEmail(String email);
 }

@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.econtact.authWeb.app.helpers.WebHelper;
 import com.econtact.dataModel.model.entity.accout.RoleType;
 
 public class SuccessAuthenticatedHandler implements AuthenticationSuccessHandler {
@@ -17,10 +18,10 @@ public class SuccessAuthenticatedHandler implements AuthenticationSuccessHandler
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
-		if (authentication.getAuthorities().contains(new SimpleGrantedAuthority(RoleType.ROLE_DEF_ADMIN.getName()))) {
-			response.sendRedirect("quick_start/quick_start.jsf");
+		if (authentication.getAuthorities().contains(new SimpleGrantedAuthority(RoleType.ROLE_SUPER_ADMIN.getName()))) {
+			response.sendRedirect(WebHelper.DEF_ADMIN_PAGE);
 		} else {
-			response.sendRedirect("index.jsf");
+			response.sendRedirect(WebHelper.DEFAULT_PAGE);
 		}
 	}
 

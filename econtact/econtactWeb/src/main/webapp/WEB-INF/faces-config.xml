@@ -12,5 +12,15 @@
       creating @Named managed beans. -->
 	<application>
 		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+		<message-bundle>
+			Messages
+		</message-bundle>
+		<locale-config>
+			<default-locale>ru_RU</default-locale>
+		</locale-config>
+		<resource-bundle>
+			<base-name>view</base-name>
+			<var>viewMsg</var>
+		</resource-bundle>
 	</application>
 </faces-config>

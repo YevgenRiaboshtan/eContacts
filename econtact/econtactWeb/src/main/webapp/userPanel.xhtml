@@ -4,8 +4,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
-	<div>
+	<div class="userPanel">
 		<h:outputLabel value="#{webHelper.userName}" />
-		<a href="/econtact/j_spring_security_logout">Logout</a>
+		<a href="/econtact/j_spring_security_logout"><h:outputLabel value="#{viewMsg['logout.btn.label']}"/></a>
 	</div>
 </ui:composition>
