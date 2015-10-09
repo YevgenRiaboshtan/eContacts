@@ -20,7 +20,8 @@ public class WebHelper implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static final String DEF_ADMIN_PAGE = "quick_start/list.jsf";
-	public static final String DEFAULT_PAGE = "index.jsf";
+	public static final String INDEX_PAGE = "index.jsf";
+	
 
 	public boolean isAuth() {
 		return SecurityContextHolder.getContext().getAuthentication() != null;

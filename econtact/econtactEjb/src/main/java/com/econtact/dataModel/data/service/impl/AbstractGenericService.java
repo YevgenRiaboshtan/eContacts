@@ -1,5 +1,6 @@
 package com.econtact.dataModel.data.service.impl;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -7,6 +8,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
@@ -19,6 +21,7 @@ import com.econtact.dataModel.data.query.SearchCriteria;
 import com.econtact.dataModel.data.service.EjbService;
 import com.econtact.dataModel.data.service.UniverDictService;
 import com.econtact.dataModel.data.util.EntityHelper;
+import com.econtact.dataModel.data.util.UniqueConstraintException;
 import com.econtact.dataModel.model.AbstractView;
 import com.econtact.dataModel.model.entity.AbstractEntity;
 import com.econtact.dataModel.model.entity.AuditSupport;
@@ -39,7 +42,7 @@ public abstract class AbstractGenericService implements EjbService {
 	}
 
 	@Override
-	public <T extends AbstractEntity> T saveOrUpdate(T entity, UserContext userContext) {
+	public <T extends AbstractEntity> T saveOrUpdate(T entity, UserContext userContext) throws UniqueConstraintException {
 		EJBContext.get().setUserContext(userContext);
 		if (entity instanceof AuditSupport) {
 			final UniverDictEntity event = univerDictService.findByParamDictAndIdRecDict(NamesDictConstant.EVENT,
@@ -50,8 +53,18 @@ public abstract class AbstractGenericService implements EjbService {
 		} else {
 			EJBContext.get().setEnversContext(null);
 		}
-		// todo handle uniqueconstraintexception and other
-		return getEntityManager().merge(entity);
+		T result = null;
+		try{
+			result = getEntityManager().merge(entity);
+			getEntityManager().flush();
+			return result;
+		} catch (PersistenceException ex) {
+			if (ex.getCause().getCause() instanceof SQLException
+					&& ((SQLException) ex.getCause().getCause()).getSQLState().equalsIgnoreCase("23505")) {
+				throw new UniqueConstraintException(entity.getClass(), (SQLException) ex.getCause().getCause());
+			}
+		}
+		return result;
 	}
 
 	@Override

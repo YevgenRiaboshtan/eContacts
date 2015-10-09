@@ -43,9 +43,9 @@ public class AdvanceUserEntity extends AbstractUserEntity {
 	@Column(name = "salt", nullable = false, length = 40)
 	private String salt;
 
-	@Column(name = "disabled_account", nullable = false)
+	@Column(name = "enabled_account", nullable = false)
 	@Enumerated(EnumType.ORDINAL)
-	private ActiveStatusEnum disabledAccount = ActiveStatusEnum.DISABLE;
+	private ActiveStatusEnum enabledAccount = ActiveStatusEnum.DISABLE;
 
 	@Column(name = EntityHelper.UPD_AUTHOR_F, nullable = false, length = 200)
 	private String updAuthor;
@@ -101,12 +101,16 @@ public class AdvanceUserEntity extends AbstractUserEntity {
 		this.sign = sign;
 	}
 
-	public ActiveStatusEnum getDisabledAccount() {
-		return disabledAccount;
+	public ActiveStatusEnum getEnabledAccount() {
+		return enabledAccount;
+	}
+	
+	public Boolean isEnablesAccount() {
+		return ActiveStatusEnum.ENABLE.equals(enabledAccount);
 	}
 
-	public void setDisabledAccount(ActiveStatusEnum disabledAccoutn) {
-		this.disabledAccount = disabledAccoutn;
+	public void setEnabledAccount(ActiveStatusEnum enabledAccoutn) {
+		this.enabledAccount = enabledAccoutn;
 	}
 
 	public void addRole(RoleType role, AccessStatusEnum confirm) {

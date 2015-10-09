@@ -10,17 +10,22 @@
 			<h:form id="adminForm" prependId="false">
 				<h:panelGrid columns="3">
 					<p:outputLabel value="${viewMsg['add.admin.login.label']}"
-						for="adminLogin" />
-					<p:inputText id="adminLogin" value="#{addAdminBean.entity.login}"
+						for="userLogin" />
+					<p:inputText id="userLogin" value="#{addAdminBean.entity.login}"
 						required="true" />
-					<p:message for="adminLogin" showDetail="true" closable="true"
+					<p:message for="userLogin" showDetail="true" closable="true"
 						autoUpdate="true" />
 
 					<p:outputLabel value="#{viewMsg['add.admin.password.label']}"
 						for="adminPassrowd" />
 					<p:password id="adminPassrowd"
 						value="#{addAdminBean.entity.password}" required="true"
-						feedback="true" match="adminPassrowdRepeat" />
+						feedback="true" 
+						weakLabel="#{viewMsg['password.feedback.weak']}"
+						goodLabel="#{viewMsg['password.feedback.good']}"
+						strongLabel="#{viewMsg['password.feedback.strong']}"
+						promptLabel="#{viewMsg['password.required.message']}"
+						match="adminPassrowdRepeat" />
 					<p:message for="adminPassrowd" />
 
 					<p:outputLabel value="#{viewMsg['add.admin.password.label']}"

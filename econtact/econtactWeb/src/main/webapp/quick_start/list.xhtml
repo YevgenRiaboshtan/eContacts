@@ -7,41 +7,36 @@
 	template="/quick_start/template/baseTemplate.xhtml">
 	<ui:define name="content">
 		<p:outputLabel value="#{viewMsg['admins.list.capture.label']}"></p:outputLabel>
-		<p:dataTable  var="adminItem" lazy="true"
-			value="#{addAdminBean.adminListModel}"
+		<h:form id="adminTableForm">
+		<p:dataTable id="adminDataTable" var="adminItem" lazy="true"
+			value="#{addAdminBean.adminListModel}" widgetVar="adminDataTable"
 			paginator="true" rows="10" rowsPerPageTemplate="10,15,20"
 			selectionMode="single" scrollHeight="425" scrollable="true" paginatorPosition="bottom"
 			paginatorTemplate="{CurrentPageReport} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {JumpToPageDropdown} {NextPageLink} {LastPageLink}"
 			emptyMessage="#{viewMsg['datatable.empty.message']}"
-			style="text-align: center;">
-			<p:column style="width:32px;text-align: center">
-				<p:commandButton update=":carDetail"
-					oncomplete="PF('carDialog').show()" icon="ui-icon-search"
-					title="#{viewMsg['btn.view.tooltip.text']}">
-					<f:setPropertyActionListener value="#{adminItem}"
-						target="#{addAdminBean.selectedUser}" />
-				</p:commandButton>
-			</p:column>
-			<p:column headerText="#{viewMsg['add.admin.login.label']}"
+			style="text-align: center;" filterEvent="enter">
+			<p:column headerText="#{viewMsg['add.admin.login.label']}" filterable="true"  filterMatchMode="like"
 				sortBy="#{adminItem.login}" filterBy="#{adminItem.login}">
 				<p:outputLabel value="#{adminItem.login}"></p:outputLabel>
 			</p:column>
+			<p:column headerText="#{viewMsg['add.admin.first.name.label']}" sortBy="#{adminItem.firstName}" id="adminTableFirstNameColumn" filterBy="#{adminItem.firstName}" filterMatchMode="like">
+				<p:outputLabel value="#{adminItem.firstName}" />
+			</p:column>
+			<p:column headerText="#{viewMsg['add.admin.last.name.label']}" sortBy="#{adminItem.lastName}"  id="adminTableLastNameColumn"  filterBy="#{adminItem.lastName}" filterMatchMode="startWith">
+				<p:outputLabel value="#{adminItem.lastName}"></p:outputLabel>
+			</p:column>
+			<p:column sortBy="#{adminItem.enabledAccount}" filterBy="#{adminItem.enabledAccount}" filterMatchMode="startWith">
+				<f:facet name="filter">
+	                <p:selectOneButton onchange="PF('adminDataTable').filter()">
+	                    <f:converter converterId="javax.faces.Boolean" />
+	                    <f:selectItem itemLabel="#{viewMsg['filter.all.btn.label']}" itemValue="" />
+	                    <f:selectItem itemLabel="#{viewMsg['filter.active.btn.label']}" itemValue="true" />
+	                    <f:selectItem itemLabel="#{viewMsg['filter.disable.btn.label']}" itemValue="false" />
+	                </p:selectOneButton>
+	            </f:facet>
+				<p:selectBooleanCheckbox value="#{adminItem.isEnablesAccount()}" disabled="true"></p:selectBooleanCheckbox>
+			</p:column>
 		</p:dataTable>
-
-		<p:dialog header="Car Info" widgetVar="carDialog" modal="true"
-			showEffect="fade" hideEffect="fade" resizable="false">
-			<p:outputPanel id="carDetail" style="text-align:center;">
-				<p:panelGrid columns="2"
-					rendered="#{not empty addAdminBean.selectedUser}"
-					columnClasses="label,value">
-					<h:outputText value="Id:" />
-					<h:outputText value="#{addAdminBean.selectedUser.id}" />
-
-					<h:outputText value="login" />
-					<h:outputText value="#{addAdminBean.selectedUser.login}" />
-
-				</p:panelGrid>
-			</p:outputPanel>
-		</p:dialog>
+		</h:form>
 	</ui:define>
 </ui:composition>

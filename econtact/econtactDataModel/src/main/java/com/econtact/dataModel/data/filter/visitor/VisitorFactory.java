@@ -10,7 +10,13 @@ public class VisitorFactory {
                 return new AndVisitor(ctx);
             case OR:
                 return new OrVisitor(ctx);
-
+            case EQUALS:
+                return new EqualsVisitor(ctx);
+            case NOT_EQUALS:
+                return new NotEqualVisitor(ctx);
+            case LIKE:
+            	return new LikeVisitor(ctx);
+            	
             /*case CONTAINS_IGNORE_CASE:
                 return new ContainsIgnoreCaseVisitor(ctx);
             case NOT_CONTAINS_IGNORE_CASE:
@@ -24,10 +30,7 @@ public class VisitorFactory {
                 return new EqualsTwoFieldsVisitor(ctx);
             case NOT_EQUALS_TWO_FIELDS:
                 return new NotEqualsTwoFieldsVisitor(ctx);*/
-            case EQUALS:
-                return new EqualsVisitor(ctx);
-            case NOT_EQUALS:
-                return new NotEqualVisitor(ctx);
+
 //    SELF_EQUALS,
            /* case EQUALS_IGNORE_CASE:
                 return new EqualsIgnoreCaseVisitor(ctx);*/

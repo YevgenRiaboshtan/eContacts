@@ -14,9 +14,10 @@
 		<security:intercept-url pattern="/user/*" access="ROLE_USER"  />
 		<security:intercept-url pattern="/admin/*" access="ROLE_ADMIN" />
 		<security:intercept-url pattern="/quick_start/*" access="ROLE_SUPER_ADMIN"/>
+		<security:intercept-url pattern="/disabledUser.xhtml" access="ROLE_DISABLED_USER"/>
 		<security:form-login login-page="/index.xhtml" 
-			default-target-url="/index.xhtml?default=true" 
-			authentication-failure-url="/index.xhtml?error=true"  
+			default-target-url="/index.xhtml" 
+			authentication-failure-handler-ref="failureAuthHandler"
 			authentication-success-handler-ref="successAuthHandler"
 			login-processing-url="/j_spring_security_check"/>
 		<security:anonymous enabled="false" granted-authority="ROLE_ANONYMOUS"/>
@@ -27,16 +28,10 @@
 	
 	<security:authentication-manager>
 		<security:authentication-provider ref="dataBaseAuthenticationProvider">
-		</security:authentication-provider>
-	    <security:authentication-provider user-service-ref="userDetailsService">
-	        <security:password-encoder hash="md5"/>
-	    </security:authentication-provider>
-		
+		</security:authentication-provider>		
 	</security:authentication-manager>
 	
 	<bean id="successAuthHandler" class="com.econtact.authWeb.app.security.SuccessAuthenticatedHandler"/>
-	
-	<bean id="userDetailsService" class="com.econtact.authWeb.app.security.DatabaseUserDetailsServiceImpl"/>
-
+	<bean id="failureAuthHandler" class="com.econtact.authWeb.app.security.FailureAuthenticatedHandler"/>
 	<bean id="dataBaseAuthenticationProvider" class="com.econtact.authWeb.app.security.DataBaseAuthenticationProvider"/>
 </beans>  

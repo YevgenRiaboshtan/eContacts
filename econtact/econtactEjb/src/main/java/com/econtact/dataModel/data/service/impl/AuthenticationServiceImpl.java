@@ -33,21 +33,4 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		List<AdvanceUserEntity> result = criteria.getSelectQuery(em).getResultList();	
 		return result.isEmpty() ? null : result.get(0);
 	}
-
-	@Override
-	public AdvanceUserEntity getUserByEmail(String email) {
-		SearchCriteria<AdvanceUserEntity> criteria = new SearchCriteria<>(new GenericFilterDefQueries<>(AdvanceUserEntity.class));
-		criteria.andFilter(new FilterDefEquals(AdvanceUserEntity.EMAIL_A, email));
-		List<AdvanceUserEntity> result = criteria.getSelectQuery(em).getResultList();	
-		return result.isEmpty() ? null : result.get(0);
-	}
-
-	@Override
-	public AdvanceUserEntity findUser(String login) {
-		AdvanceUserEntity result = getUserByLogin(login);
-		if (result == null) {
-			result = getUserByEmail(login);
-		}
-		return result;
-	}
 }

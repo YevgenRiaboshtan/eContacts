@@ -21,7 +21,7 @@ public class SuccessAuthenticatedHandler implements AuthenticationSuccessHandler
 		if (authentication.getAuthorities().contains(new SimpleGrantedAuthority(RoleType.ROLE_SUPER_ADMIN.getName()))) {
 			response.sendRedirect(WebHelper.DEF_ADMIN_PAGE);
 		} else {
-			response.sendRedirect(WebHelper.DEFAULT_PAGE);
+			response.sendRedirect(WebHelper.INDEX_PAGE);
 		}
 	}
 

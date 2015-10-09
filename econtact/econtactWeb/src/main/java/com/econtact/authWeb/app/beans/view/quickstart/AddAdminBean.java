@@ -3,22 +3,29 @@ package com.econtact.authWeb.app.beans.view.quickstart;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
+import org.primefaces.component.datatable.DataTable;
 
 import com.econtact.authWeb.app.dataTable.model.quickStart.AdminDataTableLazyModel;
 import com.econtact.authWeb.app.helpers.NavigationHelper;
 import com.econtact.authWeb.app.helpers.WebHelper;
 import com.econtact.authWeb.app.security.PasswordUtils;
+import com.econtact.authWeb.app.utils.ContraintViewRelation;
+import com.econtact.authWeb.app.utils.UniqueConstraintHandleUtils;
 import com.econtact.dataModel.data.service.GenericService;
+import com.econtact.dataModel.data.util.UniqueConstraintException;
 import com.econtact.dataModel.model.entity.accout.AccessStatusEnum;
+import com.econtact.dataModel.model.entity.accout.ActiveStatusEnum;
 import com.econtact.dataModel.model.entity.accout.AdvanceUserEntity;
 import com.econtact.dataModel.model.entity.accout.RoleType;
 import com.econtact.dataModel.model.entity.accout.UserEntity;
@@ -52,8 +59,19 @@ public class AddAdminBean implements Serializable{
 		entity.setSalt(PasswordUtils.getRandomSalt());
 		entity.setPassword(PasswordUtils.convertPassword(entity.getPassword(), entity.getSalt()));
 		entity.addRole(RoleType.ROLE_ADMIN, AccessStatusEnum.CONFIRMED);
-		entity = WebHelper.getBean(GenericService.class).saveOrUpdate(entity, WebHelper.getUserContext());
-		navigationHelper.navigate(navigationHelper.getListPage());
+		entity.setEnabledAccount(ActiveStatusEnum.ENABLE);
+		try{
+			entity = WebHelper.getBean(GenericService.class).saveOrUpdate(entity, WebHelper.getUserContext());
+			navigationHelper.navigate(navigationHelper.getListPage());
+		} catch (UniqueConstraintException e) {
+			ContraintViewRelation relation = UniqueConstraintHandleUtils.getInstance().handleException(e);
+			FacesContext context = FacesContext.getCurrentInstance();
+			ResourceBundle bundle = context.getApplication().getResourceBundle(context, "viewMsg");
+			
+			FacesContext.getCurrentInstance().addMessage(relation.getIdField(), new FacesMessage(bundle.getString(relation.getErrorMessageKey())));
+		}
+		
+		
 	}
 	
 	@PostConstruct
@@ -68,7 +86,8 @@ public class AddAdminBean implements Serializable{
 
 	public AdminDataTableLazyModel getAdminListModel() {
 		if (adminListModel == null ) {
-			adminListModel = new AdminDataTableLazyModel();
+			DataTable table = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("adminTableForm:adminDataTable");
+			adminListModel = new AdminDataTableLazyModel(table);
 		}
 		return adminListModel;
 	}

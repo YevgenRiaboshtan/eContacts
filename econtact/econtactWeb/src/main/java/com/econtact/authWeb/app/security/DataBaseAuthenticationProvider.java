@@ -6,11 +6,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.econtact.dataModel.data.service.AuthenticationService;
 import com.econtact.dataModel.data.service.GenericService;
@@ -63,18 +66,27 @@ public class DataBaseAuthenticationProvider implements AuthenticationProvider {
 			defaultAdmin.setLogin(defaultAdminLogin);
 			return new UsernamePasswordAuthenticationToken(defaultAdmin, password, grants);
 		} 
-		AdvanceUserEntity user = authenticationService.findUser(login);
+		AdvanceUserEntity user = authenticationService.getUserByLogin(login);
 		if (user != null) {
-			UserEntity result = genericService.findById(UserEntity.class, user.getId());
-			List<GrantedAuthority> grants = new ArrayList<>();
-			for (UserRoleRel item : user.getRoles()) {
-				if (AccessStatusEnum.CONFIRMED.equals(item.getConfirm())) {
-					grants.add(new SimpleGrantedAuthority(item.getRole().getName()));
+			if (PasswordUtils.machPassword(user.getPassword(), password, user.getSalt())) {
+				UserEntity result = genericService.findById(UserEntity.class, user.getId());
+				List<GrantedAuthority> grants = new ArrayList<>();
+				if (user.isEnablesAccount()) {
+					for (UserRoleRel item : user.getRoles()) {
+						if (AccessStatusEnum.CONFIRMED.equals(item.getConfirm())) {
+							grants.add(new SimpleGrantedAuthority(item.getRole().getName()));
+						}
+					}
+					return new UsernamePasswordAuthenticationToken(result, password, grants);
+				} else {
+					throw new DisabledException("user is disabled.");
 				}
-			}
-			return new UsernamePasswordAuthenticationToken(result, password, grants);
+			} else {
+				throw new BadCredentialsException("password is incorrect !");
+			}	
+		} else {
+			throw new UsernameNotFoundException("userNotFound");
 		}
-		return null;
 	}
 
 	@Override

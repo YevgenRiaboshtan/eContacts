@@ -4,5 +4,6 @@ public enum FilterDefEnum {
 	AND,
 	OR,
 	EQUALS,
-	NOT_EQUALS
+	NOT_EQUALS,
+	LIKE;
 }

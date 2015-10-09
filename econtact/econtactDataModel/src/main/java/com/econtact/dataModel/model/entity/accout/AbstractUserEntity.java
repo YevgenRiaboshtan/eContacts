@@ -18,7 +18,6 @@ public abstract class AbstractUserEntity extends AbstractEntity<BigDecimal> {
 	private static final String SEQ_NAME = "userSeq";
 
 	public final static String LOGIN_A = "login";
-	public final static String EMAIL_A = "email";
 	
 	@SequenceGenerator(name = SEQ_NAME, sequenceName = "seq_user_id", schema = EntityHelper.E_CONTACT_SCHEMA)
 	@Id
