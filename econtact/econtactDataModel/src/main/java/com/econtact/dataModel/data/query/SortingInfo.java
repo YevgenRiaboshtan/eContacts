@@ -9,7 +9,7 @@ public class SortingInfo implements Serializable {
     
     private final boolean asc;
 
-    SortingInfo(String columnName, boolean asc) {
+    public SortingInfo(String columnName, boolean asc) {
         assert (columnName != null && !columnName.isEmpty());
         this.columnName = columnName;
         this.asc = asc;

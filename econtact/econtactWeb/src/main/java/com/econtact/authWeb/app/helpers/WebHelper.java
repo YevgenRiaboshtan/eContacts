@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.econtact.dataModel.data.context.UserContext;
+import com.econtact.dataModel.model.entity.accout.ActiveStatusEnum;
 import com.econtact.dataModel.model.entity.accout.RoleType;
 import com.econtact.dataModel.model.entity.accout.UserEntity;
 
@@ -22,7 +23,7 @@ public class WebHelper implements Serializable {
 	public static final String DEF_ADMIN_PAGE = "quick_start/list.jsf";
 	public static final String INDEX_PAGE = "index.jsf";
 	
-
+	
 	public boolean isAuth() {
 		return SecurityContextHolder.getContext().getAuthentication() != null;
 	}
@@ -66,4 +67,23 @@ public class WebHelper implements Serializable {
 		return result;
 	}
 	
+	public ViewModeEnum getViewMode() {
+		return ViewModeEnum.VIEW;
+	}
+	
+	public ViewModeEnum getEditMode() {
+		return ViewModeEnum.EDIT;
+	}
+	
+	public ViewModeEnum getCreateMode() {
+		return ViewModeEnum.CREATE;
+	}
+	
+	public ActiveStatusEnum getActiveStatusEnum() {
+		return ActiveStatusEnum.ENABLE;
+	}
+	
+	public ActiveStatusEnum getDisableStatusEnum() {
+		return ActiveStatusEnum.DISABLE;
+	}
 }

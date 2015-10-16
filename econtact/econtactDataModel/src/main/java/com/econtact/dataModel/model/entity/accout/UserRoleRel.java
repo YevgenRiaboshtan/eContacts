@@ -18,15 +18,12 @@ import javax.persistence.PreUpdate;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.SQLDelete;
-
 import com.econtact.dataModel.data.context.EJBContext;
 import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.entity.AbstractEntity;
 
 @Entity
 @Table(name = "user_role_relation", schema = EntityHelper.E_CONTACT_SCHEMA)
-@SQLDelete(sql = "Update user_role_relation SET sign = id WHERE id = ? AND version=?")
 public class UserRoleRel extends AbstractEntity<BigDecimal> {
 	private static final long serialVersionUID = -395100601125751500L;
 	private static final String SEQ_NAME = "userRoleRelSeq";

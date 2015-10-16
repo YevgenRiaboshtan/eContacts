@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+	<p:panel >
+		<h:form prependId="false" id="userEntityEditForm">
+			<h:panelGrid columns="3">
+				<p:outputLabel value="${viewMsg['add.admin.login.label']}" for="adminLogin" />
+				<p:inputText id="adminLogin" value="#{addAdminBean.entity.login}" required="true" />
+				<p:message for="adminLogin" showDetail="true" closable="true" autoUpdate="true"/>
+				
+				<c:choose>
+					<c:when test="#{not empty addAdminBean.entity.salt}">
+						<p:outputLabel value="#{viewMsg['add.admin.new.password.label']}" for="newAdminPassword"/>
+						<p:password id="newAdminPassword" 
+								value="#{addAdminBean.newPassword}"
+								feedback="true" 
+								weakLabel="#{viewMsg['password.feedback.weak']}"
+								goodLabel="#{viewMsg['password.feedback.good']}"
+								strongLabel="#{viewMsg['password.feedback.strong']}"
+								promptLabel="#{viewMsg['password.required.message']}"
+								match="adminPassrowdRepeat" />
+						<p:message for="newAdminPassword" />
+						
+						<p:outputLabel value="#{viewMsg['add.admin.password.label']}" for="adminPassrowdRepeat"/>
+						<p:password id="adminPassrowdRepeat" value="#{addAdminBean.newPassword}"/>
+						<p:message for="adminPassrowdRepeat" />	
+					</c:when>
+					<c:otherwise>
+						<p:outputLabel value="#{viewMsg['add.admin.password.label']}" for="adminPassword"/>
+						<p:password id="adminPassword" 
+								value="#{addAdminBean.entity.password}" required="true"
+								feedback="true" 
+								weakLabel="#{viewMsg['password.feedback.weak']}"
+								goodLabel="#{viewMsg['password.feedback.good']}"
+								strongLabel="#{viewMsg['password.feedback.strong']}"
+								promptLabel="#{viewMsg['password.required.message']}"
+								match="adminPassrowdRepeat" />
+						<p:message for="adminPassword" />
+						
+						<p:outputLabel value="#{viewMsg['add.admin.password.label']}" for="adminPassrowdRepeat"/>
+						<p:password id="adminPassrowdRepeat" value="#{addAdminBean.entity.password}" required="true"/>
+						<p:message for="adminPassrowdRepeat" />	
+					</c:otherwise>
+				</c:choose>
+				
+				<p:outputLabel value="#{viewMsg['add.admin.first.name.label']}" for="adminFirstName" />
+				<p:inputText id="adminFirstName" value="#{addAdminBean.entity.firstName}" required="true"/>
+				<p:message for="adminFirstName" showDetail="true"/>
+
+				<p:outputLabel value="#{viewMsg['add.admin.last.name.label']}" for="adminLastName" />
+				<p:inputText id="adminLastName" value="#{addAdminBean.entity.lastName}" required="true" />
+				<p:message for="adminLastName" showDetail="true" />
+				
+				<p:outputLabel value="#{viewMsg['user.active.status.label']}" for="adminStatus"/>
+				<p:selectOneMenu id="adminStatus"  editable="false" value="#{addAdminBean.entity.enabledAccount}" converter="activeConverter">
+					<f:selectItem itemLabel="#{viewMsg['filter.active.btn.label']}" itemValue="#{webHelper.activeStatusEnum}" />
+					<f:selectItem itemLabel="#{viewMsg['filter.disable.btn.label']}" itemValue="#{webHelper.disableStatusEnum}"/>
+				</p:selectOneMenu>
+				<p:column />
+
+				<p:commandButton value="#{viewMsg['btn.save']}" ajax="true" update="userEntityEditForm" actionListener="#{addAdminBean.saveEntity()}">
+					<f:ajax execute="userEntityEditForm"/>
+				</p:commandButton>
+				<p:commandButton value="#{viewMsg['btn.cancel']}" immediate="true" actionListener="#{navigationHelper.navigate(navigationHelper.listPage)}"/>
+				<p:column />
+			</h:panelGrid>
+		</h:form>
+	</p:panel>
+</ui:composition>

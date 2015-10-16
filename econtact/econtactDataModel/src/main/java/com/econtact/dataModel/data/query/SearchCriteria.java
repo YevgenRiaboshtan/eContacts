@@ -40,7 +40,7 @@ public class SearchCriteria<T> implements Serializable {
 		return result;
 	}
 	
-	public SearchCriteria andFilter(AbstractFilterDef filter) {
+	public SearchCriteria<T> andFilter(AbstractFilterDef filter) {
 		if (filter != null && !filter.isEmpty()) {
 			if (this.filter == null) {
 				this.filter = filter;
@@ -72,5 +72,9 @@ public class SearchCriteria<T> implements Serializable {
 	
 	public Map<String, String> getHints() {
 		return hints;
+	}
+	
+	public void clearSortingInfo() {
+		sortingInfos.clear();
 	}
 }

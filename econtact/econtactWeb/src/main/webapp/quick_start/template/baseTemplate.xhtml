@@ -4,7 +4,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
 	<title>Econtact</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -20,7 +21,8 @@
 	</div>
 	<div id="topMenuBlock">
 	<h:form>
-		<p:commandButton value="#{viewMsg['btn.create.label']}" immediate="true" ajax="true" actionListener="#{navigationHelper.navigate(navigationHelper.newPage)}" />
+		<p:commandButton value="#{viewMsg['btn.create.label']}" immediate="true" ajax="true" actionListener="#{navigationHelper.navigate(navigationHelper.newPage)}">
+		</p:commandButton>
 	</h:form>
 	</div>
 	<div id="contentBlock" style="margin-left: 20px;">

@@ -21,7 +21,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.SQLDelete;
 
 import com.econtact.dataModel.data.context.EJBContext;
 import com.econtact.dataModel.data.util.EntityHelper;
@@ -32,6 +32,7 @@ import com.econtact.dataModel.data.util.EntityHelper;
 		@UniqueConstraint(name = AdvanceUserEntity.USER_LOGIN_SIGN_UNIQUE_CONSTRAINT,
 							columnNames = {AbstractUserEntity.LOGIN_A, EntityHelper.SIGN_F })})
 @Cache(usage = CacheConcurrencyStrategy.NONE)
+@SQLDelete(sql = "UPDATE econtactschema.user_account set sign = id where id = ? and version = ?")
 public class AdvanceUserEntity extends AbstractUserEntity {
 	private static final long serialVersionUID = 5694870185179400515L;
 	public static final String USER_LOGIN_SIGN_UNIQUE_CONSTRAINT = "user_login_sign_unique_constraint";
@@ -57,7 +58,6 @@ public class AdvanceUserEntity extends AbstractUserEntity {
 	private BigDecimal sign;
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = UserRoleRel.USER_A, orphanRemoval = true, cascade = { CascadeType.ALL })
-	@Where(clause = "sign = 0")
 	@Fetch(FetchMode.SELECT)
 	private Set<UserRoleRel> roles = new HashSet<>();
 
