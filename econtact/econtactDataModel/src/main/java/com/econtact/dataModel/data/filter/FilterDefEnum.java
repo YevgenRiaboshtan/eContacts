@@ -4,6 +4,7 @@ public enum FilterDefEnum {
 	AND,
 	OR,
 	EQUALS,
+    EQUALS_IGNORE_CASE,
 	NOT_EQUALS,
 	LIKE;
 }

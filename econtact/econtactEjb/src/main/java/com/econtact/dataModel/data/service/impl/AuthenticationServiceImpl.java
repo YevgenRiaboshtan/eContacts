@@ -8,7 +8,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import com.econtact.dataModel.data.filter.FilterDefEquals;
+import com.econtact.dataModel.data.filter.FilterDefEqualsIgnoreCase;
 import com.econtact.dataModel.data.query.GenericFilterDefQueries;
 import com.econtact.dataModel.data.query.SearchCriteria;
 import com.econtact.dataModel.data.service.AuthenticationService;
@@ -29,7 +29,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Override
 	public AdvanceUserEntity getUserByLogin(String login) {
 		SearchCriteria<AdvanceUserEntity> criteria = new SearchCriteria<>(new GenericFilterDefQueries<>(AdvanceUserEntity.class));
-		criteria.andFilter(new FilterDefEquals(AdvanceUserEntity.LOGIN_A, login));
+		criteria.andFilter(new FilterDefEqualsIgnoreCase(AdvanceUserEntity.LOGIN_A, login));
 		List<AdvanceUserEntity> result = criteria.getSelectQuery(em).getResultList();	
 		return result.isEmpty() ? null : result.get(0);
 	}

@@ -3,7 +3,8 @@ package com.econtact.authWeb.app.beans.view.quickstart;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ResourceBundle;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -11,11 +12,13 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
 
 import com.econtact.authWeb.app.dataTable.model.quickStart.AdminDataTableLazyModel;
+import com.econtact.authWeb.app.helpers.LabelsHelper;
 import com.econtact.authWeb.app.helpers.NavigationHelper;
 import com.econtact.authWeb.app.helpers.WebHelper;
 import com.econtact.authWeb.app.security.PasswordUtils;
@@ -24,6 +27,7 @@ import com.econtact.authWeb.app.utils.UniqueConstraintHandleUtils;
 import com.econtact.dataModel.data.service.GenericService;
 import com.econtact.dataModel.data.util.UniqueConstraintException;
 import com.econtact.dataModel.model.entity.accout.AccessStatusEnum;
+import com.econtact.dataModel.model.entity.accout.ActiveStatusEnum;
 import com.econtact.dataModel.model.entity.accout.AdvanceUserEntity;
 import com.econtact.dataModel.model.entity.accout.RoleType;
 	
@@ -62,15 +66,14 @@ public class AddAdminBean implements Serializable{
 		if (StringUtils.isNotBlank(newPassword)) {
 			entity.setPassword(PasswordUtils.convertPassword(newPassword, entity.getSalt()));
 		}
+		entity.setLogin(entity.getLogin().toLowerCase());
 		entity.addRole(RoleType.ROLE_ADMIN, AccessStatusEnum.CONFIRMED);
 		navigationHelper.navigate(navigationHelper.getListPage());			
 		try{
 			entity = WebHelper.getBean(GenericService.class).saveOrUpdate(entity, WebHelper.getUserContext());
 		} catch (UniqueConstraintException e) {
 			ContraintViewRelation relation = UniqueConstraintHandleUtils.getInstance().handleException(e);
-			FacesContext context = FacesContext.getCurrentInstance();
-			ResourceBundle bundle = context.getApplication().getResourceBundle(context, "viewMsg");
-			FacesContext.getCurrentInstance().addMessage(relation.getIdField(), new FacesMessage(bundle.getString(relation.getErrorMessageKey())));
+			FacesContext.getCurrentInstance().addMessage(relation.getIdField(), new FacesMessage(LabelsHelper.getLocalizedMessage(relation.getErrorMessageKey())));
 		}
 	}
 	
@@ -111,4 +114,14 @@ public class AddAdminBean implements Serializable{
 	public void setNewPassword(String newPassword) {
 		this.newPassword = newPassword;
 	}	
+	
+	public List<SelectItem> getStatusOption() {
+		List<SelectItem> options = new ArrayList<SelectItem>();
+		SelectItem option = new SelectItem(null, "");
+		option.setNoSelectionOption(true);
+		options.add(option);
+		options.add(new SelectItem(ActiveStatusEnum.ENABLE.getValue(), ActiveStatusEnum.ENABLE.name()));
+		options.add(new SelectItem(ActiveStatusEnum.DISABLE.getValue(), ActiveStatusEnum.DISABLE.name()));
+		return options;
+	}
 }

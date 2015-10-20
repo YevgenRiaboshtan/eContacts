@@ -19,6 +19,7 @@ import com.econtact.dataModel.data.query.SearchCriteria;
 import com.econtact.dataModel.data.query.SortingInfo;
 import com.econtact.dataModel.data.service.GenericService;
 import com.econtact.dataModel.model.AbstractView;
+import com.econtact.dataModel.model.entity.accout.ActiveStatusEnum;
 
 public abstract class AbstractGenericDataTableModel<T extends AbstractView> extends LazyDataModel<T> {
 	private static final long serialVersionUID = 2966276343006226214L;
@@ -78,12 +79,18 @@ public abstract class AbstractGenericDataTableModel<T extends AbstractView> exte
 	
 	//TODO default create equals filter
 	private AbstractFilterDef createFilterByValue(String field, Object value) {
+		if (ActiveStatusEnum.DISABLE.toString().equals(value)) {
+			return new FilterDefEquals(field, ActiveStatusEnum.DISABLE);
+		} else if (ActiveStatusEnum.ENABLE.toString().equals(value)) {
+			return new FilterDefEquals(field, ActiveStatusEnum.ENABLE);
+		}
 		return new FilterDefEquals(field, value);
 	}
 	
 	protected AbstractFilterDef makeFilters(Map<String, Object> filters) {
 		FilterDefAnd result = new FilterDefAnd();
 		for (Entry<String, Object> entry : filters.entrySet()) {
+			System.out.println(entry.getKey());
 			result.addDefinition(createFilterByValue(entry.getKey(), entry.getValue()));
 		}
 		return result;

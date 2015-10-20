@@ -14,6 +14,8 @@ public class VisitorFactory {
                 return new EqualsVisitor(ctx);
             case NOT_EQUALS:
                 return new NotEqualVisitor(ctx);
+            case EQUALS_IGNORE_CASE:
+            	return new EqualsIgnoreCaseVisitor(ctx);
             case LIKE:
             	return new LikeVisitor(ctx);
             	

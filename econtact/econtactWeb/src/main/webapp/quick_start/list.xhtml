@@ -38,7 +38,7 @@
 					<p:outputLabel value="#{adminItem.lastName}"></p:outputLabel>
 				</p:column>
 				<p:column headerText="#{viewMsg['user.active.status.label']}"
-					sortBy="#{adminItem.enabledAccount}">
+					sortBy="#{adminItem.enabledAccount}" filterOptions="#{addAdminBean.statusOption}" filterBy="#{adminItem.enabledAccount}" >
 					<p:selectBooleanCheckbox value="#{adminItem.isEnablesAccount()}"
 						disabled="true" />
 				</p:column>

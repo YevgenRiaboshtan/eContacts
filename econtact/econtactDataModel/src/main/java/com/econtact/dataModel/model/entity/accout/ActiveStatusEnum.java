@@ -8,7 +8,7 @@ public enum ActiveStatusEnum {
 		return this;
 	}
 	
-	public String getLabel() {
-		return this.toString();
+	public String getLabelKey() {
+			return this.toString();
 	}
 }
