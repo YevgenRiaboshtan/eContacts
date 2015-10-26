@@ -6,5 +6,7 @@ public enum FilterDefEnum {
 	EQUALS,
     EQUALS_IGNORE_CASE,
 	NOT_EQUALS,
-	LIKE;
+	LIKE,
+	STARTS_WITH,
+	STARTS_WITH_IGNORE_CASE;
 }

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.econtact.dataModel.data.util.UniqueConstraintException;
-import com.econtact.dataModel.model.entity.accout.AdvanceUserEntity;
+import com.econtact.dataModel.model.entity.accout.AccountUserEntity;
 
 public class UniqueConstraintHandleUtils {
 
@@ -43,8 +43,8 @@ public class UniqueConstraintHandleUtils {
 	private void loadConstraints() {
 		constraints = new HashMap<Class, Map<String, ContraintViewRelation>>();
 		Map<String, ContraintViewRelation> advancedUser = new HashMap<String, ContraintViewRelation>();
-		advancedUser.put(AdvanceUserEntity.USER_LOGIN_SIGN_UNIQUE_CONSTRAINT, new ContraintViewRelation(AdvanceUserEntity.USER_LOGIN_SIGN_UNIQUE_CONSTRAINT, "userLogin", "user.login.already.exist"));
-		constraints.put(AdvanceUserEntity.class, advancedUser);
+		advancedUser.put(AccountUserEntity.USER_LOGIN_SIGN_UNIQUE_CONSTRAINT, new ContraintViewRelation(AccountUserEntity.USER_LOGIN_SIGN_UNIQUE_CONSTRAINT, "userLogin", "user.login.already.exist"));
+		constraints.put(AccountUserEntity.class, advancedUser);
 	}
 
 	private UniqueConstraintHandleUtils() {

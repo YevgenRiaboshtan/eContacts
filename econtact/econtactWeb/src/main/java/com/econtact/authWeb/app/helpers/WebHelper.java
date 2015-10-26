@@ -3,6 +3,10 @@ package com.econtact.authWeb.app.helpers;
 import java.io.Serializable;
 import java.util.TimeZone;
 
+import javax.enterprise.context.spi.CreationalContext;
+import javax.enterprise.inject.spi.Bean;
+import javax.enterprise.inject.spi.BeanManager;
+import javax.enterprise.inject.spi.CDI;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
@@ -12,9 +16,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.econtact.dataModel.data.context.UserContext;
-import com.econtact.dataModel.model.entity.accout.ActiveStatusEnum;
 import com.econtact.dataModel.model.entity.accout.RoleType;
-import com.econtact.dataModel.model.entity.accout.UserEntity;
+import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
+import com.econtact.dataModel.model.entity.accout.UserStatusEnum;
 
 @ManagedBean
 public class WebHelper implements Serializable {
@@ -31,7 +35,7 @@ public class WebHelper implements Serializable {
 	public String getUserName() {
 		String userName = "";
 		if (isAuth()) {
-			userName = ((UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getLogin();
+			userName = getPrincipal().getLogin();
 		}
 		return userName;
 	}
@@ -55,10 +59,16 @@ public class WebHelper implements Serializable {
 	public static <T> T getBean(final Class<T> beanClass) {
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
 		return WebApplicationContextUtils.getWebApplicationContext(session.getServletContext()).getBean(beanClass);
+		
+		/*final BeanManager beanManager = CDI.current().getBeanManager();
+		final Bean bean = beanManager.resolve(beanManager.getBeans(beanClass));
+		CreationalContext cCtx = beanManager.createCreationalContext(bean);
+		T result = (T) beanManager.getReference(bean, beanClass, cCtx);
+		return result;*/
 	}
 	
-	public static UserEntity getPrincipal() {
-		return (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	public static SessionUserEntity getPrincipal() {
+		return (SessionUserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	}
 	
 	public static UserContext getUserContext() {
@@ -79,11 +89,11 @@ public class WebHelper implements Serializable {
 		return ViewModeEnum.CREATE;
 	}
 	
-	public ActiveStatusEnum getActiveStatusEnum() {
-		return ActiveStatusEnum.ENABLE;
+	public UserStatusEnum getActiveStatusEnum() {
+		return UserStatusEnum.ENABLE;
 	}
 	
-	public ActiveStatusEnum getDisableStatusEnum() {
-		return ActiveStatusEnum.DISABLE;
+	public UserStatusEnum getDisableStatusEnum() {
+		return UserStatusEnum.DISABLE;
 	}
 }

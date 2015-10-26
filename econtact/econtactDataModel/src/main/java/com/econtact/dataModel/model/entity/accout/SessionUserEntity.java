@@ -1,6 +1,7 @@
 package com.econtact.dataModel.model.entity.accout;
 
 import javax.persistence.Entity;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
@@ -11,10 +12,15 @@ import com.econtact.dataModel.data.util.EntityHelper;
 @Entity
 @Table(name = "user_account", schema = EntityHelper.E_CONTACT_SCHEMA)
 @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
-public class UserEntity extends AbstractUserEntity {
-	private static final long serialVersionUID = -3747397876193741856L;
+public class SessionUserEntity extends AbstractUserEntity {
+	private static final long serialVersionUID = -6560661281186664579L;
+
+	@PreRemove
+	public void PreRemove() {
+		throw new UnsupportedOperationException("Can`t remove session users.");
+	}
 
 	public String getUpdData() {
-		return new StringBuilder(getId().toString()).append("-").append(getLogin()).toString();
+		return new StringBuilder(getId().toString()).append(" - ").append(getLogin()).toString();
 	}
 }

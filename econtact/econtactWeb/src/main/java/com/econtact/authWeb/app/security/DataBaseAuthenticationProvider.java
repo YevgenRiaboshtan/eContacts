@@ -17,11 +17,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.econtact.dataModel.data.service.AuthenticationService;
 import com.econtact.dataModel.data.service.GenericService;
-import com.econtact.dataModel.model.entity.accout.AccessStatusEnum;
-import com.econtact.dataModel.model.entity.accout.AdvanceUserEntity;
+import com.econtact.dataModel.model.entity.accout.AccountUserEntity;
+import com.econtact.dataModel.model.entity.accout.UserStatusEnum;
+import com.econtact.dataModel.model.entity.accout.ConfirmStatusEnum;
 import com.econtact.dataModel.model.entity.accout.RoleType;
-import com.econtact.dataModel.model.entity.accout.UserEntity;
-import com.econtact.dataModel.model.entity.accout.UserRoleRel;
+import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 
 public class DataBaseAuthenticationProvider implements AuthenticationProvider {
 
@@ -54,29 +54,26 @@ public class DataBaseAuthenticationProvider implements AuthenticationProvider {
 			throws AuthenticationException {
 		String login = authentication.getName();
 		String password = authentication.getCredentials().toString();
-		/* Check is defaultAdmin*/
+		/* Check is defaultSuperAdmin*/
 		if (defaultAdminLogin.equals(login)
 				&& defaultAdminPassword.equals(password)) {
 			List<GrantedAuthority> grants = new ArrayList<>();
 			grants.add(new SimpleGrantedAuthority(RoleType.ROLE_SUPER_ADMIN.getName()));
-			UserEntity defaultAdmin = new UserEntity();
+			SessionUserEntity defaultAdmin = new SessionUserEntity();
 			defaultAdmin.setId(new BigDecimal(-1));
 			defaultAdmin.setFirstName(defaultAdminLogin);
 			defaultAdmin.setLastName(defaultAdminLogin);
 			defaultAdmin.setLogin(defaultAdminLogin);
 			return new UsernamePasswordAuthenticationToken(defaultAdmin, password, grants);
 		} 
-		AdvanceUserEntity user = authenticationService.getUserByLogin(login);
+		AccountUserEntity user = authenticationService.getUserByLogin(login);
 		if (user != null) {
 			if (PasswordUtils.machPassword(user.getPassword(), password, user.getSalt())) {
-				UserEntity result = genericService.findById(UserEntity.class, user.getId());
+				SessionUserEntity result = genericService.findById(SessionUserEntity.class, user.getId());
 				List<GrantedAuthority> grants = new ArrayList<>();
-				if (user.isEnablesAccount()) {
-					for (UserRoleRel item : user.getRoles()) {
-						if (AccessStatusEnum.CONFIRMED.equals(item.getConfirm())) {
-							grants.add(new SimpleGrantedAuthority(item.getRole().getName()));
-						}
-					}
+				if (UserStatusEnum.ENABLE.equals(user.getEnabledUser())
+						&& ConfirmStatusEnum.CONFIRMED.equals(user.getRoleConfirm())) {
+							grants.add(new SimpleGrantedAuthority(user.getRole().getName()));
 					return new UsernamePasswordAuthenticationToken(result, password, grants);
 				} else {
 					throw new DisabledException("user is disabled.");

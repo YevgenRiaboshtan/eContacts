@@ -6,32 +6,43 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui">
 	<div class="userPanel">
-		<c:if test="${param.error == 'authError'}">
-			<p:outputLabel value="#{viewMsg['user.bad.credetials.error.message']}"></p:outputLabel>
-		</c:if>
-		<h:form onsubmit="action='/econtact/j_spring_security_check';"
-			prependId="false" method="POST">
-			<div>
-				<div style="display: flex">
+		<c:choose>
+			<c:when test="#{!webHelper.auth}">
+				<c:if test="${param.error == 'authError'}">
+					<p:outputLabel
+						value="#{viewMsg['loginPanel.user.bad.credetials.error.message']}"></p:outputLabel>
+				</c:if>
+				<h:form onsubmit="action='/econtact/j_spring_security_check';"
+					prependId="false" method="POST">
 					<div>
-						<p:outputLabel for="j_username" value="#{viewMsg['login.label']}:" />
+						<div style="display: flex">
+							<div style="width: 100px">
+								<p:outputLabel for="j_username"
+									value="#{viewMsg['loginPanel.login.label']}:" />
+							</div>
+							<div style="width: 235px;">
+								<p:inputText id="j_username" type="text" />
+							</div>
+							<div style="width: 100px">
+								<p:outputLabel for="j_password"
+									value="#{viewMsg['loginPanel.password.label']}:" />
+							</div>
+							<div style="width: 235px;">
+								<p:password id="j_password" />
+							</div>
+							<div>
+								<p:commandButton type="submit"
+									value="#{viewMsg['loginPanel.login.btn.label']}" ajax="false" />
+							</div>
+						</div>
 					</div>
-					<div style="width:200px;">
-						<p:inputText id="j_username" type="text" />
-					</div>
-					<div >
-						<p:outputLabel for="j_password"
-							value="#{viewMsg['password.label']}:" />
-					</div>
-					<div  style="width:200px;">
-						<p:password id="j_password" />
-					</div>
-					<div >
-						<p:commandButton type="submit"
-							value="#{viewMsg['login.btn.label']}" ajax="false" />
-					</div>
-				</div>
-			</div>
-		</h:form>
+				</h:form>
+			</c:when>
+			<c:otherwise>
+				<h:outputLabel value="#{webHelper.userName}" />
+				<a href="/econtact/j_spring_security_logout"><h:outputLabel
+						value="#{viewMsg['loginPanel.logout.btn.label']}" /></a>
+			</c:otherwise>
+		</c:choose>
 	</div>
 </ui:composition>

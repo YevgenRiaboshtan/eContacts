@@ -20,27 +20,25 @@
 				<p:column width="100">
 					<p:commandButton id="editUser" icon="ui-icon-pencil" immediate="true" actionListener="#{navigationHelper.navigate(navigationHelper.getEditPage(adminItem.id))}" />
             		<p:tooltip value="#{viewMsg['btn.edit.label']}" for="editUser" />
-            		<p:commandButton id="removeUser" icon="ui-icon-close" update=":adminTableForm:adminDataTable" actionListener="#{addAdminBean.remove(adminItem)}"/>
+            		<p:commandButton id="removeUser" icon="ui-icon-close" update=":adminTableForm:adminDataTable" actionListener="#{addAdminBean.dataModel.removeEntity(adminItem)}"/>
 				</p:column>
-				<p:column headerText="#{viewMsg['add.admin.login.label']}"
-					filterOptions="login" filterMatchMode="like"
+				<p:column headerText="#{viewMsg['admins.list.login.column.header']}"
 					sortBy="#{adminItem.login}" filterBy="#{adminItem.login}">
 					<p:outputLabel value="#{adminItem.login}"></p:outputLabel>
 				</p:column>
-				<p:column headerText="#{viewMsg['add.admin.first.name.label']}"
-					sortBy="#{adminItem.firstName}" filterOptions="firstName"
-					filterBy="#{adminItem.firstName}" filterMatchMode="like">
+				<p:column headerText="#{viewMsg['admins.list.first.name.column.header']}"
+					sortBy="#{adminItem.firstName}" filterBy="#{adminItem.firstName}">
 					<p:outputLabel value="#{adminItem.firstName}" />
 				</p:column>
-				<p:column headerText="#{viewMsg['add.admin.last.name.label']}"
-					sortBy="#{adminItem.lastName}" filterOptions="lastName"
-					filterBy="#{adminItem.lastName}" filterMatchMode="equals">
+				<p:column headerText="#{viewMsg['admins.list.last.name.column.header']}"
+					sortBy="#{adminItem.lastName}" filterBy="#{adminItem.lastName}">
 					<p:outputLabel value="#{adminItem.lastName}"></p:outputLabel>
 				</p:column>
-				<p:column headerText="#{viewMsg['user.active.status.label']}"
-					sortBy="#{adminItem.enabledAccount}" filterOptions="#{addAdminBean.statusOption}" filterBy="#{adminItem.enabledAccount}" >
-					<p:selectBooleanCheckbox value="#{adminItem.isEnablesAccount()}"
-						disabled="true" />
+				<p:column headerText="#{viewMsg['admins.list.user.status.column.header']}"
+					sortBy="#{adminItem.enabledUser}" filterOptions="#{filterHelper.getEnumFilter('com.econtact.dataModel.model.entity.accout.UserStatusEnum')}" filterBy="#{adminItem.enabledUser}" >
+					<f:attribute name="filterDataType" value="ENUM"></f:attribute>
+					<p:outputLabel value="#{labelsHelper.getLocalizedMessage(adminItem.enabledUser.labelKey)}"></p:outputLabel>
+					
 				</p:column>
 			</p:dataTable>
 		</h:form>

@@ -1,19 +1,32 @@
 package com.econtact.dataModel.model.entity.accout;
 
 public enum RoleType {
-	ROLE_OWNER("ROLE_OWNER"),
-	ROLE_ADMIN("ROLE_ADMIN"),
-	ROLE_MANAGER("ROLE_MANAGER"),
-	ROLE_REGISTER("ROLE_REGISTER"),
+	/** Супер Админ:	
+	 * 		создает администраторов (владельцев проекта)*/
 	ROLE_SUPER_ADMIN("ROLE_SUPER_ADMIN"),
-	ROLE_DISABLED_USER("ROLE_DISABLED_USER");
-
+	/** 
+	 * Администрато:
+	 * 		- создает проекты
+	 * 		- создает сотрудников подчиненные ему
+	 */
+	ROLE_ADMIN("ROLE_ADMIN"),
+	/**
+	 * Сотрудник:
+	 * 		- работает над проектом
+	 * 		- если дан доступ администратором то может создавать проекты и создавать регистраторов для работы в них 	
+	 */
+	ROLE_EMPLOYEE("ROLE_EMPLOYEE"),
+	/**
+	 * Регистратор:
+	 * 		- заполняет новые контакты
+	 */
+	ROLE_REGISTER("ROLE_REGISTER");
+	
+	private String name;
 	
 	RoleType(String name) {
 		this.name = name;
-	}
-	
-	private String name;
+	}	
 	
 	public String getName(){
 		return name;

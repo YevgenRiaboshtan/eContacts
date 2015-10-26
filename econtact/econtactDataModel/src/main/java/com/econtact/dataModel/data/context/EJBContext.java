@@ -2,7 +2,7 @@ package com.econtact.dataModel.data.context;
 
 import java.util.TimeZone;
 
-import com.econtact.dataModel.model.entity.accout.UserEntity;
+import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 
 public class EJBContext {
 	private UserContext userContext;
@@ -27,7 +27,7 @@ public class EJBContext {
 		this.userContext = userContext;
 	}
 
-	public UserEntity getUser() {
+	public SessionUserEntity getUser() {
 		return userContext.getUser();
 	}
 

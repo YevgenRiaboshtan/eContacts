@@ -25,7 +25,7 @@ import org.hibernate.envers.RevisionTimestamp;
 import com.econtact.dataModel.data.listeners.AuditRevListener;
 import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.AbstractView;
-import com.econtact.dataModel.model.entity.accout.UserEntity;
+import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 import com.econtact.dataModel.model.entity.dictionary.UniverDictEntity;
 
 /**
@@ -75,13 +75,13 @@ public class AuditRevEntity implements AbstractView<Long> {
 
     @ManyToOne
     @JoinColumn(name = "id_user_fk", nullable = false)
-    private UserEntity user;
+    private SessionUserEntity user;
 
-    public UserEntity getUser() {
+    public SessionUserEntity getUser() {
 		return user;
 	}
 
-	public void setUser(UserEntity user) {
+	public void setUser(SessionUserEntity user) {
 		this.user = user;
 	}
 

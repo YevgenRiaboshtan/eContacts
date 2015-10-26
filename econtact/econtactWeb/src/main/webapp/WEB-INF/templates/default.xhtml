@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	template="/WEB-INF/templates/baseTemplate.xhtml"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:define name="userPanel">
-		<c:choose>
-			<c:when test="#{webHelper.auth}">
-				<ui:include src="/userPanel.xhtml" />
-			</c:when>
-			<c:otherwise>
-				<ui:include src="/loginPanel.xhtml" />
-			</c:otherwise>
-		</c:choose>
+		<ui:include src="/loginPanel.xhtml" />
 	</ui:define>
 </ui:composition>

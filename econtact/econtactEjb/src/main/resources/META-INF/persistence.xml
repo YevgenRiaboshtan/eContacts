@@ -9,10 +9,8 @@
 		<class>com.econtact.dataModel.model.entity.dictionary.UniverDictEntity</class>
 		<class>com.econtact.dataModel.model.entity.common.AuditRevEntity</class>
 		<class>com.econtact.dataModel.model.entity.common.AuditRevChangedEntity</class>
-		<class>com.econtact.dataModel.model.entity.accout.UserEntity</class>
-		<class>com.econtact.dataModel.model.entity.accout.AdvanceUserEntity</class>
-		<class>com.econtact.dataModel.model.entity.accout.AbstractUserEntity</class>
-		<class>com.econtact.dataModel.model.entity.accout.UserRoleRel</class>
+		<class>com.econtact.dataModel.model.entity.accout.AccountUserEntity</class>
+		<class>com.econtact.dataModel.model.entity.accout.SessionUserEntity</class>
 		<properties>
 			<!-- Properties for Hibernate -->
 			<property name="hibernate.show_sql" value="false" />
@@ -20,12 +18,11 @@
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="org.hibernate.envers.store_data_at_delete" value="true" />
 			<property name="hibernate.cache.use_second_level_cache" value="true" />
-			<property name="hibernate.cache.use_query_cache" value="false" />
+			<property name="hibernate.cache.use_query_cache" value="true" />
 			<property name="hibernate.generate_statistics" value="false" />
 			<property name="hibernate.cache.infinispan.statistics" value="false" />
-			<property name="hibernate.cache.region.factory_class" value="org.jboss.as.jpa.hibernate4.infinispan.InfinispanRegionFactory" />
 			<property name="hibernate.cache.infinispan.cachemanager" value="java:jboss/infinispan/container/hibernate" />
-
+			<property name="hibernate.cache.region.factory_class" value="org.jboss.as.jpa.hibernate5.infinispan.InfinispanRegionFactory" />
 		</properties>
 	</persistence-unit>
 </persistence>

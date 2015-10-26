@@ -1,8 +1,8 @@
 package com.econtact.dataModel.data.service;
 
-import com.econtact.dataModel.model.entity.accout.AdvanceUserEntity;
+import com.econtact.dataModel.model.entity.accout.AccountUserEntity;
 
 public interface AuthenticationService {
 
-	AdvanceUserEntity getUserByLogin(String login);
+	AccountUserEntity getUserByLogin(String login);
 }

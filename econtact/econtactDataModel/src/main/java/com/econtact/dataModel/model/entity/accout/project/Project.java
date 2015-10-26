@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import com.econtact.dataModel.model.entity.AbstractEntity;
-import com.econtact.dataModel.model.entity.accout.UserEntity;
+import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 
 public class Project extends AbstractEntity<BigDecimal> {
 	private static final long serialVersionUID = 6692176964337384451L;
@@ -15,7 +15,7 @@ public class Project extends AbstractEntity<BigDecimal> {
 	
 	private String description;
 	
-	private UserEntity owner;
+	private SessionUserEntity owner;
 	
 	private Date updDate;
 	
@@ -47,11 +47,11 @@ public class Project extends AbstractEntity<BigDecimal> {
 		this.description = description;
 	}
 
-	public UserEntity getOwner() {
+	public SessionUserEntity getOwner() {
 		return owner;
 	}
 
-	public void setOwner(UserEntity owner) {
+	public void setOwner(SessionUserEntity owner) {
 		this.owner = owner;
 	}
 
