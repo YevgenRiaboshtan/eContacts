@@ -14,6 +14,7 @@ import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -26,7 +27,8 @@ import com.econtact.dataModel.model.entity.AbstractEntity;
 import com.econtact.dataModel.model.entity.AuditSupport;
 
 @Entity
-@Table(name = "univer_dict", schema = EntityHelper.E_CONTACT_SCHEMA)
+@Table(name = "univer_dict", schema = EntityHelper.E_CONTACT_SCHEMA, uniqueConstraints = { @UniqueConstraint(name = UniverDictEntity.PARAM_DICT_ID_REC_DICT_SIGN_UNIQUE_CONSTRAINT, columnNames = {
+		"sign", "param_dict", "id_rec_dict" })})
 @NamedQuery(name = UniverDictEntity.FIND_ALL, query = "SELECT ude FROM UniverDictEntity ude WHERE ude.sign=:sign")
 @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 @Audited
@@ -34,10 +36,10 @@ import com.econtact.dataModel.model.entity.AuditSupport;
 public class UniverDictEntity extends AbstractEntity<BigDecimal> implements AuditSupport {
 	private static final long serialVersionUID = 1L;
 
+	public static final String PARAM_DICT_ID_REC_DICT_SIGN_UNIQUE_CONSTRAINT = "param_dict_id_rec_dict_sign_unique_constraint";
 	public static final String FIND_ALL = "UniverDictEntity.findAll";
-	
 	public static final String PARAM_DICT_A = "paramDict";
-	
+
 	private static final String SEQ_NAME = "univerDictSeq";
 	private static final String NOTE_PATTERN = "Довідник ID: '%s', Назва довідника в універсальному довіднику: '%s'";
 
@@ -132,19 +134,19 @@ public class UniverDictEntity extends AbstractEntity<BigDecimal> implements Audi
 	public void setUpdAuthor(String updAuthor) {
 		this.updAuthor = updAuthor;
 	}
-	
-	@PrePersist
-    public void prePersist() {
-        sign = EntityHelper.ACTUAL_SIGN;
-        setUpdateData();
-    }
 
-    @PreUpdate
-    @PreRemove
-    public void setUpdateData() {
-        setUpdDate(new Date());
-        setUpdAuthor(EJBContext.get().getUser().getUpdData());
-    }
+	@PrePersist
+	public void prePersist() {
+		sign = EntityHelper.ACTUAL_SIGN;
+		setUpdateData();
+	}
+
+	@PreUpdate
+	@PreRemove
+	public void setUpdateData() {
+		setUpdDate(new Date());
+		setUpdAuthor(EJBContext.get().getUser().getUpdData());
+	}
 
 	@Override
 	public String getEnversNote() {

@@ -9,6 +9,7 @@
 		<class>com.econtact.dataModel.model.entity.dictionary.UniverDictEntity</class>
 		<class>com.econtact.dataModel.model.entity.common.AuditRevEntity</class>
 		<class>com.econtact.dataModel.model.entity.common.AuditRevChangedEntity</class>
+		<class>com.econtact.dataModel.model.entity.common.ConnectAuditEntity</class>
 		<class>com.econtact.dataModel.model.entity.accout.AccountUserEntity</class>
 		<class>com.econtact.dataModel.model.entity.accout.SessionUserEntity</class>
 		<properties>

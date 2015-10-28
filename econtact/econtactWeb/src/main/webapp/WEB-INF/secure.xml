@@ -21,7 +21,7 @@
 			authentication-success-handler-ref="successAuthHandler"
 			login-processing-url="/j_spring_security_check"/>
 		<security:anonymous enabled="false" granted-authority="ROLE_ANONYMOUS"/>
-		<security:logout invalidate-session="true" delete-cookies="true" logout-success-url="/index.xhtml" logout-url="/j_spring_security_logout" />
+		<security:logout invalidate-session="true" delete-cookies="true" logout-url="/j_spring_security_logout" success-handler-ref="logoutSuccessHandler" />
 	</security:http>
 	
 	<context:annotation-config />
@@ -33,5 +33,6 @@
 	
 	<bean id="successAuthHandler" class="com.econtact.authWeb.app.security.SuccessAuthenticatedHandler"/>
 	<bean id="failureAuthHandler" class="com.econtact.authWeb.app.security.FailureAuthenticatedHandler"/>
+	<bean id="logoutSuccessHandler" class="com.econtact.authWeb.app.security.DisconnectSuccessHandler" />
 	<bean id="dataBaseAuthenticationProvider" class="com.econtact.authWeb.app.security.DataBaseAuthenticationProvider"/>
 </beans>  

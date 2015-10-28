@@ -18,6 +18,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.envers.NotAudited;
 import org.hibernate.envers.RevisionEntity;
 import org.hibernate.envers.RevisionNumber;
 import org.hibernate.envers.RevisionTimestamp;
@@ -74,7 +75,8 @@ public class AuditRevEntity implements AbstractView<Long> {
     private UniverDictEntity event;
 
     @ManyToOne
-    @JoinColumn(name = "id_user_fk", nullable = false)
+    @JoinColumn(name = "id_user_fk")
+    @NotAudited
     private SessionUserEntity user;
 
     public SessionUserEntity getUser() {

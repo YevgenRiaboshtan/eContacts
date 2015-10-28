@@ -10,6 +10,7 @@ import org.primefaces.component.column.Column;
 import org.primefaces.component.datatable.DataTable;
 
 import com.econtact.authWeb.app.dataTable.model.quickStart.AdminDataTableLazyModel;
+import com.econtact.authWeb.app.helpers.WebHelper;
 import com.econtact.authWeb.app.security.PasswordUtils;
 import com.econtact.dataModel.model.entity.accout.AccountUserEntity;
 import com.econtact.dataModel.model.entity.accout.ConfirmStatusEnum;
@@ -36,6 +37,7 @@ public class AddAdminBean extends AbstractViewBean<AccountUserEntity> {
 		entity.setRole(RoleType.ROLE_ADMIN);
 		entity.setRoleConfirm(ConfirmStatusEnum.CONFIRMED);
 		entity.setAllowCreateRegister(true);
+		entity.setParentUser(WebHelper.getPrincipal());
 	}
 		
 	public AdminDataTableLazyModel getDataModel() {

@@ -8,6 +8,7 @@ import com.econtact.dataModel.data.query.GenericFilterDefQueries;
 import com.econtact.dataModel.data.query.SearchCriteria;
 import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.entity.accout.AccountUserEntity;
+import com.econtact.dataModel.model.entity.accout.RoleType;
 
 public class AdminDataTableLazyModel extends AbstractGenericDataTableModel<AccountUserEntity> {
 	
@@ -22,6 +23,7 @@ public class AdminDataTableLazyModel extends AbstractGenericDataTableModel<Accou
 	protected SearchCriteria<AccountUserEntity> createQueries() {
 		SearchCriteria<AccountUserEntity> criteria =  new SearchCriteria<>(new GenericFilterDefQueries<>(AccountUserEntity.class));
 		criteria.andFilter(new FilterDefEquals(EntityHelper.SIGN_A, EntityHelper.ACTUAL_SIGN));
+		criteria.andFilter(new FilterDefEquals(AccountUserEntity.ROLE_A, RoleType.ROLE_ADMIN));
 		return criteria;
 	}
 }

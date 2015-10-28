@@ -10,8 +10,11 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	<!-- <context-param> <param-name>javax.faces.WEBAPP_RESOURCES_DIRECTORY</param-name> <param-value>/WEB-INF/resources</param-value> 
-		</context-param> -->
+	
+	<session-config>
+		<session-timeout>30</session-timeout>
+		<tracking-mode>COOKIE</tracking-mode>
+	</session-config>
 	<context-param>
 		<param-name>javax.faces.PROJECT_STAGE</param-name>
 		<param-value>Development</param-value>
@@ -23,6 +26,7 @@
 	<listener>
 		<listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
 	</listener>
+	
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -70,9 +74,6 @@
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-
-
-	<!-- <context-param> <param-name>javax.faces.PROJECT_STAGE</param-name> <param-value>Development</param-value> </context-param> -->
 
 	<!-- Map these files with JSF -->
 	<servlet-mapping>

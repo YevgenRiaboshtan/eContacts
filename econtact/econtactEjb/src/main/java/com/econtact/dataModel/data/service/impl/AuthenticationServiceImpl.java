@@ -15,6 +15,11 @@ import com.econtact.dataModel.data.service.AuthenticationService;
 import com.econtact.dataModel.data.service.UniverDictService;
 import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.entity.accout.AccountUserEntity;
+import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
+import com.econtact.dataModel.model.entity.common.ConnectAuditEntity;
+import com.econtact.dataModel.model.entity.dictionary.DictionaryConstant;
+import com.econtact.dataModel.model.entity.dictionary.NamesDictConstant;
+import com.econtact.dataModel.model.entity.dictionary.UniverDictEntity;
 
 @Stateless
 @Local(AuthenticationService.class)
@@ -33,4 +38,20 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		List<AccountUserEntity> result = criteria.getSelectQuery(em).getResultList();	
 		return result.isEmpty() ? null : result.get(0);
 	}
+
+	@Override
+	public void connectUser(String deviceName, String ipAddr, SessionUserEntity user) {
+        final UniverDictEntity dictionary = univerDictService
+                .findByParamDictAndIdRecDict(NamesDictConstant.ACTION, DictionaryConstant.ACTION_CONNECT);
+        final ConnectAuditEntity logEntry = ConnectAuditEntity.create(user, dictionary, deviceName, ipAddr);
+        em.persist(logEntry);
+    }
+
+	@Override
+	public void disconnectUser(String ipAddr, SessionUserEntity user) {
+        final UniverDictEntity dictionary = univerDictService
+                .findByParamDictAndIdRecDict(NamesDictConstant.ACTION, DictionaryConstant.ACTION_DISCONNECT);
+        final ConnectAuditEntity logEntry = ConnectAuditEntity.create(user, dictionary, null, ipAddr);
+        em.persist(logEntry);
+    }
 }

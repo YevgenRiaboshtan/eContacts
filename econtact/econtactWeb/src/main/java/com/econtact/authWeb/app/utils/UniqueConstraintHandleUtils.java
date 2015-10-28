@@ -43,7 +43,7 @@ public class UniqueConstraintHandleUtils {
 	private void loadConstraints() {
 		constraints = new HashMap<Class, Map<String, ContraintViewRelation>>();
 		Map<String, ContraintViewRelation> advancedUser = new HashMap<String, ContraintViewRelation>();
-		advancedUser.put(AccountUserEntity.USER_LOGIN_SIGN_UNIQUE_CONSTRAINT, new ContraintViewRelation(AccountUserEntity.USER_LOGIN_SIGN_UNIQUE_CONSTRAINT, "userLogin", "user.login.already.exist"));
+		advancedUser.put(AccountUserEntity.USER_LOGIN_SIGN_UNIQUE_CONSTRAINT, new ContraintViewRelation(AccountUserEntity.USER_LOGIN_SIGN_UNIQUE_CONSTRAINT, "userLogin", "newUser.user.login.already.exist.error.message"));
 		constraints.put(AccountUserEntity.class, advancedUser);
 	}
 

@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
@@ -30,7 +29,6 @@ import com.econtact.dataModel.model.entity.dictionary.NamesDictConstant;
 import com.econtact.dataModel.model.entity.dictionary.UniverDictEntity;
 
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-@Stateless
 public abstract class AbstractGenericService implements EjbService {
 
 	@EJB
@@ -60,7 +58,7 @@ public abstract class AbstractGenericService implements EjbService {
 			return result;
 		} catch (PersistenceException ex) {
 			if (ex.getCause().getCause() instanceof SQLException
-					&& ((SQLException) ex.getCause().getCause()).getSQLState().equalsIgnoreCase("23505")) {
+					&& ((SQLException) ex.getCause().getCause()).getSQLState().equalsIgnoreCase(UniqueConstraintException.POSTGRESQL_UNIQUE_CONSTRAINT_EXCEPTION_CODE)) {
 				throw new UniqueConstraintException(entity.getClass(), (SQLException) ex.getCause().getCause());
 			}
 		}

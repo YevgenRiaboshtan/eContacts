@@ -8,12 +8,9 @@ import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.CDI;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.econtact.dataModel.data.context.UserContext;
 import com.econtact.dataModel.model.entity.accout.RoleType;
@@ -57,14 +54,11 @@ public class WebHelper implements Serializable {
 	}
 	
 	public static <T> T getBean(final Class<T> beanClass) {
-		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-		return WebApplicationContextUtils.getWebApplicationContext(session.getServletContext()).getBean(beanClass);
-		
-		/*final BeanManager beanManager = CDI.current().getBeanManager();
+		final BeanManager beanManager = CDI.current().getBeanManager();
 		final Bean bean = beanManager.resolve(beanManager.getBeans(beanClass));
 		CreationalContext cCtx = beanManager.createCreationalContext(bean);
 		T result = (T) beanManager.getReference(bean, beanClass, cCtx);
-		return result;*/
+		return result;
 	}
 	
 	public static SessionUserEntity getPrincipal() {

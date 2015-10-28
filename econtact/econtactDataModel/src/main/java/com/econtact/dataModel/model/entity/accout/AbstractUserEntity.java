@@ -105,7 +105,11 @@ public abstract class AbstractUserEntity extends AbstractEntity<BigDecimal>{
 	@PrePersist
 	public void prePersist() {
 		sign = EntityHelper.ACTUAL_SIGN;
+		setUpdData();
+	}
+	
+	protected void setUpdData() {
 		updAuthor = EJBContext.get().getUser().getUpdData();
-		updDate = new Date();
+		updDate = new Date();		
 	}
 }
