@@ -27,6 +27,7 @@ public class AddAdminBean extends AbstractViewBean<AccountUserEntity> {
 	protected void preSave() {
 		if (StringUtils.isEmpty(entity.getSalt())) {
 			entity.setSalt(PasswordUtils.getRandomSalt());
+			entity.setPassword(PasswordUtils.convertPassword(entity.getPassword(), entity.getSalt()));
 		}
 		if (StringUtils.isNotBlank(newPassword)) {
 			entity.setPassword(PasswordUtils.convertPassword(newPassword, entity.getSalt()));
