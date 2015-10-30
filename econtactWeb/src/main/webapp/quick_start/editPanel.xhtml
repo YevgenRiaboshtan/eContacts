@@ -6,12 +6,12 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui">
 	<p:panel >
-		<c:if test="#{not empty addAdminBean.entity.salt}">
+		<c:if test="#{empty addAdminBean.entity.salt}">
 			<p:outputLabel value="#{viewMsg['newUser.create.form.title']}"></p:outputLabel>
 		</c:if>
-		<c:otherwise>
+		<c:if test="#{not empty addAdminBean.entity.salt}">
 			<p:outputLabel value="#{viewMsg['newUser.edit.form.title']}"></p:outputLabel>
-		</c:otherwise>
+		</c:if>
 		<h:form prependId="false" id="userEditForm">
 			<h:panelGrid columns="3">
 				<p:outputLabel value="${viewMsg['newUser.login.input.label']}" for="userLogin" />
