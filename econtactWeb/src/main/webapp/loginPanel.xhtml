@@ -13,11 +13,11 @@
 						value="#{viewMsg['loginPanel.user.bad.credetials.error.message']}"></p:outputLabel>
 				</c:if>
 				<h:form onsubmit="action='/econtact/j_spring_security_check';"
-					prependId="false" method="POST">
+					prependId="false" method="POST" acceptcharset="UTF-8">
 					<div>
 						<div style="display: flex">
 							<div style="width: 100px">
-								<p:outputLabel for="j_username"
+								<p:outputLabel for="j_username" 
 									value="#{viewMsg['loginPanel.login.label']}:" />
 							</div>
 							<div style="width: 235px;">

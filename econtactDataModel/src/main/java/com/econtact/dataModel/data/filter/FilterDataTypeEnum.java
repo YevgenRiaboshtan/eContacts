@@ -8,6 +8,8 @@ package com.econtact.dataModel.data.filter;
 public enum FilterDataTypeEnum {
 	/** дата*/
 	DATE,
+	/** число Long*/
+	LONG,
 	/** число*/
 	NUMBER,
 	/** текст*/

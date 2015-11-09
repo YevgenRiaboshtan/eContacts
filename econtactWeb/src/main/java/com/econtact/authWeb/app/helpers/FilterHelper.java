@@ -55,6 +55,8 @@ public class FilterHelper implements Serializable{
 		case TEXT:
 			result = makeTextFilter(field, value);
 			break;
+		case LONG:
+			break;
 		case NUMBER:
 			break;
 		case BOOLEAN:
@@ -80,6 +82,8 @@ public class FilterHelper implements Serializable{
 			return FilterDataTypeEnum.TEXT;
 		case "DATE":
 			return FilterDataTypeEnum.DATE;
+		case "LONG":
+			return FilterDataTypeEnum.LONG;
 		case "NUMBER":
 			return FilterDataTypeEnum.NUMBER;
 		case "ENUM":

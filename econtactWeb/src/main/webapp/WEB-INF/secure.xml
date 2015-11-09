@@ -15,7 +15,7 @@
 		<security:intercept-url pattern="/admin/*" access="ROLE_ADMIN" />
 		<security:intercept-url pattern="/quick_start/*" access="ROLE_SUPER_ADMIN"/>
 		<security:intercept-url pattern="/disabledUser.xhtml" access="ROLE_DISABLED_USER"/>
-		<security:form-login login-page="/index.xhtml" 
+		<security:form-login login-page="/index.xhtml"  
 			default-target-url="/index.xhtml" 
 			authentication-failure-handler-ref="failureAuthHandler"
 			authentication-success-handler-ref="successAuthHandler"

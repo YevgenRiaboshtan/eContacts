@@ -23,7 +23,7 @@ import org.hibernate.envers.Audited;
 
 import com.econtact.dataModel.data.context.EJBContext;
 import com.econtact.dataModel.data.util.EntityHelper;
-import com.econtact.dataModel.model.entity.AbstractEntity;
+import com.econtact.dataModel.model.entity.AbstractAuditeEntity;
 import com.econtact.dataModel.model.entity.AuditSupport;
 
 @Entity
@@ -33,7 +33,7 @@ import com.econtact.dataModel.model.entity.AuditSupport;
 @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 @Audited
 @AuditTable(value = "univer_dict_aud", schema = EntityHelper.E_CONTACT_SCHEMA)
-public class UniverDictEntity extends AbstractEntity<BigDecimal> implements AuditSupport {
+public class UniverDictEntity extends AbstractAuditeEntity<BigDecimal> implements AuditSupport {
 	private static final long serialVersionUID = 1L;
 
 	public static final String PARAM_DICT_ID_REC_DICT_SIGN_UNIQUE_CONSTRAINT = "param_dict_id_rec_dict_sign_unique_constraint";
@@ -60,15 +60,6 @@ public class UniverDictEntity extends AbstractEntity<BigDecimal> implements Audi
 
 	@Column(name = "name_rec_dict", nullable = false, length = 200)
 	private String nameRecDict;
-
-	@Column(name = EntityHelper.SIGN_F, nullable = false, precision = 38, scale = 0)
-	private BigDecimal sign;
-
-	@Column(name = EntityHelper.UPD_DATE_F, nullable = false)
-	private Date updDate;
-
-	@Column(name = EntityHelper.UPD_AUTHOR_F, nullable = false, length = 120)
-	private String updAuthor;
 
 	@Override
 	public BigDecimal getId() {
@@ -111,33 +102,9 @@ public class UniverDictEntity extends AbstractEntity<BigDecimal> implements Audi
 		this.nameRecDict = nameRecDict;
 	}
 
-	public BigDecimal getSign() {
-		return sign;
-	}
-
-	public void setSign(BigDecimal sign) {
-		this.sign = sign;
-	}
-
-	public Date getUpdDate() {
-		return updDate;
-	}
-
-	public void setUpdDate(Date updDate) {
-		this.updDate = updDate;
-	}
-
-	public String getUpdAuthor() {
-		return updAuthor;
-	}
-
-	public void setUpdAuthor(String updAuthor) {
-		this.updAuthor = updAuthor;
-	}
-
 	@PrePersist
 	public void prePersist() {
-		sign = EntityHelper.ACTUAL_SIGN;
+		setSign(EntityHelper.ACTUAL_SIGN);
 		setUpdateData();
 	}
 

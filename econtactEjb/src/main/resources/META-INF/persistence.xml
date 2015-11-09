@@ -12,6 +12,8 @@
 		<class>com.econtact.dataModel.model.entity.common.ConnectAuditEntity</class>
 		<class>com.econtact.dataModel.model.entity.accout.AccountUserEntity</class>
 		<class>com.econtact.dataModel.model.entity.accout.SessionUserEntity</class>
+		<class>com.econtact.dataModel.model.entity.accout.project.Project</class>
+		<class>com.econtact.dataModel.model.entity.AbstractAuditeEntity</class>
 		<properties>
 			<!-- Properties for Hibernate -->
 			<property name="hibernate.show_sql" value="false" />
