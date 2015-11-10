@@ -1,9 +1,9 @@
-package com.econtact.authWeb.app.dataTable.model.quickStart;
+package com.econtact.authWeb.app.dataTable.model.superAdmin;
 
 import org.primefaces.component.datatable.DataTable;
 
+import com.econtact.authWeb.app.dataTable.model.AbstractGenericDataTableModel;
 import com.econtact.authWeb.app.helpers.FilterHelper;
-import com.econtact.authWeb.app.view.AbstractGenericDataTableModel;
 import com.econtact.dataModel.data.filter.FilterDefEquals;
 import com.econtact.dataModel.data.query.GenericFilterDefQueries;
 import com.econtact.dataModel.data.query.SearchCriteria;
@@ -24,6 +24,7 @@ public class AdminDataTableLazyModel extends AbstractGenericDataTableModel<Accou
 		SearchCriteria<AccountUserEntity> criteria =  new SearchCriteria<>(new GenericFilterDefQueries<>(AccountUserEntity.class));
 		criteria.andFilter(new FilterDefEquals(EntityHelper.SIGN_A, EntityHelper.ACTUAL_SIGN));
 		criteria.andFilter(new FilterDefEquals(AccountUserEntity.ROLE_A, RoleType.ROLE_ADMIN));
+		criteria.addSortingInfo(AccountUserEntity.LOGIN_A, true);
 		return criteria;
 	}
 }

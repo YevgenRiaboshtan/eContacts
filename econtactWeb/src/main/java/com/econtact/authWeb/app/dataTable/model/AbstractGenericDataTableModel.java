@@ -1,4 +1,4 @@
-package com.econtact.authWeb.app.view;
+package com.econtact.authWeb.app.dataTable.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -86,7 +86,6 @@ public abstract class AbstractGenericDataTableModel<T extends AbstractView> exte
 	private List<T> find(int first, int pageSize, List<SortingInfo> orders, Map<String, Object> filters) {
 		SearchCriteria<T> criteria = createQueries();
 		criteria.andFilter(makeFilters(filters));
-		criteria.clearSortingInfo();
 		for (SortingInfo item : orders) {
 			criteria.addSortingInfo(item.getColumnName(), item.isAscending());
 		}

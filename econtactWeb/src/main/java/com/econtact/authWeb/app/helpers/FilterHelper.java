@@ -19,7 +19,7 @@ import com.econtact.dataModel.data.filter.FilterDefNotNull;
 import com.econtact.dataModel.data.filter.FilterDefStartsWithIgnoreCase;
 import com.econtact.dataModel.model.AbstractEnum;
 
-@ManagedBean
+@ManagedBean(name = "filterHelper")
 @ApplicationScoped
 public class FilterHelper implements Serializable{
 	private static final long serialVersionUID = 3408088178055266453L;

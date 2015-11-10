@@ -1,4 +1,4 @@
-package com.econtact.authWeb.app.beans.view.quickstart;
+package com.econtact.authWeb.app.beans.view;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -30,7 +30,7 @@ public abstract class AbstractViewBean<T extends AbstractEntity> implements Seri
 	NavigationHelper navigationHelper;
 
 	@Inject
-	FilterHelper filterHelper;
+	private FilterHelper filterHelper;
 	
 	@EJB
 	GenericService genericService;
@@ -88,4 +88,7 @@ public abstract class AbstractViewBean<T extends AbstractEntity> implements Seri
 				.getActualTypeArguments()[pos];
 	}
 
+	public FilterHelper getFilterHelper() {
+		return filterHelper;
+	}
 }

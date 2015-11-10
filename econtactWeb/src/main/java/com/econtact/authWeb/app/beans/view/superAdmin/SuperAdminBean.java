@@ -1,4 +1,4 @@
-package com.econtact.authWeb.app.beans.view.quickstart;
+package com.econtact.authWeb.app.beans.view.superAdmin;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -7,16 +7,17 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.lang.StringUtils;
 import org.primefaces.component.datatable.DataTable;
 
-import com.econtact.authWeb.app.dataTable.model.quickStart.AdminDataTableLazyModel;
+import com.econtact.authWeb.app.beans.view.AbstractViewBean;
+import com.econtact.authWeb.app.dataTable.model.superAdmin.AdminDataTableLazyModel;
 import com.econtact.authWeb.app.helpers.WebHelper;
 import com.econtact.authWeb.app.security.PasswordUtils;
 import com.econtact.dataModel.model.entity.accout.AccountUserEntity;
 import com.econtact.dataModel.model.entity.accout.ConfirmStatusEnum;
 import com.econtact.dataModel.model.entity.accout.RoleType;
 
-@ManagedBean(name = "addAdminBean")
+@ManagedBean(name = "superAdminBean")
 @ViewScoped
-public class AddAdminBean extends AbstractViewBean<AccountUserEntity> {
+public class SuperAdminBean extends AbstractViewBean<AccountUserEntity> {
 	private static final long serialVersionUID = 7945612989043879384L;
 	
 	private AdminDataTableLazyModel dataModel;
@@ -43,7 +44,7 @@ public class AddAdminBean extends AbstractViewBean<AccountUserEntity> {
 		if (dataModel == null) {
 			DataTable table = (DataTable) FacesContext.getCurrentInstance().getViewRoot()
 					.findComponent("adminTableForm:adminDataTable");
-			dataModel = new AdminDataTableLazyModel(table, filterHelper);
+			dataModel = new AdminDataTableLazyModel(table, getFilterHelper());
 		}
 		return dataModel;
 	}

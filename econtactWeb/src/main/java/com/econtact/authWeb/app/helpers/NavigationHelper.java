@@ -2,12 +2,12 @@ package com.econtact.authWeb.app.helpers;
 
 import java.io.IOException;
 
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Named;
 
+@ManagedBean(name="navigationHelper")
 @RequestScoped
-@Named
 public class NavigationHelper {
 	
 	public static final String LIST = "list.jsf";

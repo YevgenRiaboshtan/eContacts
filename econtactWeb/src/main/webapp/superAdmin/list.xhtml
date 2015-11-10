@@ -5,12 +5,12 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	template="/quick_start/template/baseTemplate.xhtml">
+	template="/WEB-INF/templates/default.xhtml">
 	<ui:define name="content">
 		<p:outputLabel value="#{viewMsg['admins.list.capture.label']}"></p:outputLabel>
 		<h:form id="adminTableForm">
 			<p:dataTable id="adminDataTable" var="adminItem" lazy="true"
-				value="#{addAdminBean.dataModel}" widgetVar="adminDataTable"
+				value="#{superAdminBean.dataModel}" widgetVar="adminDataTable"
 				paginator="true" rows="10" rowsPerPageTemplate="10,15,20"
 				scrollHeight="425" scrollable="true"
 				paginatorPosition="bottom"
@@ -20,7 +20,7 @@
 				<p:column width="100">
 					<p:commandButton id="editUser" icon="ui-icon-pencil" immediate="true" actionListener="#{navigationHelper.navigate(navigationHelper.getEditPage(adminItem.id))}" />
             		<p:tooltip value="#{viewMsg['btn.edit.label']}" for="editUser" />
-            		<p:commandButton id="removeUser" icon="ui-icon-close" update=":adminTableForm:adminDataTable" actionListener="#{addAdminBean.dataModel.removeEntity(adminItem)}"/>
+            		<p:commandButton id="removeUser" icon="ui-icon-close" update=":adminTableForm:adminDataTable" actionListener="#{superAdminBean.dataModel.removeEntity(adminItem)}"/>
 				</p:column>
 				<p:column headerText="Id" sortBy="#{adminItem.id}" filterBy="#{adminItem.id}">
 					<f:attribute name="filterDataType" value="NUMBER" />
@@ -45,10 +45,15 @@
 					<f:attribute name="filterField" value="lastName" />
 					<p:outputLabel value="#{adminItem.lastName}"></p:outputLabel>
 				</p:column>
-				<p:column headerText="#{viewMsg['admins.list.user.status.column.header']}"
-					sortBy="#{adminItem.enabledUser}" filterOptions="#{filterHelper.getEnumFilter('com.econtact.dataModel.model.entity.accout.UserStatusEnum')}" filterBy="#{adminItem.enabledUser}" >
+				<p:column headerText="#{viewMsg['admins.list.user.status.column.header']}" 
+					sortBy="#{adminItem.enabledUser}" filterBy="#{adminItem.enabledUser}" >
 					<f:attribute name="filterDataType" value="ENUM"/>
 					<f:attribute name="filterField" value="enabledUser" />
+					<f:facet name="filter">
+						<p:selectOneMenu onchange="PF('adminDataTable').filter()" converter="activeConverter" >
+							<f:selectItems value="#{filterHelper.getEnumFilter('com.econtact.dataModel.model.entity.accout.UserStatusEnum')}"/>
+						</p:selectOneMenu>
+					</f:facet>
 					<p:outputLabel value="#{labelsHelper.getLocalizedMessage(adminItem.enabledUser.labelKey)}"></p:outputLabel>
 				</p:column>
 			</p:dataTable>

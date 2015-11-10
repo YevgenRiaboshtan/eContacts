@@ -27,7 +27,7 @@ public class SuccessAuthenticatedHandler implements AuthenticationSuccessHandler
 		SessionUserEntity user = (SessionUserEntity) authentication.getPrincipal();
 		authenticationService.connectUser(request.getHeader("User-Agent"), request.getRemoteAddr(), user);
 		if (authentication.getAuthorities().contains(new SimpleGrantedAuthority(RoleType.ROLE_SUPER_ADMIN.getName()))) {
-			response.sendRedirect(WebHelper.DEF_ADMIN_PAGE);
+			response.sendRedirect(WebHelper.SUPER_ADMIN_PAGE);
 		} else {
 			response.sendRedirect(WebHelper.INDEX_PAGE);
 		}

@@ -4,7 +4,17 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	template="/WEB-INF/templates/baseTemplate.xhtml"
 	xmlns:p="http://primefaces.org/ui">
-	<ui:define name="userPanel">
-		<ui:include src="/loginPanel.xhtml" />
+	<ui:define name="contentWrapper">
+		<div id="headerBlock">
+			<ui:insert name="userPanel"></ui:insert>
+		</div>
+		<div id="topMenuBlock" />
+		<div id="contentBlock">
+			<ui:insert name="content"></ui:insert>
+		</div>
+		<div id="leftSideMenuBlock" />
+		<div id="footerBlock">
+			<p>E-contact</p>
+		</div>
 	</ui:define>
 </ui:composition>
