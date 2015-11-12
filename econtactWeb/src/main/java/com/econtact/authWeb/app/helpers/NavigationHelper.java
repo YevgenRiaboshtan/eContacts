@@ -29,6 +29,10 @@ public class NavigationHelper {
 		return res;
 	}
 	
+	public String getIndexPage(){
+		return FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/" + WebHelper.INDEX_PAGE;
+	}
+	
 	public String getEditPage(String id){
 		String res = EDIT+"?"+ID_PARAM+"="+id;
 		return res;

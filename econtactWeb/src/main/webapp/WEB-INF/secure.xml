@@ -25,6 +25,7 @@
 			login-processing-url="/j_spring_security_check"/>
 		<security:anonymous enabled="false"/>
 		<security:logout invalidate-session="true" delete-cookies="true" logout-url="/j_spring_security_logout" success-handler-ref="logoutSuccessHandler" />
+		<security:access-denied-handler error-page="/403.xhtml"/>
 	</security:http>
 	
 	<context:annotation-config />

@@ -6,7 +6,14 @@
 	xmlns:p="http://primefaces.org/ui">
 	<ui:define name="contentWrapper">
 		<div id="headerBlock">
-			<ui:insert name="userPanel"></ui:insert>
+			<ui:insert name="userPanel">
+				<div class="userPanel">
+					<h:outputLabel value="#{webHelper.userName}" />
+					<a href="/econtact/j_spring_security_logout"> <h:outputLabel
+							value="#{viewMsg['loginPanel.logout.btn.label']}" />
+					</a>
+				</div>
+			</ui:insert>
 		</div>
 		<div id="topMenuBlock" />
 		<div id="contentBlock">

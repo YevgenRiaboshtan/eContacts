@@ -7,11 +7,14 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:define name="contentWrapper">
-		<p:commandLink actionListener="#{navigationHelper.navigte('/index.jsf')}">
-        	<h:outputText value="to main" />
-    	</p:commandLink>
-    	<p:link value="to main" actionListener="\index.jsf">
-        	
-    	</p:link>
+		<div style="margin: 10% auto 10% auto; width: 300px;" >
+			<p:outputLabel value="#{viewMsg['access.denied.message']}"></p:outputLabel>
+			<h:form>
+				<p:commandLink ajax="true" immediate="true"
+					value="#{viewMsg['access.denied.to.main.label']}"
+					actionListener="#{navigationHelper.navigate(navigationHelper.indexPage)}">
+				</p:commandLink>
+			</h:form>
+		</div>
 	</ui:define>
 </ui:composition>
