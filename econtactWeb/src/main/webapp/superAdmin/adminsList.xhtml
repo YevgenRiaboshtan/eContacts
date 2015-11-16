@@ -13,22 +13,23 @@
 				value="#{superAdminBean.dataModel}" widgetVar="adminDataTable"
 				paginator="true" rows="10" rowsPerPageTemplate="10,15,20"
 				scrollHeight="425" scrollable="true"
+				sortBy="#{adminItem.login}"
 				paginatorPosition="bottom"
 				paginatorTemplate="{CurrentPageReport} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {JumpToPageDropdown} {NextPageLink} {LastPageLink}"
 				emptyMessage="#{viewMsg['datatable.empty.message']}"
 				style="text-align: center;" filterEvent="enter">
 				<p:column width="100">
-					<p:commandButton id="editUser" icon="ui-icon-pencil" immediate="true" actionListener="#{navigationHelper.navigate(navigationHelper.getEditPage(adminItem.id))}" />
+					<p:commandButton id="editUser" icon="ui-icon-pencil" immediate="true" actionListener="#{superAdminBean.editSelectedUser(adminItem)}" />
             		<p:tooltip value="#{viewMsg['btn.edit.label']}" for="editUser" />
             		<p:commandButton id="removeUser" icon="ui-icon-close" update=":adminTableForm:adminDataTable" actionListener="#{superAdminBean.dataModel.removeEntity(adminItem)}"/>
 				</p:column>
-				<p:column headerText="Id" sortBy="#{adminItem.id}" filterBy="#{adminItem.id}">
+				<p:column headerText="#{viewMsg['admins.list.id.header']}" sortBy="#{adminItem.id}" filterBy="#{adminItem.id}">
 					<f:attribute name="filterDataType" value="NUMBER" />
 					<f:attribute name="filterField" value="id" />
 					<p:outputLabel value="#{adminItem.id}"></p:outputLabel>
 				</p:column>
 				<p:column headerText="#{viewMsg['admins.list.login.column.header']}"
-					sortBy="#{adminItem.login}" filterBy="#{adminItem.login}">
+					sortBy="#{adminItem.login}"  filterBy="#{adminItem.login}">
 					<f:attribute name="filterDataType" value="TEXT" />
 					<f:attribute name="filterField" value="login" />
 					<p:outputLabel value="#{adminItem.login}"></p:outputLabel>

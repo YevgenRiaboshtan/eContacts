@@ -23,7 +23,7 @@ import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 public class WebHelper implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	public static final String SUPER_ADMIN_PAGE = "superAdmin/list.jsf";
+	public static final String SUPER_ADMIN_PAGE = "superAdmin/adminsList.jsf";
 	public static final String INDEX_PAGE = "index.jsf";
 	public static final String LOGIN_PAGE = "loginPage.jsf";
 

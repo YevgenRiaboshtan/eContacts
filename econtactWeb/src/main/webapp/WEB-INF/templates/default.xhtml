@@ -15,7 +15,12 @@
 				</div>
 			</ui:insert>
 		</div>
-		<div id="topMenuBlock" />
+		<div id="topMenuBlock">
+			<h:form>
+				<p:menubar model="#{menuHelper.buildTopMenu()}" style="margin:5px;">
+				</p:menubar>
+			</h:form>
+		</div>
 		<div id="contentBlock">
 			<ui:insert name="content"></ui:insert>
 		</div>

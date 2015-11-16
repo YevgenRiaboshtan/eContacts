@@ -24,7 +24,6 @@ public class AdminDataTableLazyModel extends AbstractGenericDataTableModel<Accou
 		SearchCriteria<AccountUserEntity> criteria =  new SearchCriteria<>(new GenericFilterDefQueries<>(AccountUserEntity.class));
 		criteria.andFilter(new FilterDefEquals(EntityHelper.SIGN_A, EntityHelper.ACTUAL_SIGN));
 		criteria.andFilter(new FilterDefEquals(AccountUserEntity.ROLE_A, RoleType.ROLE_ADMIN));
-		criteria.addSortingInfo(AccountUserEntity.LOGIN_A, true);
 		return criteria;
 	}
 }

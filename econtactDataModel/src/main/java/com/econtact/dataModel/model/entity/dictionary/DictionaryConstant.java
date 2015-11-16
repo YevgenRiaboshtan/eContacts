@@ -13,6 +13,6 @@ public final class DictionaryConstant {
 	/** Вход в систему */
 	public static final int ACTION_CONNECT = 1;
 	/** Выход из системы */
-	public static final int ACTION_DISCONNECT = 1;
+	public static final int ACTION_DISCONNECT = 2;
 	
 }

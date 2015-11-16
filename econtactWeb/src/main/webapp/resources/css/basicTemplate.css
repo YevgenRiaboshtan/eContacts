@@ -31,7 +31,8 @@ body {
 	height:42px;
 	background-image: url(#{resource['img:topheadbg.png']});
 	background-repeat: repeat-x;
-	padding-left: 200px;
+	padding-left: 10px;
+	padding-right:10px;
 }
 
 #contentBlock{
@@ -65,4 +66,7 @@ body {
 	position: absolute;
 	bottom: 10px; 
 	right: 10px;
+}
+.centerWrapper{
+	margin: 10% auto 10% auto;
 }

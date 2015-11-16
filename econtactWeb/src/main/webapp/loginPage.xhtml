@@ -7,36 +7,41 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:define name="contentWrapper">
-			<c:if test="${param.error == 'authError'}">
-				<p:outputLabel value="#{viewMsg['loginPanel.user.bad.credetials.error.message']}"></p:outputLabel>
-			</c:if>
-			<c:if test="${param.error == 'disabledUser'}">
-				<p:outputLabel value="#{viewMsg['loginPanel.user.is.not.active']}"></p:outputLabel>
-			</c:if>
-			<c:if test="${param.error == 'unknownError'}">
-				<p:outputLabel value="#{viewMsg['loginPanel.unknown.error']}"></p:outputLabel>
-			</c:if>
-			<h:form onsubmit="action='/econtact/j_spring_security_check';"
-				prependId="false" method="POST" acceptcharset="UTF-8">
-				<table style="margin: 10% auto 10% auto">
+		<h:form onsubmit="action='/econtact/j_spring_security_check';"
+			prependId="false" method="POST" acceptcharset="UTF-8">
+			<table class="centerWrapper">
+				<c:if test="${param.error != null}">
 					<tr>
-						<td><p:outputLabel for="j_username"
-								value="#{viewMsg['loginPanel.login.label']}:" /></td>
-						<td><p:inputText id="j_username" type="text" /></td>
-					</tr>
-					<tr>
-						<td><p:outputLabel for="j_password"
-								value="#{viewMsg['loginPanel.password.label']}:" /></td>
-						<td><p:password id="j_password" /></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><p:commandButton type="submit"
-								value="#{viewMsg['loginPanel.login.btn.label']}" ajax="false" />
+						<td colspan="2">
+							<c:if test="${param.error == 'authError'}">
+								<p:outputLabel styleClass="centerWrapper"
+									value="#{viewMsg['loginPanel.user.bad.credetials.error.message']}"></p:outputLabel>
+							</c:if> <c:if test="${param.error == 'disabledUser'}">
+								<p:outputLabel styleClass="centerWrapper"
+									value="#{viewMsg['loginPanel.user.is.not.active']}"></p:outputLabel>
+							</c:if> <c:if test="${param.error == 'unknownError'}">
+								<p:outputLabel value="#{viewMsg['loginPanel.unknown.error']}"></p:outputLabel>
+							</c:if>
 						</td>
-						
 					</tr>
-				</table>
-			</h:form>
+				</c:if>
+				<tr>
+					<td><p:outputLabel for="j_username"
+							value="#{viewMsg['loginPanel.login.label']}:" /></td>
+					<td><p:inputText id="j_username" type="text" /></td>
+				</tr>
+				<tr>
+					<td><p:outputLabel for="j_password"
+							value="#{viewMsg['loginPanel.password.label']}:" /></td>
+					<td><p:password id="j_password" /></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><p:commandButton type="submit"
+							value="#{viewMsg['loginPanel.login.btn.label']}" ajax="false" />
+					</td>
+				</tr>
+			</table>
+		</h:form>
 	</ui:define>
 </ui:composition>

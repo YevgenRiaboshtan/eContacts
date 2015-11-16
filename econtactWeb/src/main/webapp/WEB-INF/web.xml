@@ -10,8 +10,8 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	
-	
+
+
 	<session-config>
 		<session-timeout>30</session-timeout>
 		<tracking-mode>COOKIE</tracking-mode>
@@ -24,11 +24,15 @@
 		<param-name>primefaces.THEME</param-name>
 		<param-value>redmond</param-value>
 	</context-param>
+	<context-param>
+		<param-name>primefaces.FONT_AWESOME</param-name>
+		<param-value>true</param-value>
+	</context-param>
 	<listener>
 		<listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
 	</listener>
-	
-	<!--Form content submit encoding filter start-->
+
+	<!--Form content submit encoding filter start -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -45,8 +49,8 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	<!--Form content submit encoding filter end-->
-	
+	<!--Form content submit encoding filter end -->
+
 	<filter>
 		<filter-name>loginPageFilter</filter-name>
 		<filter-class>com.econtact.authWeb.app.filter.LoginPageFilter</filter-class>
@@ -55,8 +59,8 @@
 		<filter-name>loginPageFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
-	<!-- spring security filter-->
+
+	<!-- spring security filter -->
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.model.SelectItem;
@@ -17,13 +18,34 @@ import com.econtact.dataModel.data.filter.FilterDefLike;
 import com.econtact.dataModel.data.filter.FilterDefNotEquals;
 import com.econtact.dataModel.data.filter.FilterDefNotNull;
 import com.econtact.dataModel.data.filter.FilterDefStartsWithIgnoreCase;
+import com.econtact.dataModel.data.service.UniverDictService;
 import com.econtact.dataModel.model.AbstractEnum;
+import com.econtact.dataModel.model.entity.dictionary.UniverDictEntity;
 
 @ManagedBean(name = "filterHelper")
 @ApplicationScoped
 public class FilterHelper implements Serializable{
 	private static final long serialVersionUID = 3408088178055266453L;
 
+	@EJB
+	UniverDictService univerDictService;
+	
+	/**
+	 * Возвращает список елементов комбобокса для фильтра
+	 * @param dictionaryName - название справочника
+	 * @return
+	 */
+	public List<SelectItem> getUniverDictFilter(String dictionaryName) {
+		List<SelectItem> items = new ArrayList<>();
+		SelectItem allItem = new SelectItem(null, "");
+		allItem.setNoSelectionOption(true);
+		items.add(allItem);
+		for (UniverDictEntity item : univerDictService.findUniverDictByParamDict(dictionaryName)){
+			items.add(new SelectItem(item, item.getNameRecDict()));
+		}
+		return items;
+	}
+	
 	/**
 	 * Возвращает список елементов комбобокса для фильтра
 	 * @param enumClassName - тип enum 
@@ -65,6 +87,7 @@ public class FilterHelper implements Serializable{
 		case DATE:
 			break;
 		case DICTIONARY:
+			result = new FilterDefEquals(field, value);
 			break;
 		case ENUM:
 			result = new FilterDefEquals(field, value);

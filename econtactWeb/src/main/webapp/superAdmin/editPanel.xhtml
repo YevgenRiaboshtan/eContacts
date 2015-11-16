@@ -70,7 +70,7 @@
 				<p:commandButton value="#{viewMsg['btn.save.label']}" ajax="true" update="userEditForm" actionListener="#{bean.saveEntity()}">
 					<f:ajax execute="userEditForm"/>
 				</p:commandButton>
-				<p:commandButton value="#{viewMsg['btn.cancel.label']}" immediate="true" actionListener="#{navigationHelper.navigate(navigationHelper.listPage)}"/>
+				<p:commandButton value="#{viewMsg['btn.cancel.label']}" immediate="true" actionListener="#{navigationHelper.navigate('adminsList.jsf')}"/>
 				<p:column />
 			</h:panelGrid>
 		</h:form>

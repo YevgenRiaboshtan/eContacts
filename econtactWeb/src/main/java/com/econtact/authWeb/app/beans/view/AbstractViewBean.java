@@ -3,15 +3,12 @@ package com.econtact.authWeb.app.beans.view;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
-import java.math.BigDecimal;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-
-import org.apache.commons.lang.StringUtils;
 
 import com.econtact.authWeb.app.helpers.FilterHelper;
 import com.econtact.authWeb.app.helpers.LabelsHelper;
@@ -27,7 +24,10 @@ public abstract class AbstractViewBean<T extends AbstractEntity> implements Seri
 	private static final long serialVersionUID = 972909936401945467L;
 
 	@Inject
-	NavigationHelper navigationHelper;
+	protected UserSessionBean userSessionBean;
+	
+	@Inject
+	protected NavigationHelper navigationHelper;
 
 	@Inject
 	private FilterHelper filterHelper;
@@ -41,9 +41,8 @@ public abstract class AbstractViewBean<T extends AbstractEntity> implements Seri
 	@PostConstruct
 	public void init() {
 		entityClass = (Class<T>) getParameterClass( 0, getClass());
-		if (StringUtils.isNotBlank(getParameter(NavigationHelper.ID_PARAM))) {
-			BigDecimal id = new BigDecimal(getParameter(NavigationHelper.ID_PARAM));
-			setEntity(genericService.findById(entityClass, id));
+		if (userSessionBean.getEditedObject() != null) {
+			setEntity(genericService.findById(entityClass, userSessionBean.getEditedObject().getId()));
 		} else {
 			setEntity(createDefaultEntity());
 		}
@@ -74,7 +73,7 @@ public abstract class AbstractViewBean<T extends AbstractEntity> implements Seri
 	}
 	
 	protected void navigateAfterSave() throws IOException {
-		navigationHelper.navigate(navigationHelper.getListPage());
+		navigationHelper.navigate("index.jsf");
 	}
 	
 	protected abstract T createDefaultEntity();
