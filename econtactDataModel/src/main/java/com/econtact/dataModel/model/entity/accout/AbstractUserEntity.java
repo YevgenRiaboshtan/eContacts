@@ -3,16 +3,21 @@ package com.econtact.dataModel.model.entity.accout;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.SequenceGenerator;
 
+import org.hibernate.envers.Audited;
+
 import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.entity.AbstractAuditeEntity;
 
 @MappedSuperclass
+@Audited
 public abstract class AbstractUserEntity extends AbstractAuditeEntity<BigDecimal>{
 	private static final long serialVersionUID = 6639216171054951488L;
 	private static final String SEQ_NAME = "userSeq";
@@ -34,7 +39,10 @@ public abstract class AbstractUserEntity extends AbstractAuditeEntity<BigDecimal
 	@Column(name = "last_name", nullable = false, length = 100)
 	private String lastName;
 
-		
+	@Enumerated(EnumType.STRING)
+	@Column(name = "role", nullable = false)
+	private RoleType role;
+	
 	public BigDecimal getId() {
 		return id;
 	}
@@ -65,5 +73,13 @@ public abstract class AbstractUserEntity extends AbstractAuditeEntity<BigDecimal
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+	
+	public RoleType getRole() {
+		return role;
+	}
+
+	public void setRole(RoleType role) {
+		this.role = role;
 	}
 }

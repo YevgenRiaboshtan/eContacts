@@ -2,11 +2,14 @@ package com.econtact.authWeb.app.top.menu;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 
-@XmlRootElement(name = "menuElement")
-public class MenuElementTopMenuBar implements Serializable {
+@XmlSeeAlso(value = { MenuItemTopMenuBar.class, SubMenuTopMenuBar.class })
+@XmlAccessorType(XmlAccessType.FIELD)
+public abstract class MenuElementTopMenuBar implements Serializable {
 	private static final long serialVersionUID = 2404880864974386815L;
 
 	@XmlElement

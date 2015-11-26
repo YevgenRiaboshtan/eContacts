@@ -4,14 +4,18 @@ import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ManagedBean;
 
+import org.primefaces.model.menu.MenuModel;
+
+import com.econtact.authWeb.app.utils.MenuUtils;
 import com.econtact.dataModel.model.entity.AbstractEntity;
 
-@ManagedBean
+
 @SessionScoped
 public class UserSessionBean implements Serializable {
 	private static final long serialVersionUID = 5815150040159902787L;
+	
+	private MenuModel topMenuModel;
 	
 	private AbstractEntity editedObject;
 
@@ -27,6 +31,11 @@ public class UserSessionBean implements Serializable {
 	public void init() {
 		System.out.println("usersession init");
 	}
-	
-	
+
+	public MenuModel getTopMenuModel() {
+		if (topMenuModel == null) {
+			topMenuModel = MenuUtils.buildTopMenu();
+		}
+		return topMenuModel;
+	}
 }

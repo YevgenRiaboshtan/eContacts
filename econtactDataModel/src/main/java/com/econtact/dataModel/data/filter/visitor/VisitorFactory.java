@@ -30,6 +30,10 @@ public class VisitorFactory {
             	return new EndsWithVisitor(ctx);
             case ENDS_WITH_IGNORE_CASE:
             	return new EndsWithIgnoreCaseVisitor(ctx);
+            case LESS_THAN:
+            	return new LessThanVisitor(ctx);
+            case LESS_THAN_OR_EQUALS:
+            	return new LessThanOrEqualVisitor(ctx);
             default:
                 throw new UnsupportedOperationException("Filter with type :'"
                         + filterDefEnum + "' not supported. Fix me");

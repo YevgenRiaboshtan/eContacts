@@ -14,7 +14,7 @@ public class AuditRevListener implements EntityTrackingRevisionListener {
 
 	/**
      * Не проверяется @link EjbContext#get()#getEnversContext()} на NULL. NPE ошибка разработчика, если
-     * сущность поддерживает аудит, должен быть установлен {@link com.novatum.iaisdms.data.context.EnversContext}.
+     * сущность поддерживает аудит, должен быть установлен {@link com.econtact.dataModel.data.context.EnversContext}.
      *
      * @param revisionObj instance of revision entity.
      */

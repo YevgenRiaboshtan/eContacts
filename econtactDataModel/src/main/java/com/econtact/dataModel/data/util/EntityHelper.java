@@ -8,6 +8,7 @@ public final class EntityHelper {
 	public static final String E_CONTACT_PU = "econtactPU";
 	public static final String E_CONTACT_SCHEMA= "econtactschema";
 	
+	public static final String ID_A = "id";
 	public static final String ID_F = "id";
 	public static final String SIGN_F = "sign";
 	public static final String SIGN_A = "sign";
@@ -16,9 +17,9 @@ public final class EntityHelper {
 	public static final BigDecimal ACTUAL_SIGN = BigDecimal.ZERO;
 	
 	/*--- event audit constants FIXME localization ----*/
-    public static final String EV_NAME_CREATE = "Створення картки";
-    public static final String EV_NAME_UPDATE = "Редагування картки";
-    public static final String EV_NAME_REMOVE = "Знищення картки";
+    public static final String EV_NAME_CREATE = "Создание";
+    public static final String EV_NAME_UPDATE = "Редактирование";
+    public static final String EV_NAME_REMOVE = "Удаление";
 	
 	private static AtomicLong identifyGenerator = new AtomicLong();
 

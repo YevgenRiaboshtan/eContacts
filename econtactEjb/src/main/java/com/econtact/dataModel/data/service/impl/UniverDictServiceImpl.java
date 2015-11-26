@@ -72,6 +72,10 @@ public class UniverDictServiceImpl implements UniverDictService {
 			final Map<String, Map<Integer, BigDecimal>> univerDictLinks = getUniverDictLinks();
 			final Map<Integer, BigDecimal> idRecLinks = univerDictLinks.get(paramDict);
 			final List<UniverDictEntity> result = new ArrayList<>();
+			if (idRecLinks == null
+					|| idRecLinks.isEmpty()) {
+				return result;
+			}
 			for (BigDecimal id : idRecLinks.values()) {
 				result.add(em.find(UniverDictEntity.class, id));
 			}

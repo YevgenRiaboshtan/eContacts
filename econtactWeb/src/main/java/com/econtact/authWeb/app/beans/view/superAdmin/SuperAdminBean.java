@@ -1,6 +1,11 @@
 package com.econtact.authWeb.app.beans.view.superAdmin;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -8,10 +13,12 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang.StringUtils;
 import org.primefaces.component.datatable.DataTable;
+import org.primefaces.context.RequestContext;
 
 import com.econtact.authWeb.app.beans.view.AbstractViewBean;
 import com.econtact.authWeb.app.dataTable.model.superAdmin.AdminDataTableLazyModel;
 import com.econtact.authWeb.app.dataTable.model.superAdmin.ConnectLogDataTableLazyModel;
+import com.econtact.authWeb.app.dataTable.model.superAdmin.UserHistoryDataTableLazyModel;
 import com.econtact.authWeb.app.helpers.WebHelper;
 import com.econtact.authWeb.app.security.PasswordUtils;
 import com.econtact.dataModel.model.entity.accout.AccountUserEntity;
@@ -26,6 +33,8 @@ public class SuperAdminBean extends AbstractViewBean<AccountUserEntity> {
 	private AdminDataTableLazyModel dataModel;
 	
 	private ConnectLogDataTableLazyModel connectLogModel;
+	
+	private UserHistoryDataTableLazyModel userHistoryModel;
 
 	private String newPassword;
  
@@ -71,6 +80,19 @@ public class SuperAdminBean extends AbstractViewBean<AccountUserEntity> {
 		this.connectLogModel = connectLogModel;
 	}
 
+	public UserHistoryDataTableLazyModel getUserHistoryModel(String idUser) {
+		if (userHistoryModel == null) {
+			DataTable table = (DataTable) FacesContext.getCurrentInstance().getViewRoot()
+					.findComponent("userHistoryForm:userHistoryDatatable");
+			userHistoryModel = new UserHistoryDataTableLazyModel(table, getFilterHelper(), idUser);
+		}
+		return userHistoryModel;
+	}
+
+	public void setUserHistoryModel(UserHistoryDataTableLazyModel userHistoryModel) {
+		this.userHistoryModel = userHistoryModel;
+	}
+
 	public String getNewPassword() {
 		return newPassword;
 	}
@@ -82,6 +104,17 @@ public class SuperAdminBean extends AbstractViewBean<AccountUserEntity> {
 	public void editSelectedUser(AccountUserEntity user) throws IOException{
 		userSessionBean.setEditedObject(user);
 		navigationHelper.navigate("edit.jsf");
+	}
+	
+	public void showUserHistory(AccountUserEntity user) {
+		Map<String, Object> options = new HashMap<String, Object>();
+		options.put("resizable", false);
+        options.put("draggable", false);
+        options.put("modal", true);
+        //options.put("header", LabelsHelper.getLocalizedMessage(LocaleLabels.USER_HISTORY_DIALOG_HEADER_0, user.getLogin()));
+        Map<String, List<String>> param = new HashMap<String, List<String>>();
+        param.put("idUser", new ArrayList<>(Arrays.asList(user.getId().toString())));
+		RequestContext.getCurrentInstance().openDialog("userHistory", options, param);
 	}
 	
 	@Override

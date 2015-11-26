@@ -29,6 +29,11 @@
 					sortBy="#{connectItem.dateCon}" filterBy="#{connectItem.dateCon}">
 					<f:attribute name="filterDataType" value="DATE" />
 					<f:attribute name="filterField" value="dateCon" />
+					<f:facet name="filter">
+						<p:inputText onkeypress="blurWithFilter(event, 'connectLogDataTable')">
+							<f:ajax event="blur" listener="#{filterHelper.dateAutocomplete}" render="@this"></f:ajax>
+						</p:inputText>
+					</f:facet>
 					<p:outputLabel value="#{connectItem.dateCon}" >
 						<f:convertDateTime pattern="dd.MM.yyyy hh:mm:ss"/>
 					</p:outputLabel>

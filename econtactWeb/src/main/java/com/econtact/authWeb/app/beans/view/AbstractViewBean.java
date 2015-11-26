@@ -43,6 +43,7 @@ public abstract class AbstractViewBean<T extends AbstractEntity> implements Seri
 		entityClass = (Class<T>) getParameterClass( 0, getClass());
 		if (userSessionBean.getEditedObject() != null) {
 			setEntity(genericService.findById(entityClass, userSessionBean.getEditedObject().getId()));
+			userSessionBean.setEditedObject(null);
 		} else {
 			setEntity(createDefaultEntity());
 		}
@@ -73,14 +74,10 @@ public abstract class AbstractViewBean<T extends AbstractEntity> implements Seri
 	}
 	
 	protected void navigateAfterSave() throws IOException {
-		navigationHelper.navigate("index.jsf");
+		navigationHelper.navigate(navigationHelper.getIndexPage());
 	}
 	
 	protected abstract T createDefaultEntity();
-	
-	private String getParameter(String key) {
-		return FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get(key);
-	}
 	
 	private Class<?> getParameterClass(int pos, Class<?> target) {
 		return (Class<?>) ((ParameterizedType) target.getGenericSuperclass())

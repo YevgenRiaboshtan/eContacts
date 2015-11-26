@@ -1,19 +1,36 @@
 package com.econtact.authWeb.app.helpers;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
+import javax.faces.validator.ValidatorException;
+
+import org.apache.commons.lang.StringUtils;
+import org.primefaces.component.calendar.Calendar;
+import org.primefaces.component.inputtext.InputText;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.data.FilterEvent;
 
 import com.econtact.dataModel.data.filter.AbstractFieldFilterDef;
 import com.econtact.dataModel.data.filter.FilterDataTypeEnum;
 import com.econtact.dataModel.data.filter.FilterDefEndsWithIgnoreCase;
 import com.econtact.dataModel.data.filter.FilterDefEquals;
+import com.econtact.dataModel.data.filter.FilterDefGreater;
+import com.econtact.dataModel.data.filter.FilterDefGreaterEq;
 import com.econtact.dataModel.data.filter.FilterDefIsNull;
+import com.econtact.dataModel.data.filter.FilterDefLess;
+import com.econtact.dataModel.data.filter.FilterDefLessEq;
 import com.econtact.dataModel.data.filter.FilterDefLike;
 import com.econtact.dataModel.data.filter.FilterDefNotEquals;
 import com.econtact.dataModel.data.filter.FilterDefNotNull;
@@ -78,8 +95,10 @@ public class FilterHelper implements Serializable{
 			result = makeTextFilter(field, value);
 			break;
 		case LONG:
+			result = makeNumberFilter(field, value, true);
 			break;
 		case NUMBER:
+			result = makeNumberFilter(field, value, false);
 			break;
 		case BOOLEAN:
 			result = new FilterDefEquals(field, value);
@@ -122,9 +141,64 @@ public class FilterHelper implements Serializable{
 		}
 	}
 	
+	private AbstractFieldFilterDef makeNumberFilter(String field, Object value, boolean isLong) {
+		String searchLine = ((String) value).trim();
+		if (searchLine.isEmpty()) {
+			return null;
+		}
+		if (searchLine.startsWith("<>")) {
+			return new FilterDefNotEquals(
+					field,
+					isLong 
+						? Long.valueOf(searchLine.substring("<>".length()).trim())
+						: new BigDecimal(searchLine.substring("<>".length()).trim()));
+		}
+		if (searchLine.startsWith("<=")) {
+			return new FilterDefLessEq(
+					field,
+					isLong
+						? Long.valueOf(searchLine.substring("<=".length()).trim())
+						: new BigDecimal(searchLine.substring("<=".length()).trim()));
+		}
+		if (searchLine.startsWith("<")) {
+			return new FilterDefLess(
+					field,
+					isLong 
+						? Long.valueOf(searchLine.substring("<".length()).trim())
+						: new BigDecimal(searchLine.substring("<".length()).trim()));
+		}
+		if (searchLine.startsWith(">=")){
+			return new FilterDefGreaterEq(
+					field,
+					isLong
+						? Long.valueOf(searchLine.substring(">=".length()).trim())
+						: new BigDecimal(searchLine.substring(">=".length()).trim()));
+		}
+		if (searchLine.startsWith(">")) {
+			return new FilterDefGreater(
+					field,
+					isLong
+						? Long.valueOf(searchLine.substring(">".length()).trim())
+						: new BigDecimal(searchLine.substring(">".length()).trim()));
+		}
+		if ("@".equals(searchLine)) {
+			return new FilterDefIsNull(field);
+		}
+		if ("!@".equals(searchLine)) {
+			return new FilterDefNotNull(field);
+		}
+		if (searchLine.startsWith("=")) {
+			searchLine = searchLine.substring("=".length()).trim();
+		}
+		return new FilterDefEquals(
+					field,
+					isLong 
+						? Long.valueOf(searchLine)
+						: new BigDecimal(searchLine));
+	}
+
 	private AbstractFieldFilterDef makeTextFilter(String field, Object value) {
-		String searchLine = (String) value;
-		searchLine = searchLine.trim();
+		String searchLine = ((String) value).trim();
 		if (searchLine.isEmpty()) {
 			return null;
 		}
@@ -155,6 +229,79 @@ public class FilterHelper implements Serializable{
 			return new FilterDefLike(field, searchLine);
 		}
 		return new FilterDefStartsWithIgnoreCase(field, searchLine);
+	}
+	
+	
+	public String convertDate(String sDate) {
+		String result = "";
+		String splitterString = "";
+		if (sDate.contains(".")) {
+			if (sDate.contains("-")
+				|| sDate.contains("/")) {
+				return result;
+			}
+			splitterString = ".";
+		} else if(sDate.contains("-")) {
+			if (sDate.contains("/")) {
+				return result;
+			}
+			splitterString = "-";
+		} else if (sDate.contains("/")) {
+			splitterString = "/";
+		}
+		
+		//length check
+		if (sDate.length() == 0
+			|| (sDate.contains(splitterString) && sDate.length() > 10)
+			|| (!sDate.contains(splitterString) && sDate.length() > 8)) {
+			return result;
+		}
+		
+		//regex check;
+		
+		if (sDate.contains(splitterString)) {
+			String[] dateStrings = sDate.split("\\" + splitterString);
+			switch (dateStrings.length) {		
+			case 3:
+				
+				break;
+			case 2:
+				break;
+			case 1:
+				
+				
+				break;
+			default:
+				result = "";
+				break;
+			}
+		}
+		return result;
+	}
+	
+	public void dateAutocomplete(AjaxBehaviorEvent  event) {
+		if (event != null
+				&& event.getSource() instanceof InputText
+				&& StringUtils.isNotBlank(((InputText) event.getSource()).getValue().toString())) {
+			InputText input = (InputText) event.getSource();
+			String value = input.getValue().toString();
+			String operation = "";
+			if (value.startsWith("<>")
+				|| value.startsWith("<=")
+				|| value.startsWith(">=")
+				|| value.startsWith("!@")) {
+				operation = value.substring(0, "<>".length());
+				value = value.substring("<>".length());
+			} else if (value.startsWith("<")
+					|| value.startsWith(">")
+					|| value.startsWith("=")
+					|| value.startsWith("@")) {
+				operation = value.substring(0, "<".length());
+				value = value.substring("<".length());
+			}
+			String date = convertDate(value);
+			input.setValue(date.isEmpty() ? "" : operation + date);
+		}
 	}
 	
 }

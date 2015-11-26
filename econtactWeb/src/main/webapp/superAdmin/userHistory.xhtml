@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/baseTemplate.xhtml"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="contentWrapper">
+		<h:form id="userHistoryForm">
+			<p:dataTable id="userHistoryDatatable" var="userHistoryItem"
+				lazy="true" paginator="true" scrollable="true" rows="20"
+				widgetVar="userHistoryDatatable" paginatorPosition="bottom"
+				paginatorTemplate="{CurrentPageReport} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {JumpToPageDropdown} {NextPageLink} {LastPageLink}"
+				emptyMessage="#{viewMsg['datatable.empty.message']}"
+				value="#{superAdminBean.getUserHistoryModel(param.idUser)}">
+				<p:column>
+					<p:outputLabel value="#{userHistoryItem.firstName}"/>
+				</p:column>
+				<p:column>
+					<p:outputLabel value="#{userHistoryItem.lastName}"/>
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

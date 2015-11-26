@@ -16,31 +16,12 @@ body {
 	padding-left: 25px;
 }
 
-#headerBlock {
-	position: relative;
-	background-image: url(#{resource['img:header-bg.png']});
-	background-repeat: repeat-x;
-	height: 115px;
-}
-
-#topMenuBlock{
-	height:42px; 
-	line-height:11px;
-	voice-family: "\"}\"";
-	voice-family:inherit;
-	height:42px;
-	background-image: url(#{resource['img:topheadbg.png']});
-	background-repeat: repeat-x;
-	padding-left: 10px;
-	padding-right:10px;
-}
-
 #contentBlock{
 	background-color: #FFFFFF;
 	margin-top: 20px;
 	margin-right: 20px;
 	margin-bottom: 20px;
-	margin-left: 275px;
+	/* margin-left: 275px; */
 	padding-right: 10px;
 	padding-bottom: 10px;
 	padding-left: 10px;

@@ -62,7 +62,7 @@
 				<p:message for="userLastName" showDetail="true" />
 				
 				<p:outputLabel value="#{viewMsg['newUser.user.status.label']}" for="userStatus"/>
-				<p:selectOneMenu id="userStatus"  editable="false" value="#{bean.entity.enabledUser}">
+				<p:selectOneMenu id="userStatus"  editable="false" value="#{bean.entity.enabledUser}" rendered="true">
 					<f:selectItems value="#{webHelper.getSelectOneItemForEnum('com.econtact.dataModel.model.entity.accout.UserStatusEnum')}"/>
 				</p:selectOneMenu>
 				<p:column />

@@ -71,6 +71,13 @@
 	</filter-mapping>
 	<!-- spring security filter end -->
 
+	<!-- Start up check servlet -->
+	<servlet>
+		<servlet-name>StartUp check servlet</servlet-name>
+		<servlet-class>com.econtact.authWeb.app.startup.StartUpCheck</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
 	<!-- JSF mapping -->
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>

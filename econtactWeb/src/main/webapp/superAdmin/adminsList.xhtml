@@ -18,10 +18,13 @@
 				paginatorTemplate="{CurrentPageReport} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {JumpToPageDropdown} {NextPageLink} {LastPageLink}"
 				emptyMessage="#{viewMsg['datatable.empty.message']}"
 				style="text-align: center;" filterEvent="enter">
-				<p:column width="100">
+				<p:column width="140">
 					<p:commandButton id="editUser" icon="ui-icon-pencil" immediate="true" actionListener="#{superAdminBean.editSelectedUser(adminItem)}" />
-            		<p:tooltip value="#{viewMsg['btn.edit.label']}" for="editUser" />
+            		<p:tooltip value="#{viewMsg['btn.edit.tooltip.text']}" for="editUser" />
+            		<p:commandButton id="userHistory" icon="fa fa-history" actionListener="#{superAdminBean.showUserHistory(adminItem)}"/>
+            		<p:tooltip value="#{viewMsg['admins.list.user.history.btn.tooltip.text']}" for="userHistory"/>
             		<p:commandButton id="removeUser" icon="ui-icon-close" update=":adminTableForm:adminDataTable" actionListener="#{superAdminBean.dataModel.removeEntity(adminItem)}"/>
+            		<p:tooltip value="#{viewMsg['btn.remove.tooltip.text']}" for="removeUser"/>
 				</p:column>
 				<p:column headerText="#{viewMsg['admins.list.id.header']}" sortBy="#{adminItem.id}" filterBy="#{adminItem.id}">
 					<f:attribute name="filterDataType" value="NUMBER" />
@@ -59,5 +62,7 @@
 				</p:column>
 			</p:dataTable>
 		</h:form>
+		
+		
 	</ui:define>
 </ui:composition>

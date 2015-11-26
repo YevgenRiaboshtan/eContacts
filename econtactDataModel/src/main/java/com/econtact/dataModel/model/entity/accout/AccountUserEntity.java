@@ -4,7 +4,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -27,7 +26,7 @@ import com.econtact.dataModel.model.entity.AuditSupport;
 		AbstractUserEntity.LOGIN_A, EntityHelper.SIGN_F }) })
 @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 @Audited
-@AuditTable(value = "user_account_aud", schema = EntityHelper.E_CONTACT_SCHEMA)
+@AuditTable(value = AccountUserAudView.TABLE_NAME, schema = EntityHelper.E_CONTACT_SCHEMA)
 @SQLDelete(sql = "UPDATE econtactschema.user_account set sign = id where id = ? and version = ?")
 public class AccountUserEntity extends AbstractUserEntity implements AuditSupport{
 	private static final long serialVersionUID = -8588130700569489485L;
@@ -41,9 +40,7 @@ public class AccountUserEntity extends AbstractUserEntity implements AuditSuppor
 	@Column(name = "salt", nullable = false, length = 40)
 	private String salt;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "role", nullable = false)
-	private RoleType role;
+	
 
 	@Enumerated
 	@Column(name = "role_confirm", nullable = false)
@@ -75,14 +72,6 @@ public class AccountUserEntity extends AbstractUserEntity implements AuditSuppor
 
 	public void setSalt(String salt) {
 		this.salt = salt;
-	}
-
-	public RoleType getRole() {
-		return role;
-	}
-
-	public void setRole(RoleType role) {
-		this.role = role;
 	}
 
 	public ConfirmStatusEnum getRoleConfirm() {
@@ -128,7 +117,7 @@ public class AccountUserEntity extends AbstractUserEntity implements AuditSuppor
 	
 	@Override
 	public void prePersist() {
-		if (RoleType.ROLE_SUPER_ADMIN.equals(role)) {
+		if (RoleType.ROLE_SUPER_ADMIN.equals(getRole())) {
 			setSign(EntityHelper.ACTUAL_SIGN);
 			setUpdAuthor("default System Creation");
 			setUpdDate(new Date());
