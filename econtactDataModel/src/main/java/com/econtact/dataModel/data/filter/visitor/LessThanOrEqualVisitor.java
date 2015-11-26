@@ -10,9 +10,8 @@ public class LessThanOrEqualVisitor extends AbstractVisitor<FilterDefLessEq>{
 
 	@Override
 	public void processFilter(FilterDefLessEq filter) {
-		predicate = cbCtx.getCriteriaBuilder().le(
-				getPath(filter.getFieldName()),
-				cbCtx.createFindParam(filter.getValue()));
+		predicate = cbCtx.getCriteriaBuilder()
+				.le(getPath(filter.getFieldName()), cbCtx.createFindParam(filter.getValue()));
 	}
 
 }

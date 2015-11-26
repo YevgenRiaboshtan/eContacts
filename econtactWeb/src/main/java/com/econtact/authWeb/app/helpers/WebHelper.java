@@ -24,7 +24,9 @@ import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 @SessionScoped
 public class WebHelper implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	public static final String DATE_PATTERN = "dd.MM.yyyy";
+    public static final String DATE_TIME_PATTERN = "dd.MM.yyyy HH:mm:ss";
+	
 	public static final String SUPER_ADMIN_PAGE = "superAdmin/adminsList.jsf";
 	public static final String INDEX_PAGE = "index.jsf";
 	public static final String LOGIN_PAGE = "loginPage.jsf";

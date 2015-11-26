@@ -8,6 +8,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
@@ -23,7 +24,7 @@ import com.econtact.dataModel.model.entity.accout.ConfirmStatusEnum;
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 
 @Entity
-@Table(name = "project", schema = EntityHelper.E_CONTACT_SCHEMA)
+@Table(name = "project", schema = EntityHelper.E_CONTACT_SCHEMA, indexes = { @Index(columnList = EntityHelper.ID_F) })
 @Audited
 @AuditTable(value = "project_aud", schema = EntityHelper.E_CONTACT_SCHEMA)
 public class Project extends AbstractAuditeEntity<BigDecimal> {

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.econtact.dataModel.data.context.UserContext;
+import com.econtact.dataModel.model.entity.dictionary.UniverDictCheckEntity;
 import com.econtact.dataModel.model.entity.dictionary.UniverDictEntity;
 
 public interface UniverDictService {
@@ -16,4 +17,7 @@ public interface UniverDictService {
 	UniverDictEntity saveOrUpdate(UniverDictEntity entity, UserContext userContext);
 
 	void remove(UniverDictEntity entity, UserContext userContext);
+	
+	UniverDictCheckEntity saveOrUpdate(UniverDictCheckEntity entity);
+
 }

@@ -35,10 +35,8 @@ public class StartUpCheck implements Servlet{
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		final UniverDictService univerDictService = WebHelper.getBean(UniverDictService.class);
-		final UserContext stubUserContext = UserContext.create(null, TimeZone.getTimeZone("GMT+2"));
-		checkActionUniverDicts(univerDictService, stubUserContext);
-		checkEventUniverDicts(univerDictService, stubUserContext);
-		
+		checkActionUniverDicts(univerDictService);
+		checkEventUniverDicts(univerDictService);
 		if (System.getProperty("com.econtact.defaultAdminLogin") != null) {
 			defaultAdminLogin = System
 					.getProperty("com.econtact.defaultAdminLogin");
@@ -63,12 +61,12 @@ public class StartUpCheck implements Servlet{
 			superAdmin.setEnabledUser(UserStatusEnum.ENABLE);
 			superAdmin.setAllowCreateRegister(false);
 			try {
+				final UserContext stubUserContext = UserContext.create(null, TimeZone.getTimeZone("GMT+2"));
 				superAdmin = WebHelper.getBean(GenericService.class).saveOrUpdate(superAdmin, stubUserContext);
 			} catch (UniqueConstraintException e) {
 				throw new InternalServerErrorException("Creating default admin error");
 			}
 		}
-		
 	}
 	
 	@Override
@@ -90,7 +88,7 @@ public class StartUpCheck implements Servlet{
 	}
 
 	
-	private void checkActionUniverDicts(final UniverDictService univerDictService, final UserContext userContext) {
+	private void checkActionUniverDicts(final UniverDictService univerDictService) {
 		List<UniverDictEntity> list = univerDictService.findUniverDictByParamDict(NamesDictConstant.ACTION);
 		UniverDictEntity connectItem = null;
 		UniverDictEntity disconnectItem = null;
@@ -114,10 +112,7 @@ public class StartUpCheck implements Servlet{
 			connect.setIdRecDict(DictionaryConstant.ACTION_CONNECT);
 			connect.setNameRecDict("Подключение");
 			connect.setParamDict(NamesDictConstant.ACTION);
-			try {
-				WebHelper.getBean(GenericService.class).saveOrUpdate(connect, userContext);
-			} catch (UniqueConstraintException e) {
-			}
+			WebHelper.getBean(UniverDictService.class).saveOrUpdate(connect);
 		}
 		
 		if (disconnectItem == null) {
@@ -126,14 +121,11 @@ public class StartUpCheck implements Servlet{
 			disconnect.setIdRecDict(DictionaryConstant.ACTION_DISCONNECT);
 			disconnect.setNameRecDict("Отключение");
 			disconnect.setParamDict(NamesDictConstant.ACTION);
-			try {
-				WebHelper.getBean(GenericService.class).saveOrUpdate(disconnect, userContext);
-			} catch (UniqueConstraintException e) {
-			}
+			WebHelper.getBean(UniverDictService.class).saveOrUpdate(disconnect);
 		}		
 	}
 	
-	private void checkEventUniverDicts(final UniverDictService univerDictService, final UserContext userContext) {
+	private void checkEventUniverDicts(final UniverDictService univerDictService) {
 		List<UniverDictEntity> list = univerDictService.findUniverDictByParamDict(NamesDictConstant.EVENT);
 		UniverDictEntity createItem = null;
 		UniverDictEntity updateItem = null;
@@ -161,10 +153,7 @@ public class StartUpCheck implements Servlet{
 			create.setIdRecDict(DictionaryConstant.EVENT_CREATE);
 			create.setNameRecDict("Создание");
 			create.setParamDict(NamesDictConstant.EVENT);
-			try {
-				WebHelper.getBean(GenericService.class).saveOrUpdate(create, userContext);
-			} catch (UniqueConstraintException e) {
-			}
+			WebHelper.getBean(UniverDictService.class).saveOrUpdate(create);
 		}
 		if (updateItem == null) {
 			UniverDictCheckEntity update = new UniverDictCheckEntity();
@@ -172,10 +161,7 @@ public class StartUpCheck implements Servlet{
 			update.setIdRecDict(DictionaryConstant.EVENT_UPDATE);
 			update.setNameRecDict("Обновление");
 			update.setParamDict(NamesDictConstant.EVENT);
-			try {
-				WebHelper.getBean(GenericService.class).saveOrUpdate(update, userContext);
-			} catch (UniqueConstraintException e) {
-			}
+			WebHelper.getBean(UniverDictService.class).saveOrUpdate(update);
 		}
 		if (removeItem == null) {
 			UniverDictCheckEntity remove = new UniverDictCheckEntity();
@@ -183,10 +169,7 @@ public class StartUpCheck implements Servlet{
 			remove.setIdRecDict(DictionaryConstant.EVENT_REMOVE);
 			remove.setNameRecDict("Удаление");
 			remove.setParamDict(NamesDictConstant.EVENT);
-			try {
-				WebHelper.getBean(GenericService.class).saveOrUpdate(remove, userContext);
-			} catch (UniqueConstraintException e) {
-			}
+			WebHelper.getBean(UniverDictService.class).saveOrUpdate(remove);
 		}	
 	}	
 }

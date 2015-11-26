@@ -30,7 +30,7 @@ public abstract class AbstractUniverDictEntity extends AbstractAuditeEntity<BigD
 	@Id
 	@SequenceGenerator(name = SEQ_NAME, sequenceName = "seq_univer_dict_id", schema = EntityHelper.E_CONTACT_SCHEMA, allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
-	@Column(name = "id_univer_dict", unique = true, nullable = false, precision = 38, scale = 0)
+	@Column(name = EntityHelper.ID_F, unique = true, nullable = false, precision = 38, scale = 0)
 	private BigDecimal id;
 
 	@Column(name = "param_dict", nullable = false, length = 40)

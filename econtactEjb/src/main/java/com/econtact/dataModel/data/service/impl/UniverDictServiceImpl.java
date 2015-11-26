@@ -29,6 +29,7 @@ import com.econtact.dataModel.data.service.UniverDictService;
 import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.entity.dictionary.DictionaryConstant;
 import com.econtact.dataModel.model.entity.dictionary.NamesDictConstant;
+import com.econtact.dataModel.model.entity.dictionary.UniverDictCheckEntity;
 import com.econtact.dataModel.model.entity.dictionary.UniverDictEntity;
 
 @Startup
@@ -154,4 +155,18 @@ public class UniverDictServiceImpl implements UniverDictService {
 	        }
 	        return result;
 	    }
+
+	@Override
+	public UniverDictCheckEntity saveOrUpdate(UniverDictCheckEntity entity) {
+		lock.lock();
+		try {
+			final UniverDictCheckEntity result = em.merge(entity);
+			return result;
+		} finally {
+			if (entity.getId() == null) {
+				univerDictLinksRef = null;
+			}
+			lock.unlock();
+		}
+	}
 }
