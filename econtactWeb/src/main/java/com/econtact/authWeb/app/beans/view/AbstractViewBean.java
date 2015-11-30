@@ -79,6 +79,10 @@ public abstract class AbstractViewBean<T extends AbstractEntity> implements Seri
 	
 	protected abstract T createDefaultEntity();
 	
+	public void cancel() throws IOException {
+		navigationHelper.navigate(navigationHelper.getIndexPage());
+	}
+	
 	private Class<?> getParameterClass(int pos, Class<?> target) {
 		return (Class<?>) ((ParameterizedType) target.getGenericSuperclass())
 				.getActualTypeArguments()[pos];

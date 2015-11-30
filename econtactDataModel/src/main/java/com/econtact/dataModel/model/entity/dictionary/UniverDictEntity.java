@@ -16,7 +16,7 @@ import com.econtact.dataModel.model.entity.AuditSupport;
 
 @Entity
 @Table(name = "univer_dict", schema = EntityHelper.E_CONTACT_SCHEMA, uniqueConstraints = { @UniqueConstraint(name = UniverDictEntity.PARAM_DICT_ID_REC_DICT_SIGN_UNIQUE_CONSTRAINT, columnNames = {
-		"sign", "param_dict", "id_rec_dict" }) }, indexes = { @Index(columnList = EntityHelper.ID_F) })
+		"sign", "param_dict", "id_rec_dict" }) }, indexes = { @Index(name = "id_index_pk", columnList = EntityHelper.ID_F) })
 @NamedQuery(name = UniverDictEntity.FIND_ALL, query = "SELECT ude FROM UniverDictEntity ude WHERE ude.sign=:sign")
 @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 @Audited

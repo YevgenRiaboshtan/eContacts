@@ -141,7 +141,7 @@ public class UniverDictServiceImpl implements UniverDictService {
 	            //Logger.info(UniverDictServiceImpl.class, "Caching UniverDictEntity by paramDict and idRecDict");
 	            result = new HashMap<>();
 	            univerDictLinksRef = new SoftReference<>(result);
-	            final Query query = em.createNamedQuery(UniverDictEntity.FIND_ALL);
+	            final Query query = em.createNamedQuery(UniverDictEntity.FIND_ALL, UniverDictEntity.class);
 	            query.setParameter(EntityHelper.SIGN_A, EntityHelper.ACTUAL_SIGN);
 	            final List<UniverDictEntity> entities = query.getResultList();
 	            for (UniverDictEntity entity : entities) {

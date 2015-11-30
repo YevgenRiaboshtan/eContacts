@@ -66,18 +66,20 @@ public class FilterHelper implements Serializable{
 	 * @return список элементов фильтра
 	 * @throws ClassNotFoundException 
 	 */
-	public List<SelectItem> getEnumFilter(String enumClassName) throws ClassNotFoundException {
+	public List<SelectItem> getEnumFilter(String enumClassName, boolean optional) throws ClassNotFoundException {
 		List<SelectItem> items = new ArrayList<SelectItem>();
 		Class<?> clazz = Class.forName(enumClassName);
 		if (!clazz.isEnum()) {
 			throw new IllegalArgumentException("enumType should be enumeration !!!");
 		}
 		if (!AbstractEnum.class.isAssignableFrom(clazz)) {
-			throw new IllegalArgumentException("enumType should implements DmsEnum !!!");
+			throw new IllegalArgumentException("enumType should implements AbstractEnum !!!");
 		}
-		SelectItem allItem = new SelectItem(null,"");
-		allItem.setNoSelectionOption(true);
-		items.add(allItem);
+		if (optional) {
+			SelectItem allItem = new SelectItem(null,"");
+			allItem.setNoSelectionOption(true);
+			items.add(allItem);
+		}
 		AbstractEnum[] constraints = (AbstractEnum[]) clazz.getEnumConstants();
 		for (AbstractEnum constraint : constraints) {
 			items.add(new SelectItem(constraint.getValue(), LabelsHelper.getLocalizedMessage(constraint.getLabelKey())));		

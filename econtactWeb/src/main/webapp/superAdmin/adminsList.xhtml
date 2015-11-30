@@ -20,6 +20,9 @@
 				emptyMessage="#{viewMsg['datatable.empty.message']}"
 				style="text-align: center;" filterEvent="enter">
 				<p:column width="140">
+					<f:facet name="header">
+						<p:commandButton icon="fa fa-plus" immediate="true" actionListener="#{navigationHelper.navigate('users/new.jsf')}" />
+					</f:facet>
 					<p:commandButton id="editUser" icon="ui-icon-pencil" immediate="true" actionListener="#{superAdminBean.editSelectedUser(adminItem)}" />
             		<p:tooltip value="#{viewMsg['btn.edit.tooltip.text']}" for="editUser" />
             		<p:commandButton id="userHistory" icon="fa fa-history" actionListener="#{superAdminBean.showUserHistory(adminItem)}"/>
@@ -56,14 +59,12 @@
 					<f:attribute name="filterField" value="enabledUser" />
 					<f:facet name="filter">
 						<p:selectOneMenu onchange="PF('adminDataTable').filter()" converter="activeConverter" >
-							<f:selectItems value="#{filterHelper.getEnumFilter('com.econtact.dataModel.model.entity.accout.UserStatusEnum')}"/>
+							<f:selectItems value="#{filterHelper.getEnumFilter('com.econtact.dataModel.model.entity.accout.UserStatusEnum', true)}"/>
 						</p:selectOneMenu>
 					</f:facet>
 					<p:outputLabel value="#{labelsHelper.getLocalizedMessage(adminItem.enabledUser.labelKey)}"></p:outputLabel>
 				</p:column>
 			</p:dataTable>
 		</h:form>
-		
-		
 	</ui:define>
 </ui:composition>

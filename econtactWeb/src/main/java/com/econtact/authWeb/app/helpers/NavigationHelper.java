@@ -14,8 +14,24 @@ public class NavigationHelper {
 		FacesContext.getCurrentInstance().getExternalContext().redirect(page);
 	}
 
+	public void navigateToProfile(boolean edit) throws IOException {
+		StringBuffer page = new StringBuffer();
+		switch (WebHelper.getPrincipal().getRole()) {
+		case ROLE_SUPER_ADMIN:
+			page.append(getRootPath()).append(edit ? "/superAdmin/profile/editProfile.jsf" : "/superAdmin/profile/showProfile.jsf");	
+			break;
+		default:
+			page.append(getIndexPage());
+			break;
+		}
+		navigate(page.toString());
+	}
+	
+	private String getRootPath() {
+		return FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+	}
+	
 	public String getIndexPage() {
-		return FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/"
-				+ WebHelper.INDEX_PAGE;
+		return new StringBuffer(getRootPath()).append("/").append(WebHelper.INDEX_PAGE).toString();
 	}
 }

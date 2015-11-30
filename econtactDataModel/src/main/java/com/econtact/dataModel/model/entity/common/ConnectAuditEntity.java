@@ -26,7 +26,7 @@ import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 import com.econtact.dataModel.model.entity.dictionary.UniverDictEntity;
 
 @Entity
-@Table(name = "connect_audit", schema = EntityHelper.E_CONTACT_SCHEMA, indexes = { @Index(columnList = EntityHelper.ID_A) })
+@Table(name = "connect_audit", schema = EntityHelper.E_CONTACT_SCHEMA, indexes = { @Index(name = "id_index_pk", columnList = EntityHelper.ID_A) })
 @Cache(usage = CacheConcurrencyStrategy.NONE)
 public class ConnectAuditEntity implements AbstractView<BigDecimal> {
 	private static final long serialVersionUID = 3098825264209644798L;

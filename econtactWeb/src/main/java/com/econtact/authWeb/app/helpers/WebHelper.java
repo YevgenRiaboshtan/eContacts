@@ -71,8 +71,8 @@ public class WebHelper implements Serializable {
 		return ViewModeEnum.CREATE;
 	}
 
-	public List<SelectItem> getSelectOneItemForEnum(String enumClassName) throws ClassNotFoundException {
-		return filterHelper.getEnumFilter(enumClassName);
+	public List<SelectItem> getSelectOneItemForEnum(String enumClassName, boolean optional) throws ClassNotFoundException {
+		return filterHelper.getEnumFilter(enumClassName, optional);
 	}
 	
 	public MenuModel buildModel() {

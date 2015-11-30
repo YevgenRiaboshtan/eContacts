@@ -10,6 +10,10 @@
 			<h:form>
 				<p:menubar model="#{webHelper.buildModel()}" style="margin:5px;">
 					<f:facet name="options">
+						<p:commandButton id="showUserProfileBtn" icon="fa fa-user" immediate="true" ajax="true" actionListener="#{navigationHelper.navigateToProfile(false)}"/>
+						<p:tooltip for="showUserProfileBtn" value="#{viewMsg['user.profile.show.tooltiptext.label']}"/>
+						<p:commandButton id="editUserProfileBtn" icon="fa fa-edit" immediate="true" ajax="true" actionListener="#{navigationHelper.navigateToProfile(true)}"/>
+						<p:tooltip for="editUserProfileBtn" value="#{viewMsg['user.profile.edit.tooltiptext.label']}" />
 						<a href="/econtact/j_spring_security_logout"> 
 							<h:outputLabel value="#{viewMsg['loginPanel.logout.btn.label']}" />
 						</a>

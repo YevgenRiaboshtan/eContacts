@@ -24,7 +24,7 @@ import com.econtact.dataModel.model.entity.accout.ConfirmStatusEnum;
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 
 @Entity
-@Table(name = "project", schema = EntityHelper.E_CONTACT_SCHEMA, indexes = { @Index(columnList = EntityHelper.ID_F) })
+@Table(name = "project", schema = EntityHelper.E_CONTACT_SCHEMA, indexes = { @Index(name = "id_index_pk", columnList = EntityHelper.ID_F) })
 @Audited
 @AuditTable(value = "project_aud", schema = EntityHelper.E_CONTACT_SCHEMA)
 public class Project extends AbstractAuditeEntity<BigDecimal> {

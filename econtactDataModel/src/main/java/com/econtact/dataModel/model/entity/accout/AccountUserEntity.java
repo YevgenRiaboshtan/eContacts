@@ -24,8 +24,8 @@ import com.econtact.dataModel.model.entity.AuditSupport;
 
 @Entity
 @Table(name = "user_account", schema = EntityHelper.E_CONTACT_SCHEMA, uniqueConstraints = { @UniqueConstraint(name = AccountUserEntity.USER_LOGIN_SIGN_UNIQUE_CONSTRAINT, columnNames = {
-		AbstractUserEntity.LOGIN_A, EntityHelper.SIGN_F }) }, indexes = { @Index(columnList = EntityHelper.ID_F),
-		@Index(columnList = AccountUserEntity.LOGIN_A) })
+		AbstractUserEntity.LOGIN_A, EntityHelper.SIGN_F }) }, indexes = { @Index(name = "id_index_pk", columnList = EntityHelper.ID_F),
+		@Index(name = "user_login_index", columnList = AccountUserEntity.LOGIN_A) })
 @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 @Audited
 @AuditTable(value = AccountUserAudView.TABLE_NAME, schema = EntityHelper.E_CONTACT_SCHEMA)

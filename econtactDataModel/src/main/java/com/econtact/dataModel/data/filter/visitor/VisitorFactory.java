@@ -34,6 +34,10 @@ public class VisitorFactory {
             	return new LessThanVisitor(ctx);
             case LESS_THAN_OR_EQUALS:
             	return new LessThanOrEqualVisitor(ctx);
+            case GREATER_THAN:
+            	return new GreaterThanVisitor(ctx);
+            case GREATER_THAN_OR_EQUALS:
+            	return new GreaterThanOrEqualVisitor(ctx);
             default:
                 throw new UnsupportedOperationException("Filter with type :'"
                         + filterDefEnum + "' not supported. Fix me");

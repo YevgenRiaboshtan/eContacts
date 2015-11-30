@@ -6,14 +6,12 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	template="/WEB-INF/templates/default.xhtml">
 	<ui:define name="content">
-USER CONTENT
-<br />
+		USER CONTENT
+		<br />
 		<a href="/econtact/index.jsf">TO MAIN</a>
 		<br />
-		<c:if test="#{webHelper.accessForAdmin}">
-			<a href="/econtact/admin/admin.xhtml">TO ADMIN</a>
-			<br />
-		</c:if>
+		<a href="/econtact/admin/admin.xhtml">TO ADMIN</a>
+		<br />
 		<a href="/econtact/share/share.xhtml">TO SHARE</a>
 	</ui:define>
 </ui:composition>

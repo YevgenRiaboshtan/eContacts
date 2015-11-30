@@ -4,7 +4,7 @@ import com.econtact.dataModel.data.filter.FilterDefGreaterEq;
 
 public class GreaterThanOrEqualVisitor extends AbstractVisitor<FilterDefGreaterEq>{
 
-	protected GreaterThanOrEqualVisitor(VisitorContext cbCtx) {
+	GreaterThanOrEqualVisitor(VisitorContext cbCtx) {
 		super(cbCtx);
 	}
 

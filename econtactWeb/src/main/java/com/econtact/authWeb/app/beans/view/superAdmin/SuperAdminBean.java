@@ -103,7 +103,7 @@ public class SuperAdminBean extends AbstractViewBean<AccountUserEntity> {
 
 	public void editSelectedUser(AccountUserEntity user) throws IOException{
 		userSessionBean.setEditedObject(user);
-		navigationHelper.navigate("edit.jsf");
+		navigationHelper.navigate("users/edit.jsf");
 	}
 	
 	public void showUserHistory(AccountUserEntity user) {
@@ -114,11 +114,15 @@ public class SuperAdminBean extends AbstractViewBean<AccountUserEntity> {
         //options.put("header", LabelsHelper.getLocalizedMessage(LocaleLabels.USER_HISTORY_DIALOG_HEADER_0, user.getLogin()));
         Map<String, List<String>> param = new HashMap<String, List<String>>();
         param.put("idUser", new ArrayList<>(Arrays.asList(user.getId().toString())));
-		RequestContext.getCurrentInstance().openDialog("userHistory", options, param);
+		RequestContext.getCurrentInstance().openDialog("users/userHistory", options, param);
 	}
 	
 	@Override
 	protected AccountUserEntity createDefaultEntity() {
 		return new AccountUserEntity();
+	}
+	
+	public void cancel() throws IOException {
+		navigationHelper.navigate(WebHelper.SUPER_ADMIN_PAGE);
 	}
 }
