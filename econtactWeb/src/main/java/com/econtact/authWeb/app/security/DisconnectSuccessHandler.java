@@ -27,8 +27,10 @@ public class DisconnectSuccessHandler extends SimpleUrlLogoutSuccessHandler {
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 			throws IOException, ServletException {
-		SessionUserEntity user = (SessionUserEntity) authentication.getPrincipal();
-		authenticationService.disconnectUser(request.getRemoteAddr(), user);
+		if (authentication != null) {
+			SessionUserEntity user = (SessionUserEntity) authentication.getPrincipal();
+			authenticationService.disconnectUser(request.getRemoteAddr(), user);
+		}
 		super.onLogoutSuccess(request, response, authentication);
 	}
 

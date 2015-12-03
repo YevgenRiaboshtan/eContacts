@@ -21,7 +21,7 @@
 				style="text-align: center;" filterEvent="enter">
 				<p:column width="140">
 					<f:facet name="header">
-						<p:commandButton icon="fa fa-plus" immediate="true" actionListener="#{navigationHelper.navigate('users/new.jsf')}" />
+						<p:commandButton icon="fa fa-plus" immediate="true" actionListener="#{navigationHelper.navigate('/superAdmin/users/new.jsf')}" />
 					</f:facet>
 					<p:commandButton id="editUser" icon="ui-icon-pencil" immediate="true" actionListener="#{superAdminBean.editSelectedUser(adminItem)}" />
             		<p:tooltip value="#{viewMsg['btn.edit.tooltip.text']}" for="editUser" />

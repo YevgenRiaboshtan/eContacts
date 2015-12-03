@@ -6,22 +6,10 @@
 			<icon>fa fa-home</icon>
 			<path>/index.jsf</path>
 		</menuItem>
-		<subMenuItem>
-			<id>usersRootTopSubMenu</id>
-			<labelLocaleKey>topMenu.userItem.subMenu.label</labelLocaleKey>
-			<icon>fa fa-user</icon>
-			<elements>
-				<menuItem>
-					<id>usersListMenuItem</id>
-					<labelLocaleKey>topMenu.userItem.subMenu.admin.list.menuItem.label</labelLocaleKey>
-					<path>/superAdmin/adminsList.jsf</path>
-				</menuItem>
-				<menuItem>
-					<id>connectLogMenuItem</id>
-					<labelLocaleKey>topMenu.userItem.subMenu.connect.log.list.menuItem.label</labelLocaleKey>
-					<path>/superAdmin/connectLog.jsf</path>
-				</menuItem>
-			</elements>
-		</subMenuItem>
+		<menuItem>
+			<id>projectMenuItem</id>
+			<labelLocaleKey>topMenu.projectItem.label</labelLocaleKey>
+			<path>/user/project/projectsList.jsf</path>
+		</menuItem>
 	</elements>
 </topMenuBar>

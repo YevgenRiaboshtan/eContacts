@@ -2,16 +2,16 @@ package com.econtact.authWeb.app.helpers;
 
 import java.io.IOException;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 
-@ManagedBean(name = "navigationHelper")
-@RequestScoped
+@Named(value = "navigationHelper")
+@ApplicationScoped
 public class NavigationHelper {
 
 	public void navigate(String page) throws IOException {
-		FacesContext.getCurrentInstance().getExternalContext().redirect(page);
+		FacesContext.getCurrentInstance().getExternalContext().redirect(getRootPath() + page);
 	}
 
 	public void navigateToProfile(boolean edit) throws IOException {

@@ -75,6 +75,10 @@ public abstract class AbstractUserEntity extends AbstractAuditeEntity<BigDecimal
 		this.lastName = lastName;
 	}
 	
+	public String getFullName() {
+		return firstName + " " + lastName;
+	}
+	
 	public RoleType getRole() {
 		return role;
 	}

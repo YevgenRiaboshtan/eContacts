@@ -63,6 +63,7 @@ public class FilterHelper implements Serializable{
 	/**
 	 * Возвращает список елементов комбобокса для фильтра
 	 * @param enumClassName - тип enum 
+	 * @param optional - добавлять ли пусто элемент комбобокса
 	 * @return список элементов фильтра
 	 * @throws ClassNotFoundException 
 	 */

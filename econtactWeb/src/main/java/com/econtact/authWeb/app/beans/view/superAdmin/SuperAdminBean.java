@@ -35,7 +35,7 @@ public class SuperAdminBean extends AbstractViewBean<AccountUserEntity> {
 	private ConnectLogDataTableLazyModel connectLogModel;
 	
 	private UserHistoryDataTableLazyModel userHistoryModel;
-
+	
 	private String newPassword;
  
 	@Override
@@ -100,18 +100,12 @@ public class SuperAdminBean extends AbstractViewBean<AccountUserEntity> {
 	public void setNewPassword(String newPassword) {
 		this.newPassword = newPassword;
 	}
-
-	public void editSelectedUser(AccountUserEntity user) throws IOException{
-		userSessionBean.setEditedObject(user);
-		navigationHelper.navigate("users/edit.jsf");
-	}
 	
 	public void showUserHistory(AccountUserEntity user) {
 		Map<String, Object> options = new HashMap<String, Object>();
 		options.put("resizable", false);
         options.put("draggable", false);
         options.put("modal", true);
-        //options.put("header", LabelsHelper.getLocalizedMessage(LocaleLabels.USER_HISTORY_DIALOG_HEADER_0, user.getLogin()));
         Map<String, List<String>> param = new HashMap<String, List<String>>();
         param.put("idUser", new ArrayList<>(Arrays.asList(user.getId().toString())));
 		RequestContext.getCurrentInstance().openDialog("users/userHistory", options, param);
@@ -124,5 +118,14 @@ public class SuperAdminBean extends AbstractViewBean<AccountUserEntity> {
 	
 	public void cancel() throws IOException {
 		navigationHelper.navigate(WebHelper.SUPER_ADMIN_PAGE);
+	}
+	
+	protected void navigateAfterSave() throws IOException {
+		navigationHelper.navigate("/superAdmin/adminsList.jsf");
+	}
+
+	@Override
+	protected String getEditObjectPage() {
+		return "/superAdmin/users/edit.jsf";
 	}
 }

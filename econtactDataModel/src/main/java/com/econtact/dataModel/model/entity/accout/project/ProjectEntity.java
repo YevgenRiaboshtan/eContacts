@@ -1,6 +1,7 @@
 package com.econtact.dataModel.model.entity.accout.project;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
@@ -27,7 +30,8 @@ import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 @Table(name = "project", schema = EntityHelper.E_CONTACT_SCHEMA, indexes = { @Index(name = "id_index_pk", columnList = EntityHelper.ID_F) })
 @Audited
 @AuditTable(value = "project_aud", schema = EntityHelper.E_CONTACT_SCHEMA)
-public class Project extends AbstractAuditeEntity<BigDecimal> {
+@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
+public class ProjectEntity extends AbstractAuditeEntity<BigDecimal> {
 	private static final long serialVersionUID = 6692176964337384451L;
 	private static final String SEQ_NAME = "projectSeq";
 
@@ -51,6 +55,9 @@ public class Project extends AbstractAuditeEntity<BigDecimal> {
 	@Enumerated
 	@Column(name = "confirm_create", nullable = false, precision = 1, scale = 0)
 	private ConfirmStatusEnum confirmCreate;
+
+	@Column(name = "create_date", nullable = false)
+	private Date createDate;
 
 	public BigDecimal getId() {
 		return id;
@@ -90,6 +97,14 @@ public class Project extends AbstractAuditeEntity<BigDecimal> {
 
 	public void setConfirmCreate(ConfirmStatusEnum confirmCreate) {
 		this.confirmCreate = confirmCreate;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 
 }

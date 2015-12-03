@@ -27,7 +27,7 @@ public class WebHelper implements Serializable {
 	public static final String DATE_PATTERN = "dd.MM.yyyy";
     public static final String DATE_TIME_PATTERN = "dd.MM.yyyy HH:mm:ss";
 	
-	public static final String SUPER_ADMIN_PAGE = "superAdmin/adminsList.jsf";
+	public static final String SUPER_ADMIN_PAGE = "/superAdmin/adminsList.jsf";
 	public static final String INDEX_PAGE = "index.jsf";
 	public static final String LOGIN_PAGE = "loginPage.jsf";
 

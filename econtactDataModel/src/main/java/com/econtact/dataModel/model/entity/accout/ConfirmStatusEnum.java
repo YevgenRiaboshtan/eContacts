@@ -8,8 +8,14 @@ public enum ConfirmStatusEnum implements AbstractEnum {
 
 	@Override
 	public String getLabelKey() {
-		// TODO Auto-generated method stub
-		return null;
+		switch (this) {
+		case NOT_CONFIRMED:	
+			return "confirmStatusEnum.notConfirmed.label";
+		case CONFIRMED:
+			return "confirmStatusEnum.confirmed.label";
+		default:
+			return "";
+		}
 	}
 
 	@Override

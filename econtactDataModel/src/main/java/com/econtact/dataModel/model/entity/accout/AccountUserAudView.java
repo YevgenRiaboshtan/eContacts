@@ -49,7 +49,7 @@ public class AccountUserAudView implements AbstractView<BigDecimal> {
 	private RoleType role;
 
 	@Enumerated
-	@Column(name = "role_confirm", nullable = false)
+	@Column(name = "role_confirm", nullable = false, precision = 1, scale = 0)
 	private ConfirmStatusEnum roleConfirm;
 
 	@Enumerated

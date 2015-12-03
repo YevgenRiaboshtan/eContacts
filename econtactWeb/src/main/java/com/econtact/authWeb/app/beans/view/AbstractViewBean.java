@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -19,6 +20,7 @@ import com.econtact.authWeb.app.utils.UniqueConstraintHandleUtils;
 import com.econtact.dataModel.data.service.GenericService;
 import com.econtact.dataModel.data.util.UniqueConstraintException;
 import com.econtact.dataModel.model.entity.AbstractEntity;
+import com.econtact.dataModel.model.entity.accout.AccountUserEntity;
 
 public abstract class AbstractViewBean<T extends AbstractEntity> implements Serializable {
 	private static final long serialVersionUID = 972909936401945467L;
@@ -40,6 +42,7 @@ public abstract class AbstractViewBean<T extends AbstractEntity> implements Seri
 
 	@PostConstruct
 	public void init() {
+		System.out.println("init");
 		entityClass = (Class<T>) getParameterClass( 0, getClass());
 		if (userSessionBean.getEditedObject() != null) {
 			setEntity(genericService.findById(entityClass, userSessionBean.getEditedObject().getId()));
@@ -48,6 +51,11 @@ public abstract class AbstractViewBean<T extends AbstractEntity> implements Seri
 			setEntity(createDefaultEntity());
 		}
 
+	}
+	
+	@PreDestroy
+	public void destroy() {
+		System.out.println("destroy");
 	}
 	
 	public void saveEntity() throws IOException {
@@ -79,6 +87,8 @@ public abstract class AbstractViewBean<T extends AbstractEntity> implements Seri
 	
 	protected abstract T createDefaultEntity();
 	
+	protected abstract String getEditObjectPage();
+	
 	public void cancel() throws IOException {
 		navigationHelper.navigate(navigationHelper.getIndexPage());
 	}
@@ -88,6 +98,13 @@ public abstract class AbstractViewBean<T extends AbstractEntity> implements Seri
 				.getActualTypeArguments()[pos];
 	}
 
+	public void editSelectedUser(AccountUserEntity user) throws IOException{
+		userSessionBean.setEditedObject(user);
+		navigationHelper.navigate(getEditObjectPage());
+	}
+	
+	
+	
 	public FilterHelper getFilterHelper() {
 		return filterHelper;
 	}

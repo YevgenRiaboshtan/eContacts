@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<p:outputLabel value="#{viewMsg['projectListPage.cature']}"></p:outputLabel>
+		<h:form id="projectTableForm" >
+			<p:dataTable id="projectDataTable" lazy="true" widgetVar="projectDataTable"
+				value="#{projectBean.projectsDataTabelModel}" var="projItem"
+				paginator="true" paginatorPosition="bottom"
+				rows="10" rowsPerPageTemplate="10,15,20"
+				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {JumpToPageDropdown} {NextPageLink} {LastPageLink}"
+				scrollHeight="425" scrollable="true"
+				style="text-align: center;" filterEvent="enter"
+				emptyMessage="#{viewMsg['datatable.empty.message']}"
+				sortBy="#{projItem.createDate}">
+				<p:column sortBy="#{projItem.id}" filterBy="#{projItem.id}" headerText="#{viewMsg['admins.list.id.header']}">
+					<f:attribute name="filterDataType" value="NUMBER" />
+					<f:attribute name="filterField" value="id" />
+					<p:outputLabel value="#{projItem.id}"></p:outputLabel>
+				</p:column>
+				<p:column sortBy="#{projItem.nameProject}" filterBy="#{projItem.nameProject}" headerText="#{viewMsg['project.name.label']}">
+					<f:attribute name="filterDataType" value="TEXT" />
+					<f:attribute name="filterField" value="nameProject" />
+					<p:outputLabel value="#{projItem.nameProject}"></p:outputLabel>
+				</p:column>
+				<p:column sortBy="#{projItem.description}" filterBy="#{projItem.description}" headerText="#{viewMsg['project.description.label']}">
+					<f:attribute name="filterDataType" value="TEXT" />
+					<f:attribute name="filterField" value="description" />
+					<p:outputLabel value="#{projItem.description}"></p:outputLabel>
+				</p:column>
+				<p:column sortBy="#{projItem.owner.login}" filterBy="#{projItem.owner.login}" headerText="#{viewMsg['project.owner.login.label']}">
+					<f:attribute name="filterDataType" value="TEXT" />
+					<f:attribute name="filterField" value="owner.login" />
+					<p:outputLabel value="#{projItem.owner.login}"></p:outputLabel>
+				</p:column>
+				<p:column sortBy="#{projItem.owner.fullName}" filterBy="#{projItem.owner.fullName}" headerText="#{viewMsg['project.owner.fullName.label']}">
+					<f:attribute name="filterDataType" value="TEXT" />
+					<f:attribute name="filterField" value="owner.fullName" />
+					<p:outputLabel value="#{projItem.owner.fullName}"></p:outputLabel>
+				</p:column>
+				<p:column sortBy="#{projItem.createDate}" filterBy="#{projItem.createDate}" headerText="#{viewMsg['project.createDate.label']}">
+					<f:attribute name="filterDataType" value="DATE" />
+					<f:attribute name="filterField" value="createDate" />
+					<p:outputLabel value="#{projItem.createDate}">
+						<f:convertDateTime pattern="dd.MM.yyyy"/>
+					</p:outputLabel>
+				</p:column>
+				<p:column sortBy="#{projItem.confirmCreate}" filterBy="#{projItem.confirmCreate}" headerText="#{viewMsg['project.confirm.label']}">
+					<f:attribute name="filterDataType" value="ENUM" />
+					<f:attribute name="filterField" value="confirmCreate" />
+					<f:facet name="filter">
+						<p:selectOneMenu onchange="PF('projectDataTable').filter()" converter="confirmStatusEnumConverter">
+							<f:selectItems value="#{filterHelper.getEnumFilter('com.econtact.dataModel.model.entity.accout.ConfirmStatusEnum', true)}"></f:selectItems>
+						</p:selectOneMenu>
+					</f:facet>
+					<p:outputLabel value="#{labelsHelper.getLocalizedMessage(projItem.confirmCreate.labelKey)}"></p:outputLabel>
+				</p:column>	
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
