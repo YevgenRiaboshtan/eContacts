@@ -18,6 +18,11 @@
 				style="text-align: center;" filterEvent="enter"
 				emptyMessage="#{viewMsg['datatable.empty.message']}"
 				sortBy="#{projItem.createDate}">
+				<p:column>
+					<f:facet name="header">
+						<p:commandButton icon="fa fa-plus" immediate="true" actionListener="#{navigationHelper.navigate('/user/project/newProject.jsf')}" />
+					</f:facet>
+				</p:column>
 				<p:column sortBy="#{projItem.id}" filterBy="#{projItem.id}" headerText="#{viewMsg['admins.list.id.header']}">
 					<f:attribute name="filterDataType" value="NUMBER" />
 					<f:attribute name="filterField" value="id" />

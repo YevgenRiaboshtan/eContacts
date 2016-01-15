@@ -11,18 +11,18 @@ import com.econtact.authWeb.app.dataTable.model.project.ProjectsDataTableLazyMod
 import com.econtact.authWeb.app.helpers.WebHelper;
 import com.econtact.dataModel.model.entity.accout.ConfirmStatusEnum;
 import com.econtact.dataModel.model.entity.accout.RoleType;
-import com.econtact.dataModel.model.entity.accout.project.ProjectEntity;
+import com.econtact.dataModel.model.entity.church.ChurchEntity;
 
 @ManagedBean (name = "projectBean")
 @ViewScoped
-public class ProjectBean extends AbstractViewBean<ProjectEntity> {
+public class ProjectBean extends AbstractViewBean<ChurchEntity> {
 	private static final long serialVersionUID = -7179818194774205326L;
 
 	private ProjectsDataTableLazyModel projectsDataTabelModel;
 	
 	@Override
-	protected ProjectEntity createDefaultEntity() {
-		ProjectEntity result = new ProjectEntity();
+	protected ChurchEntity createDefaultEntity() {
+		ChurchEntity result = new ChurchEntity();
 		result.setOwner(WebHelper.getPrincipal());
 		if (RoleType.ROLE_ADMIN.equals(WebHelper.getPrincipal().getRole())) {
 			result.setConfirmCreate(ConfirmStatusEnum.CONFIRMED);

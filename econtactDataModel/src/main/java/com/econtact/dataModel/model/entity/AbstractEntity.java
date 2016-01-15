@@ -17,6 +17,10 @@ public abstract class AbstractEntity<PK extends Serializable> implements Abstrac
 	@Transient
 	private Long uid;
 	
+	/**
+	 * Поле версии для оптимистической блокировки.
+	 * Version field for optimistic lock.
+	 */
 	@Version
 	@Column(name="version")
 	private Long version;

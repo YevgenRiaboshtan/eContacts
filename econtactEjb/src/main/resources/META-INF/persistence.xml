@@ -12,11 +12,9 @@
 		<class>com.econtact.dataModel.model.entity.common.ConnectAuditEntity</class>
 		<class>com.econtact.dataModel.model.entity.accout.AccountUserEntity</class>
 		<class>com.econtact.dataModel.model.entity.accout.SessionUserEntity</class>
-		<class>com.econtact.dataModel.model.entity.accout.project.ProjectEntity</class>
-		<class>com.econtact.dataModel.model.entity.AbstractAuditeEntity</class>
 		<class>com.econtact.dataModel.model.entity.accout.AccountUserAudView</class>
-		<class>com.econtact.dataModel.model.entity.dictionary.AbstractUniverDictEntity</class>
 		<class>com.econtact.dataModel.model.entity.dictionary.UniverDictCheckEntity</class>
+		<class>com.econtact.dataModel.model.entity.church.ChurchEntity</class>
 		<properties>
 			<!-- Properties for Hibernate -->
 			<property name="hibernate.show_sql" value="false" />

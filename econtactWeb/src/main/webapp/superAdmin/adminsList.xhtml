@@ -5,6 +5,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:pe="http://primefaces.org/ui/extensions"
 	template="/WEB-INF/templates/default.xhtml">
 	<ui:define name="content">
 		<p:outputLabel value="#{viewMsg['admins.list.capture.label']}"></p:outputLabel>
@@ -64,7 +65,7 @@
 					</f:facet>
 					<p:outputLabel value="#{labelsHelper.getLocalizedMessage(adminItem.enabledUser.labelKey)}"></p:outputLabel>
 				</p:column>
-			</p:dataTable>
+			</p:dataTable> 
 		</h:form>
 	</ui:define>
 </ui:composition>
