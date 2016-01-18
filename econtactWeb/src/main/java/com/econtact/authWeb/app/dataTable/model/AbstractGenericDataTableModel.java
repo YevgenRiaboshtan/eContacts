@@ -14,8 +14,9 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
 
-import com.econtact.authWeb.app.helpers.FilterHelper;
-import com.econtact.authWeb.app.helpers.WebHelper;
+import com.econtact.authWeb.app.utils.FilterUtils;
+import com.econtact.authWeb.app.utils.WebUtils;
+import com.econtact.dataModel.data.context.UserContext;
 import com.econtact.dataModel.data.filter.AbstractFilterDef;
 import com.econtact.dataModel.data.filter.FilterDataTypeEnum;
 import com.econtact.dataModel.data.filter.FilterDefAnd;
@@ -30,26 +31,26 @@ public abstract class AbstractGenericDataTableModel<T extends AbstractView> exte
 	private static final String FILTER_TYPE_ATTR = "filterDataType"; 
 	private static final String FILTER_FIELD_ATTR = "filterField";
 	
-	private FilterHelper filterHelper;
+	private final UserContext userContext;
 	
 	private Map<String, T> cache = new HashMap<String, T>();
 	private Map<String, FilterDataTypeEnum> filterDataTypes = new HashMap<>();
 	
-	public AbstractGenericDataTableModel(DataTable table, FilterHelper filterHelper) {
+	public AbstractGenericDataTableModel(DataTable table, UserContext userContext) {
 		super();
-		this.filterHelper = filterHelper;
+		this.userContext = userContext;
 		for (UIColumn column : table.getColumns()) {
 			if (((Column) column).getAttributes().containsKey(FILTER_TYPE_ATTR)
 					&& ((Column) column).getAttributes().containsKey(FILTER_FIELD_ATTR)) {
 				filterDataTypes.put(
 						((Column) column).getAttributes().get(FILTER_FIELD_ATTR).toString(),
-						filterHelper.parseDataTypeString(((Column) column).getAttributes().get(FILTER_TYPE_ATTR).toString()));
+						parseDataTypeString(((Column) column).getAttributes().get(FILTER_TYPE_ATTR).toString()));
 			}
 		}
 	}
 	
 	public <E extends AbstractEntity> void removeEntity(E entity) {
-		WebHelper.getBean(GenericService.class).remove(entity, WebHelper.getUserContext());
+		WebUtils.getBean(GenericService.class).remove(entity, userContext);
 	}
 	
 	@Override
@@ -89,19 +90,41 @@ public abstract class AbstractGenericDataTableModel<T extends AbstractView> exte
 		for (SortingInfo item : orders) {
 			criteria.addSortingInfo(item.getColumnName(), item.isAscending());
 		}
-		List<T> result = WebHelper.getBean(GenericService.class).find(criteria, first, pageSize);
+		List<T> result = WebUtils.getBean(GenericService.class).find(criteria, first, pageSize);
 		cache.clear();
 		for (T item : result) {
 			cache.put(getRowKey(item).toString(), item);
 		}
-		this.setRowCount(WebHelper.getBean(GenericService.class).getRowCount(criteria).intValue());
+		this.setRowCount(WebUtils.getBean(GenericService.class).getRowCount(criteria).intValue());
 		return result;
 	}
 	
+	private FilterDataTypeEnum parseDataTypeString(String dataType) {
+		switch (dataType) {
+		case "TEXT":
+			return FilterDataTypeEnum.TEXT;
+		case "DATE":
+			return FilterDataTypeEnum.DATE;
+		case "LONG":
+			return FilterDataTypeEnum.LONG;
+		case "NUMBER":
+			return FilterDataTypeEnum.NUMBER;
+		case "ENUM":
+			return FilterDataTypeEnum.ENUM;
+		case "DICTIONARY":
+			return FilterDataTypeEnum.DICTIONARY;
+		case "BOOLEAN":
+			return FilterDataTypeEnum.BOOLEAN;
+		case "NONE":
+			return FilterDataTypeEnum.NONE;
+		default:
+			return null;
+		}
+	}
 	protected AbstractFilterDef makeFilters(Map<String, Object> filters) {
 		FilterDefAnd result = new FilterDefAnd();
 		for (Entry<String, Object> entry : filters.entrySet()) {
-			result.addDefinition(filterHelper.getMakeFilter(filterDataTypes.get(entry.getKey()), entry.getKey(), entry.getValue()));
+			result.addDefinition(FilterUtils.getMakeFilter(filterDataTypes.get(entry.getKey()), entry.getKey(), entry.getValue()));
 		}
 		return result;
 	}

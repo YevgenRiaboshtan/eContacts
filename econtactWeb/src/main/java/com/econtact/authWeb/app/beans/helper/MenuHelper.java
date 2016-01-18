@@ -1,4 +1,4 @@
-package com.econtact.authWeb.app.utils;
+package com.econtact.authWeb.app.beans.helper;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,9 +6,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -20,8 +20,6 @@ import org.primefaces.model.menu.DefaultSubMenu;
 import org.primefaces.model.menu.MenuElement;
 import org.primefaces.model.menu.MenuModel;
 
-import com.econtact.authWeb.app.helpers.LabelsHelper;
-import com.econtact.authWeb.app.helpers.WebHelper;
 import com.econtact.authWeb.app.top.menu.MenuElementTopMenuBar;
 import com.econtact.authWeb.app.top.menu.MenuItemTopMenuBar;
 import com.econtact.authWeb.app.top.menu.SubMenuTopMenuBar;
@@ -29,9 +27,9 @@ import com.econtact.authWeb.app.top.menu.TopMenuBar;
 import com.econtact.dataModel.data.util.LocaleLabels;
 import com.econtact.dataModel.model.entity.accout.RoleType;
 
-@ManagedBean (name = "menuUtils")
+@Named
 @ApplicationScoped
-public class MenuUtils implements Serializable {
+public class MenuHelper implements Serializable {
 	private static final long serialVersionUID = 1915046053069380758L;
 
 	public static final String SUPER_ADMIN_TOP_MENU_FILE_NAME = "superAdminTopMenu.xml";
@@ -41,9 +39,9 @@ public class MenuUtils implements Serializable {
 	@Inject
 	LabelsHelper labelsHelper;
 	
-	public MenuModel buildTopMenu() {
+	public MenuModel buildTopMenu(RoleType role) {
 		String fileName = "";
-		switch (WebHelper.getPrincipal().getRole()) {
+		switch (role) {
 		case ROLE_SUPER_ADMIN:
 			fileName = SUPER_ADMIN_TOP_MENU_FILE_NAME;
 			break;
@@ -59,24 +57,24 @@ public class MenuUtils implements Serializable {
 		}
 		TopMenuBar topMenuBar = null;
 		try {
-			if (MenuUtils.class.getClassLoader().getResource(fileName) != null) {
+			if (MenuHelper.class.getClassLoader().getResource(fileName) != null) {
 				JAXBContext jaxbContext = JAXBContext.newInstance(TopMenuBar.class);
 				Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 				topMenuBar = (TopMenuBar) jaxbUnmarshaller.unmarshal(
 						new File(
-							MenuUtils.class.getClassLoader().getResource(fileName).getFile()));
+							MenuHelper.class.getClassLoader().getResource(fileName).getFile()));
 			}
 		} catch (JAXBException e) {
 			topMenuBar = null;
 		}
 		if (topMenuBar == null) {
-			topMenuBar = buildDefaultTopMenuBar(WebHelper.getPrincipal().getRole());
+			topMenuBar = buildDefaultTopMenuBar(role);
 			JAXBContext jaxbContext;
 			try {
 				jaxbContext = JAXBContext.newInstance(TopMenuBar.class);
 			
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-			File outFile = new File(MenuUtils.class.getClassLoader().getResource(fileName).getFile());
+			File outFile = new File(MenuHelper.class.getClassLoader().getResource(fileName).getFile());
 			outFile.createNewFile();
 			jaxbMarshaller.marshal(topMenuBar, outFile);
 			} catch (JAXBException | IOException e) {

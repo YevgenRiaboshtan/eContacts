@@ -11,8 +11,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.ws.rs.InternalServerErrorException;
 
-import com.econtact.authWeb.app.helpers.WebHelper;
 import com.econtact.authWeb.app.security.PasswordUtils;
+import com.econtact.authWeb.app.utils.WebUtils;
 import com.econtact.dataModel.data.context.UserContext;
 import com.econtact.dataModel.data.service.AuthenticationService;
 import com.econtact.dataModel.data.service.GenericService;
@@ -34,7 +34,7 @@ public class StartUpCheck implements Servlet{
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-		final UniverDictService univerDictService = WebHelper.getBean(UniverDictService.class);
+		final UniverDictService univerDictService = WebUtils.getBean(UniverDictService.class);
 		checkActionUniverDicts(univerDictService);
 		checkEventUniverDicts(univerDictService);
 		if (System.getProperty("com.econtact.defaultAdminLogin") != null) {
@@ -49,7 +49,7 @@ public class StartUpCheck implements Servlet{
 		} else {
 			defaultAdminPassword = "admin";
 		}
-		if (WebHelper.getBean(AuthenticationService.class).getUserByLogin(defaultAdminLogin) == null) {
+		if (WebUtils.getBean(AuthenticationService.class).getUserByLogin(defaultAdminLogin) == null) {
 			AccountUserEntity superAdmin = new AccountUserEntity();
 			superAdmin.setLogin(defaultAdminLogin);
 			superAdmin.setFirstName(defaultAdminLogin);
@@ -62,7 +62,7 @@ public class StartUpCheck implements Servlet{
 			superAdmin.setAllowCreateRegister(false);
 			try {
 				final UserContext stubUserContext = UserContext.create(null, TimeZone.getTimeZone("GMT+2"));
-				superAdmin = WebHelper.getBean(GenericService.class).saveOrUpdate(superAdmin, stubUserContext);
+				superAdmin = WebUtils.getBean(GenericService.class).saveOrUpdate(superAdmin, stubUserContext);
 			} catch (UniqueConstraintException e) {
 				throw new InternalServerErrorException("Creating default admin error");
 			}
@@ -112,7 +112,7 @@ public class StartUpCheck implements Servlet{
 			connect.setIdRecDict(DictionaryConstant.ACTION_CONNECT);
 			connect.setNameRecDict("Подключение");
 			connect.setParamDict(NamesDictConstant.ACTION);
-			WebHelper.getBean(UniverDictService.class).saveOrUpdate(connect);
+			WebUtils.getBean(UniverDictService.class).saveOrUpdate(connect);
 		}
 		
 		if (disconnectItem == null) {
@@ -121,7 +121,7 @@ public class StartUpCheck implements Servlet{
 			disconnect.setIdRecDict(DictionaryConstant.ACTION_DISCONNECT);
 			disconnect.setNameRecDict("Отключение");
 			disconnect.setParamDict(NamesDictConstant.ACTION);
-			WebHelper.getBean(UniverDictService.class).saveOrUpdate(disconnect);
+			WebUtils.getBean(UniverDictService.class).saveOrUpdate(disconnect);
 		}		
 	}
 	
@@ -153,7 +153,7 @@ public class StartUpCheck implements Servlet{
 			create.setIdRecDict(DictionaryConstant.EVENT_CREATE);
 			create.setNameRecDict("Создание");
 			create.setParamDict(NamesDictConstant.EVENT);
-			WebHelper.getBean(UniverDictService.class).saveOrUpdate(create);
+			WebUtils.getBean(UniverDictService.class).saveOrUpdate(create);
 		}
 		if (updateItem == null) {
 			UniverDictCheckEntity update = new UniverDictCheckEntity();
@@ -161,7 +161,7 @@ public class StartUpCheck implements Servlet{
 			update.setIdRecDict(DictionaryConstant.EVENT_UPDATE);
 			update.setNameRecDict("Обновление");
 			update.setParamDict(NamesDictConstant.EVENT);
-			WebHelper.getBean(UniverDictService.class).saveOrUpdate(update);
+			WebUtils.getBean(UniverDictService.class).saveOrUpdate(update);
 		}
 		if (removeItem == null) {
 			UniverDictCheckEntity remove = new UniverDictCheckEntity();
@@ -169,7 +169,7 @@ public class StartUpCheck implements Servlet{
 			remove.setIdRecDict(DictionaryConstant.EVENT_REMOVE);
 			remove.setNameRecDict("Удаление");
 			remove.setParamDict(NamesDictConstant.EVENT);
-			WebHelper.getBean(UniverDictService.class).saveOrUpdate(remove);
+			WebUtils.getBean(UniverDictService.class).saveOrUpdate(remove);
 		}	
 	}	
 }

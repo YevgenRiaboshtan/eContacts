@@ -1,23 +1,31 @@
 package com.econtact.authWeb.app.beans.view;
 
 import java.io.Serializable;
+import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.primefaces.model.menu.MenuModel;
+import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.econtact.authWeb.app.utils.MenuUtils;
+import com.econtact.authWeb.app.beans.helper.MenuHelper;
+import com.econtact.dataModel.data.context.UserContext;
 import com.econtact.dataModel.model.entity.AbstractEntity;
+import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 
-
+@Named
 @SessionScoped
 public class UserSessionBean implements Serializable {
 	private static final long serialVersionUID = 5815150040159902787L;
 	
+	private SessionUserEntity principal;
+	private UserContext userContext;
+	
 	@Inject
-	private MenuUtils menuUtils;
+	private MenuHelper menuUtils;
 	
 	private MenuModel topMenuModel;
 	
@@ -28,25 +36,27 @@ public class UserSessionBean implements Serializable {
 	}
 
 	public void setEditedObject(AbstractEntity editedObject) {
-		System.out.println( "user session beanr " + this.editedObject);
 		this.editedObject = editedObject;
-		System.out.println("user session edited object " + this.toString());
-		if (editedObject != null) {
-			System.out.println("user session edited object - " + editedObject.getClass() + " - " + editedObject.getId());
-		} else {
-			System.out.println("user session edited object - null");
-		}
 	}
 	
 	@PostConstruct
 	public void init() {
-		System.out.println("usersession init");
+		principal = (SessionUserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		userContext = UserContext.create(getPrincipal(), TimeZone.getTimeZone("GMT+2"));
 	}
-
+	
 	public MenuModel getTopMenuModel() {
 		if (topMenuModel == null) {
-			topMenuModel = menuUtils.buildTopMenu();
+			topMenuModel = menuUtils.buildTopMenu(getPrincipal().getRole());
 		}
 		return topMenuModel;
+	}
+
+	public SessionUserEntity getPrincipal() {
+		return principal;
+	}
+	
+	public UserContext getUserContext() {
+		return userContext;
 	}
 }

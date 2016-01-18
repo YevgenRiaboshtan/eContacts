@@ -10,7 +10,7 @@
 		<p:outputLabel value="#{viewMsg['connectLog.capture.label']}"></p:outputLabel>
 		<h:form id="connectLogForm">
 			<p:dataTable id="connectLogDataTable" var="connectItem" lazy="true"
-				value="#{superAdminBean.connectLogModel}" widgetVar="connectLogDataTable"
+				value="#{superAdminConnectLogTableBean.connectLogModel}" widgetVar="connectLogDataTable"
 				paginator="true" rows="20"
 				scrollHeight="400" scrollable="true"
 				sortBy="#{connectItem.dateCon}"
@@ -51,7 +51,7 @@
 					<f:attribute name="filterField" value="idActionUd" />
 					<f:facet name="filter">
 						<p:selectOneMenu onchange="PF('connectLogDataTable').filter()" converter="univerDictConvert" >
-							<f:selectItems value="#{filterHelper.getUniverDictFilter('ACTION')}"/>
+							<f:selectItems value="#{filterHelper.getUniverDictSelectItems('ACTION')}"/>
 						</p:selectOneMenu>
 					</f:facet>
 					<p:outputLabel value="#{connectItem.idActionUd.nameRecDict}" ></p:outputLabel>

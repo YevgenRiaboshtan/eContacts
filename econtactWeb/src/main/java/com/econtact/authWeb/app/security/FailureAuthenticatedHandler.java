@@ -12,7 +12,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
-import com.econtact.authWeb.app.helpers.WebHelper;
+import com.econtact.authWeb.app.beans.helper.NavigationHelper;
 
 public class FailureAuthenticatedHandler implements AuthenticationFailureHandler{
 
@@ -21,11 +21,11 @@ public class FailureAuthenticatedHandler implements AuthenticationFailureHandler
 			AuthenticationException exception) throws IOException, ServletException {
 		if (exception instanceof BadCredentialsException
 				|| exception instanceof UsernameNotFoundException) {
-			response.sendRedirect(request.getContextPath() + "/" + WebHelper.LOGIN_PAGE + "?error=authError");
+			response.sendRedirect(request.getContextPath() + "/" + NavigationHelper.LOGIN_PAGE + "?error=authError");
 		} else if (exception instanceof DisabledException) {
-			response.sendRedirect(request.getContextPath() + "/" + WebHelper.LOGIN_PAGE + "?error=disabledUser");
+			response.sendRedirect(request.getContextPath() + "/" + NavigationHelper.LOGIN_PAGE + "?error=disabledUser");
 		} else {
-			response.sendRedirect(request.getContextPath() + "/" + WebHelper.LOGIN_PAGE + "?error=unknownError");
+			response.sendRedirect(request.getContextPath() + "/" + NavigationHelper.LOGIN_PAGE + "?error=unknownError");
 		}
 	}
 

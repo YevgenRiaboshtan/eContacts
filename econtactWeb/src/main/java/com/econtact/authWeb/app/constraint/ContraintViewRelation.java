@@ -1,7 +1,12 @@
-package com.econtact.authWeb.app.utils;
+package com.econtact.authWeb.app.constraint;
 
 import java.io.Serializable;
 
+/**
+ * POJO for relation unique constraint of the entity with key of the error message and input field name on page.
+ * @author evgeniy
+ *
+ */
 public class ContraintViewRelation implements Serializable {
 	private static final long serialVersionUID = -2160068012106575745L;
 

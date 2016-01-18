@@ -8,7 +8,7 @@
 	<ui:define name="contentWrapper">
 		<div id="topMenuBlock">
 			<h:form>
-				<p:menubar model="#{webHelper.buildModel()}" style="margin:5px;">
+				<p:menubar model="#{userSessionBean.topMenuModel}" style="margin:5px;">
 					<f:facet name="options">
 						<p:commandButton id="showUserProfileBtn" icon="fa fa-user" immediate="true" ajax="true" actionListener="#{navigationHelper.navigateToProfile(false)}"/>
 						<p:tooltip for="showUserProfileBtn" value="#{viewMsg['user.profile.show.tooltiptext.label']}"/>

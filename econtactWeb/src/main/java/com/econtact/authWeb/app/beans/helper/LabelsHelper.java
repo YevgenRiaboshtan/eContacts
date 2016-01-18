@@ -1,13 +1,13 @@
-package com.econtact.authWeb.app.helpers;
+package com.econtact.authWeb.app.beans.helper;
 
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
-import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
+import javax.enterprise.context.ApplicationScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 
-@ManagedBean (name = "labelsHelper")
+@Named
 @ApplicationScoped
 public class LabelsHelper {
 	private static final ResourceBundle bundle = FacesContext.getCurrentInstance().getApplication().getResourceBundle(FacesContext.getCurrentInstance(), "viewMsg");

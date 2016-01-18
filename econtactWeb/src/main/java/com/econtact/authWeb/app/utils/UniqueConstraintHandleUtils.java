@@ -4,6 +4,7 @@ import java.nio.channels.ShutdownChannelGroupException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.econtact.authWeb.app.constraint.ContraintViewRelation;
 import com.econtact.dataModel.data.util.UniqueConstraintException;
 import com.econtact.dataModel.model.entity.accout.AccountUserEntity;
 import com.econtact.dataModel.model.entity.church.ChurchEntity;

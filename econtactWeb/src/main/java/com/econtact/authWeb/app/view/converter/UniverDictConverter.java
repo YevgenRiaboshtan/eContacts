@@ -7,7 +7,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import com.econtact.authWeb.app.helpers.WebHelper;
+import com.econtact.authWeb.app.utils.WebUtils;
 import com.econtact.dataModel.data.service.UniverDictService;
 import com.econtact.dataModel.model.entity.dictionary.UniverDictEntity;
 
@@ -19,7 +19,7 @@ public class UniverDictConverter implements Converter {
 		if (value == null) {
 			return null;
 		}
-		return WebHelper.getBean(UniverDictService.class).findById(new BigDecimal(value));
+		return WebUtils.getBean(UniverDictService.class).findById(new BigDecimal(value));
 	}
 
 	@Override

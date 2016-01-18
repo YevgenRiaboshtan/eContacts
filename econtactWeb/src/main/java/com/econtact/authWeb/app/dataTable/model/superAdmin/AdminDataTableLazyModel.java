@@ -3,7 +3,7 @@ package com.econtact.authWeb.app.dataTable.model.superAdmin;
 import org.primefaces.component.datatable.DataTable;
 
 import com.econtact.authWeb.app.dataTable.model.AbstractGenericDataTableModel;
-import com.econtact.authWeb.app.helpers.FilterHelper;
+import com.econtact.dataModel.data.context.UserContext;
 import com.econtact.dataModel.data.filter.FilterDefEquals;
 import com.econtact.dataModel.data.query.GenericFilterDefQueries;
 import com.econtact.dataModel.data.query.SearchCriteria;
@@ -12,12 +12,11 @@ import com.econtact.dataModel.model.entity.accout.AccountUserEntity;
 import com.econtact.dataModel.model.entity.accout.RoleType;
 
 public class AdminDataTableLazyModel extends AbstractGenericDataTableModel<AccountUserEntity> {
-	
-	public AdminDataTableLazyModel(DataTable table, FilterHelper filterHelper) {
-		super(table, filterHelper);
-	}
-
 	private static final long serialVersionUID = -1009954726450744039L;
+	
+	public AdminDataTableLazyModel(DataTable table, UserContext userContext) {
+		super(table, userContext);
+	}
 
 	@Override
 	protected SearchCriteria<AccountUserEntity> createQueries() {

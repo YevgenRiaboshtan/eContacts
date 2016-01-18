@@ -11,7 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import com.econtact.authWeb.app.helpers.WebHelper;
+import com.econtact.authWeb.app.beans.helper.NavigationHelper;
 import com.econtact.dataModel.data.service.AuthenticationService;
 import com.econtact.dataModel.model.entity.accout.RoleType;
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
@@ -27,9 +27,9 @@ public class SuccessAuthenticatedHandler implements AuthenticationSuccessHandler
 		SessionUserEntity user = (SessionUserEntity) authentication.getPrincipal();
 		authenticationService.connectUser(request.getHeader("User-Agent"), request.getRemoteAddr(), user);
 		if (authentication.getAuthorities().contains(new SimpleGrantedAuthority(RoleType.ROLE_SUPER_ADMIN.getName()))) {
-			response.sendRedirect(WebHelper.SUPER_ADMIN_PAGE.replaceFirst("/", ""));
+			response.sendRedirect(NavigationHelper.SUPER_ADMIN_PAGE.replaceFirst("/", ""));
 		} else {
-			response.sendRedirect(WebHelper.INDEX_PAGE);
+			response.sendRedirect(NavigationHelper.INDEX_PAGE);
 		}
 	}
 

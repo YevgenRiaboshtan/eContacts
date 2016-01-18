@@ -11,7 +11,7 @@
 		<p:outputLabel value="#{viewMsg['admins.list.capture.label']}"></p:outputLabel>
 		<h:form id="adminTableForm">
 			<p:dataTable id="adminDataTable" var="adminItem" lazy="true"
-				value="#{superAdminBean.dataModel}" widgetVar="adminDataTable"
+				value="#{superAdminAdminsTableBean.adminsModel}" widgetVar="adminDataTable"
 				paginator="true" rows="10" rowsPerPageTemplate="10,15,20"
 				scrollHeight="425" scrollable="true"
 				sortBy="#{adminItem.login}"
@@ -24,11 +24,11 @@
 					<f:facet name="header">
 						<p:commandButton icon="fa fa-plus" immediate="true" actionListener="#{navigationHelper.navigate('/superAdmin/users/new.jsf')}" />
 					</f:facet>
-					<p:commandButton id="editUser" icon="ui-icon-pencil" immediate="true" actionListener="#{superAdminBean.editSelectedUser(adminItem)}" />
+					<p:commandButton id="editUser" icon="ui-icon-pencil" immediate="true"  />
             		<p:tooltip value="#{viewMsg['btn.edit.tooltip.text']}" for="editUser" />
-            		<p:commandButton id="userHistory" icon="fa fa-history" actionListener="#{superAdminBean.showUserHistory(adminItem)}"/>
+            		<p:commandButton id="userHistory" icon="fa fa-history" actionListener="#{superAdminAdminsTableBean.showUserHistory(adminItem)}"/>
             		<p:tooltip value="#{viewMsg['admins.list.user.history.btn.tooltip.text']}" for="userHistory"/>
-            		<p:commandButton id="removeUser" icon="ui-icon-close" update=":adminTableForm:adminDataTable" actionListener="#{superAdminBean.dataModel.removeEntity(adminItem)}"/>
+            		<p:commandButton id="removeUser" icon="ui-icon-close" update=":adminTableForm:adminDataTable" actionListener="#{superAdminAdminsTableBean.adminsModel.removeEntity(adminItem)}"/>
             		<p:tooltip value="#{viewMsg['btn.remove.tooltip.text']}" for="removeUser"/>
 				</p:column>
 				<p:column headerText="#{viewMsg['admins.list.id.header']}" sortBy="#{adminItem.id}" filterBy="#{adminItem.id}">
@@ -60,7 +60,7 @@
 					<f:attribute name="filterField" value="enabledUser" />
 					<f:facet name="filter">
 						<p:selectOneMenu onchange="PF('adminDataTable').filter()" converter="activeConverter" >
-							<f:selectItems value="#{filterHelper.getEnumFilter('com.econtact.dataModel.model.entity.accout.UserStatusEnum', true)}"/>
+							<f:selectItems value="#{filterHelper.getEnumSelectItems('com.econtact.dataModel.model.entity.accout.UserStatusEnum', true)}"/>
 						</p:selectOneMenu>
 					</f:facet>
 					<p:outputLabel value="#{labelsHelper.getLocalizedMessage(adminItem.enabledUser.labelKey)}"></p:outputLabel>

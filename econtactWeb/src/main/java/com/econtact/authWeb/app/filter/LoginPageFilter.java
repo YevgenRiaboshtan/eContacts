@@ -11,7 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.econtact.authWeb.app.helpers.WebHelper;
+import com.econtact.authWeb.app.beans.helper.NavigationHelper;
 
 public class LoginPageFilter implements Filter {
 
@@ -24,7 +24,7 @@ public class LoginPageFilter implements Filter {
 			ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		if (httpRequest.getUserPrincipal() != null) {
-			((HttpServletResponse) response).sendRedirect(WebHelper.INDEX_PAGE);
+			((HttpServletResponse) response).sendRedirect(NavigationHelper.INDEX_PAGE);
 			return;
 		}
 		chain.doFilter(request, response);

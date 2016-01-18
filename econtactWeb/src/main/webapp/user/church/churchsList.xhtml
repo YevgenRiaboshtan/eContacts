@@ -10,7 +10,7 @@
 		<p:outputLabel value="#{viewMsg['churchListPage.cature']}"></p:outputLabel>
 		<h:form id="churchTableForm" >
 			<p:dataTable id="churchDataTable" lazy="true" widgetVar="churchDataTable"
-				value="#{churchBean.churchsDataTabelModel}" var="churchItem"
+				value="#{churchTableBean.churchsDataTabelModel}" var="churchItem"
 				paginator="true" paginatorPosition="bottom"
 				rows="10" rowsPerPageTemplate="10,15,20"
 				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {JumpToPageDropdown} {NextPageLink} {LastPageLink}"
@@ -60,7 +60,7 @@
 					<f:attribute name="filterField" value="confirmCreate" />
 					<f:facet name="filter">
 						<p:selectOneMenu onchange="PF('churchDataTable').filter()" converter="confirmStatusEnumConverter">
-							<f:selectItems value="#{filterHelper.getEnumFilter('com.econtact.dataModel.model.entity.accout.ConfirmStatusEnum', true)}"></f:selectItems>
+							<f:selectItems value="#{filterHelper.getEnumSelectItems('com.econtact.dataModel.model.entity.accout.ConfirmStatusEnum', true)}"></f:selectItems>
 						</p:selectOneMenu>
 					</f:facet>
 					<p:outputLabel value="#{labelsHelper.getLocalizedMessage(churchItem.confirmCreate.labelKey)}"></p:outputLabel>

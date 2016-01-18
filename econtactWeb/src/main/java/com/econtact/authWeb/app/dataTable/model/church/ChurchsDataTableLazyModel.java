@@ -3,7 +3,7 @@ package com.econtact.authWeb.app.dataTable.model.church;
 import org.primefaces.component.datatable.DataTable;
 
 import com.econtact.authWeb.app.dataTable.model.AbstractGenericDataTableModel;
-import com.econtact.authWeb.app.helpers.FilterHelper;
+import com.econtact.dataModel.data.context.UserContext;
 import com.econtact.dataModel.data.filter.FilterDefEquals;
 import com.econtact.dataModel.data.query.GenericFilterDefQueries;
 import com.econtact.dataModel.data.query.SearchCriteria;
@@ -13,8 +13,8 @@ import com.econtact.dataModel.model.entity.church.ChurchEntity;
 public class ChurchsDataTableLazyModel extends AbstractGenericDataTableModel<ChurchEntity> {
 	private static final long serialVersionUID = -7111653076618751192L;
 
-	public ChurchsDataTableLazyModel(DataTable table, FilterHelper filterHelper) {
-		super(table, filterHelper);
+	public ChurchsDataTableLazyModel(DataTable table, UserContext userContext) {
+		super(table, userContext);
 	}
 
 	@Override

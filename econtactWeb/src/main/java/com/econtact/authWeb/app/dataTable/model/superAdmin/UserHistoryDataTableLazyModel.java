@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import org.primefaces.component.datatable.DataTable;
 
 import com.econtact.authWeb.app.dataTable.model.AbstractGenericDataTableModel;
-import com.econtact.authWeb.app.helpers.FilterHelper;
+import com.econtact.dataModel.data.context.UserContext;
 import com.econtact.dataModel.data.filter.FilterDefEquals;
 import com.econtact.dataModel.data.query.GenericFilterDefQueries;
 import com.econtact.dataModel.data.query.SearchCriteria;
@@ -17,8 +17,8 @@ public class UserHistoryDataTableLazyModel extends AbstractGenericDataTableModel
 
 	private final BigDecimal idUser;
 	
-	public UserHistoryDataTableLazyModel(DataTable table, FilterHelper filterHelper, String idUser) {
-		super(table, filterHelper);
+	public UserHistoryDataTableLazyModel(DataTable table, UserContext userContext, String idUser) {
+		super(table, userContext);
 		this.idUser = BigDecimal.valueOf(Long.parseLong(idUser));
 	}
 

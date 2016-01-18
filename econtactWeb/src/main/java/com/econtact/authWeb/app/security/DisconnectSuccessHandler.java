@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 
-import com.econtact.authWeb.app.helpers.WebHelper;
+import com.econtact.authWeb.app.beans.helper.NavigationHelper;
 import com.econtact.dataModel.data.service.AuthenticationService;
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 
@@ -21,7 +21,7 @@ public class DisconnectSuccessHandler extends SimpleUrlLogoutSuccessHandler {
 	
 	public DisconnectSuccessHandler() {
 		super();
-		setDefaultTargetUrl("/" + WebHelper.LOGIN_PAGE);
+		setDefaultTargetUrl("/" + NavigationHelper.LOGIN_PAGE);
 	} 
 	
 	@Override
