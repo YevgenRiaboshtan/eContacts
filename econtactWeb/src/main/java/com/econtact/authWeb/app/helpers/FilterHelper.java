@@ -15,6 +15,7 @@ import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
 import org.primefaces.component.inputtext.InputText;
@@ -43,6 +44,9 @@ public class FilterHelper implements Serializable{
 
 	@EJB
 	UniverDictService univerDictService;
+	
+	@Inject
+	LabelsHelper labelsHelper;
 	
 	/**
 	 * Возвращает список елементов комбобокса для фильтра
@@ -83,7 +87,7 @@ public class FilterHelper implements Serializable{
 		}
 		AbstractEnum[] constraints = (AbstractEnum[]) clazz.getEnumConstants();
 		for (AbstractEnum constraint : constraints) {
-			items.add(new SelectItem(constraint.getValue(), LabelsHelper.getLocalizedMessage(constraint.getLabelKey())));		
+			items.add(new SelectItem(constraint.getValue(), labelsHelper.getLocalizedMessage(constraint.getLabelKey())));		
 		}
 		return items;
 	}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<c:if test="#{empty bean.entity.salt}">
+			<p:outputLabel value="#{viewMsg['church.new.label']}"></p:outputLabel>
+		</c:if>
+		<c:if test="#{not empty bean.entity.salt}">
+			<p:outputLabel value="#{viewMsg['church.edit.label']}"></p:outputLabel>
+		</c:if>
+		<h:form prependId="false" id="churchForm">
+			<h:panelGrid columns="3">
+				
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

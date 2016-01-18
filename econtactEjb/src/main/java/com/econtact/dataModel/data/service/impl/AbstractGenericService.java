@@ -7,6 +7,7 @@ import javax.ejb.EJB;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
+import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -56,6 +57,8 @@ public abstract class AbstractGenericService implements EjbService {
 			result = getEntityManager().merge(entity);
 			getEntityManager().flush();
 			return result;
+		} catch (OptimisticLockException ex) {
+			throw ex; 
 		} catch (PersistenceException ex) {
 			if (ex.getCause().getCause() instanceof SQLException
 					&& ((SQLException) ex.getCause().getCause()).getSQLState().equalsIgnoreCase(UniqueConstraintException.POSTGRESQL_UNIQUE_CONSTRAINT_EXCEPTION_CODE)) {

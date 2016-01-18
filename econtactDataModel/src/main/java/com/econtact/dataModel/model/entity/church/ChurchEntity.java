@@ -39,6 +39,7 @@ public class ChurchEntity extends AbstractEntity<BigDecimal> implements AuditSup
 	private static final String SEQ_NAME = "churchSeq";
 	private static final String NOTE_PATTERN = "Церковь ID: '%s'";
 	
+	public static final String CHURCH_NAME_SIGN_UNIQUE_CONSTRAINT = "church_name_sign_unique_constraint";
 	/**
 	 * identifier of the Church.
 	 */

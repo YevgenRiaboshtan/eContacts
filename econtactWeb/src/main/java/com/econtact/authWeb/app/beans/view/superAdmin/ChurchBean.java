@@ -7,18 +7,18 @@ import javax.faces.context.FacesContext;
 import org.primefaces.component.datatable.DataTable;
 
 import com.econtact.authWeb.app.beans.view.AbstractViewBean;
-import com.econtact.authWeb.app.dataTable.model.project.ProjectsDataTableLazyModel;
+import com.econtact.authWeb.app.dataTable.model.church.ChurchsDataTableLazyModel;
 import com.econtact.authWeb.app.helpers.WebHelper;
 import com.econtact.dataModel.model.entity.accout.ConfirmStatusEnum;
 import com.econtact.dataModel.model.entity.accout.RoleType;
 import com.econtact.dataModel.model.entity.church.ChurchEntity;
 
-@ManagedBean (name = "projectBean")
+@ManagedBean (name = "churchBean")
 @ViewScoped
-public class ProjectBean extends AbstractViewBean<ChurchEntity> {
+public class ChurchBean extends AbstractViewBean<ChurchEntity> {
 	private static final long serialVersionUID = -7179818194774205326L;
 
-	private ProjectsDataTableLazyModel projectsDataTabelModel;
+	private ChurchsDataTableLazyModel churchDataTabelModel;
 	
 	@Override
 	protected ChurchEntity createDefaultEntity() {
@@ -32,21 +32,21 @@ public class ProjectBean extends AbstractViewBean<ChurchEntity> {
 		return result;
 	}
 
-	public ProjectsDataTableLazyModel getProjectsDataTabelModel() {
-		if (projectsDataTabelModel == null) {
+	public ChurchsDataTableLazyModel getChurchsDataTabelModel() {
+		if (churchDataTabelModel == null) {
 			DataTable table = (DataTable) FacesContext.getCurrentInstance().getViewRoot()
 					.findComponent("projectTableForm:projectDataTable");
-			projectsDataTabelModel = new ProjectsDataTableLazyModel(table, getFilterHelper());
+			churchDataTabelModel = new ChurchsDataTableLazyModel(table, getFilterHelper());
 		}
-		return projectsDataTabelModel;
+		return churchDataTabelModel;
 	}
 
-	public void setProjectsDataTabelModel(ProjectsDataTableLazyModel projectsDataTabelModel) {
-		this.projectsDataTabelModel = projectsDataTabelModel;
+	public void setChurchsDataTabelModel(ChurchsDataTableLazyModel projectsDataTabelModel) {
+		this.churchDataTabelModel = projectsDataTabelModel;
 	}
 
 	@Override
 	protected String getEditObjectPage() {
-		return "/user/project/editProject.xhtml";
+		return "/user/church/editChurch.xhtml";
 	}
 }

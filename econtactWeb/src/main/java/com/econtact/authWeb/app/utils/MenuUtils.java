@@ -6,6 +6,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
+import javax.inject.Inject;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -26,6 +29,8 @@ import com.econtact.authWeb.app.top.menu.TopMenuBar;
 import com.econtact.dataModel.data.util.LocaleLabels;
 import com.econtact.dataModel.model.entity.accout.RoleType;
 
+@ManagedBean (name = "menuUtils")
+@ApplicationScoped
 public class MenuUtils implements Serializable {
 	private static final long serialVersionUID = 1915046053069380758L;
 
@@ -33,7 +38,10 @@ public class MenuUtils implements Serializable {
 	public static final String ADMIN_TOP_MENU_FILE_NAME = "adminTopMenu.xml";
 	public static final String EMPLOYEE_TOP_MENU_FILE_NAME = "employeeTopMenu.xml";
 	
-	public static MenuModel buildTopMenu() {
+	@Inject
+	LabelsHelper labelsHelper;
+	
+	public MenuModel buildTopMenu() {
 		String fileName = "";
 		switch (WebHelper.getPrincipal().getRole()) {
 		case ROLE_SUPER_ADMIN:
@@ -78,7 +86,7 @@ public class MenuUtils implements Serializable {
 		return convertTopMenuModel(topMenuBar);
 	}
 
-	private static TopMenuBar buildDefaultTopMenuBar(RoleType role) {
+	private TopMenuBar buildDefaultTopMenuBar(RoleType role) {
 		TopMenuBar topMenuBar = new TopMenuBar();
 		switch (role) {
 		case ROLE_SUPER_ADMIN:
@@ -96,7 +104,7 @@ public class MenuUtils implements Serializable {
 		return topMenuBar;
 	}
 	
-	private static MenuModel convertTopMenuModel(TopMenuBar menuBar) {
+	private MenuModel convertTopMenuModel(TopMenuBar menuBar) {
 		MenuModel menuModel = new DefaultMenuModel();
 		for (MenuElementTopMenuBar element : menuBar.getElements()) {
 			menuModel.addElement(convertMenuItem(element));
@@ -104,18 +112,18 @@ public class MenuUtils implements Serializable {
 		return menuModel;
 	}
 	
-	private static MenuElement convertMenuItem(MenuElementTopMenuBar element) {
+	private MenuElement convertMenuItem(MenuElementTopMenuBar element) {
 		if (element instanceof MenuItemTopMenuBar) {
 			DefaultMenuItem item = new DefaultMenuItem();
 			item.setId(element.getId());
-			item.setValue(LabelsHelper.getLocalizedMessage(element.getLabelLocaleKey()));
+			item.setValue(labelsHelper.getLocalizedMessage(element.getLabelLocaleKey()));
 			item.setIcon(element.getIcon());
 			item.setUrl(element.getPath());
 			return item;
 		} else if (element instanceof SubMenuTopMenuBar) {
 			DefaultSubMenu item = new DefaultSubMenu();
 			item.setId(element.getId());
-			item.setLabel(LabelsHelper.getLocalizedMessage(element.getLabelLocaleKey()));
+			item.setLabel(labelsHelper.getLocalizedMessage(element.getLabelLocaleKey()));
 			item.setIcon(element.getIcon());
 			for (MenuElementTopMenuBar elem : ((SubMenuTopMenuBar) element).getElements()) {
 				item.getElements().add(convertMenuItem(elem));
@@ -125,7 +133,7 @@ public class MenuUtils implements Serializable {
 		return null;
 	}
 	
-	private static List<MenuElementTopMenuBar> createSuperAdminMenuItems() {
+	private List<MenuElementTopMenuBar> createSuperAdminMenuItems() {
 		List<MenuElementTopMenuBar> result = new ArrayList<>();
 		
 		SubMenuTopMenuBar usersSubMenu = new SubMenuTopMenuBar();
@@ -149,12 +157,12 @@ public class MenuUtils implements Serializable {
 		return result;
 	}
 	
-	private static List<MenuElementTopMenuBar> createAdminMenuItems() {
+	private List<MenuElementTopMenuBar> createAdminMenuItems() {
 		List<MenuElementTopMenuBar> result = new ArrayList<>();
 		return result;
 	}
 	
-	private static List<MenuElementTopMenuBar> createEmployeeMenuItems() {
+	private List<MenuElementTopMenuBar> createEmployeeMenuItems() {
 		List<MenuElementTopMenuBar> result = new ArrayList<>();
 		return result;
 	}

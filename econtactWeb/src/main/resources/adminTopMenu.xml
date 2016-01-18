@@ -9,7 +9,7 @@
 		<menuItem>
 			<id>projectMenuItem</id>
 			<labelLocaleKey>topMenu.projectItem.label</labelLocaleKey>
-			<path>/user/project/projectsList.jsf</path>
+			<path>/user/church/churchsList.jsf</path>
 		</menuItem>
 	</elements>
 </topMenuBar>
