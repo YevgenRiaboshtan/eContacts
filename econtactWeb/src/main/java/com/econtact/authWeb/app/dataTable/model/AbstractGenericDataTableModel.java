@@ -117,6 +117,8 @@ public abstract class AbstractGenericDataTableModel<T extends AbstractView> exte
 			return FilterDataTypeEnum.BOOLEAN;
 		case "NONE":
 			return FilterDataTypeEnum.NONE;
+		case "SIGN":
+			return FilterDataTypeEnum.SIGN;
 		default:
 			return null;
 		}

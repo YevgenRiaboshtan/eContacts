@@ -8,8 +8,8 @@
 		</menuItem>
 		<menuItem>
 			<id>projectMenuItem</id>
-			<labelLocaleKey>topMenu.projectItem.label</labelLocaleKey>
-			<path>/user/church/churchsList.jsf</path>
+			<labelLocaleKey>topMenu.churchItem.label</labelLocaleKey>
+			<path>/user/church/list.jsf</path>
 		</menuItem>
 	</elements>
 </topMenuBar>

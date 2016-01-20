@@ -102,7 +102,8 @@ CREATE TABLE econtactschema.church
   CONSTRAINT church_pkey PRIMARY KEY (id),
   CONSTRAINT fk_757ki5d7l1bl5o0ssax9k6724 FOREIGN KEY (id_owner_fk)
       REFERENCES econtactschema.user_account (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT church_name_sign_unique_constraint UNIQUE (name_church, sign)
 )
 WITH (
   OIDS=FALSE

@@ -4,9 +4,10 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	template="/WEB-INF/templates/default.xhtml">
 	<ui:define name="content">
-		<ui:include src="/shared/showUserProfilePanel.xhtml" />
+		<ui:include src="/panel/editUserPanel.xhtml" >
+			<ui:param name="bean" value="#{superAdminCRUDBean}"/>
+		</ui:include>
 	</ui:define>
 </ui:composition>

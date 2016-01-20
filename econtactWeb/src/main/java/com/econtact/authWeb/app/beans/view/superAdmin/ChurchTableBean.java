@@ -11,7 +11,7 @@ import com.econtact.authWeb.app.dataTable.model.church.ChurchsDataTableLazyModel
 
 @ManagedBean (name = "churchTableBean")
 @ViewScoped
-public class ChurchBean extends GeneralTableBean {
+public class ChurchTableBean extends GeneralTableBean {
 	private static final long serialVersionUID = -7179818194774205326L;
 
 	private ChurchsDataTableLazyModel churchDataTabelModel;
@@ -19,7 +19,7 @@ public class ChurchBean extends GeneralTableBean {
 	public ChurchsDataTableLazyModel getChurchsDataTabelModel() {
 		if (churchDataTabelModel == null) {
 			DataTable table = (DataTable) FacesContext.getCurrentInstance().getViewRoot()
-					.findComponent("projectTableForm:projectDataTable");
+					.findComponent("churchTableForm:churchDataTable");
 			churchDataTabelModel = new ChurchsDataTableLazyModel(table, userSessionBean.getUserContext());
 		}
 		return churchDataTabelModel;

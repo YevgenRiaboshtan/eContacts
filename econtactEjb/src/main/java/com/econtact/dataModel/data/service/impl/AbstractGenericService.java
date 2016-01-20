@@ -1,7 +1,9 @@
 package com.econtact.dataModel.data.service.impl;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.ejb.TransactionAttribute;
@@ -12,6 +14,7 @@ import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.QueryHints;
 
 import com.econtact.dataModel.data.context.EJBContext;
@@ -37,9 +40,18 @@ public abstract class AbstractGenericService implements EjbService {
 
 	@Override
 	public <T extends AbstractView> T findById(Class<T> findClass, Object id) {
-		return getEntityManager().find(findClass, id);
+		return findById(findClass, id, null);
 	}
-
+	
+	@Override
+	public <T extends AbstractView> T findById(Class<T> findClass, Object id, String grapthName) {
+		Map<String, Object> hints = new HashMap();
+		if (StringUtils.isNotBlank(grapthName)) {
+			hints.put("javax.persistence.fetchgraph", getEntityManager().getEntityGraph(grapthName));
+		}
+		return getEntityManager().find(findClass, id, hints);
+	}
+	
 	@Override
 	public <T extends AbstractEntity> T saveOrUpdate(T entity, UserContext userContext) throws UniqueConstraintException {
 		EJBContext.get().setUserContext(userContext);

@@ -15,6 +15,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -30,16 +31,19 @@ import com.econtact.dataModel.model.entity.accout.ConfirmStatusEnum;
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 
 @Entity
-@Table(name = "church", schema = EntityHelper.E_CONTACT_SCHEMA)
+@Table(name = "church", schema = EntityHelper.E_CONTACT_SCHEMA, uniqueConstraints = { @UniqueConstraint(name = ChurchEntity.CHURCH_NAME_SIGN_UNIQUE_CONSTRAINT, columnNames = {
+		ChurchEntity.NAME_CHURCH_F, EntityHelper.SIGN_F }) })
 @Audited
 @AuditTable(value = "church_aud", schema = EntityHelper.E_CONTACT_SCHEMA)
 @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
-public class ChurchEntity extends AbstractEntity<BigDecimal> implements AuditSupport{
+public class ChurchEntity extends AbstractEntity<BigDecimal> implements AuditSupport {
 	private static final long serialVersionUID = 6692176964337384451L;
 	private static final String SEQ_NAME = "churchSeq";
 	private static final String NOTE_PATTERN = "Церковь ID: '%s'";
-	
+	public static final String NAME_CHURCH_F = "name_church";
+
 	public static final String CHURCH_NAME_SIGN_UNIQUE_CONSTRAINT = "church_name_sign_unique_constraint";
+	public static final String NAME_CHURCH_A = "nameChurch";
 	/**
 	 * identifier of the Church.
 	 */
@@ -177,15 +181,16 @@ public class ChurchEntity extends AbstractEntity<BigDecimal> implements AuditSup
 	public String getEnversNote() {
 		return String.format(NOTE_PATTERN, getId());
 	}
-	
+
 	@PrePersist
-	@PreUpdate
-	public void preUpdate() {
+	public void prePersist() {
+		setSign(EntityHelper.ACTUAL_SIGN);
 		setUpdData();
 	}
 	
+	@PreUpdate
 	protected void setUpdData() {
 		setUpdAuthor(EJBContext.get().getUser().getUpdData());
-		setUpdDate(new Date());		
+		setUpdDate(new Date());
 	}
 }

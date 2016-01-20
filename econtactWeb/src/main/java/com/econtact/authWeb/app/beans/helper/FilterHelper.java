@@ -19,6 +19,7 @@ import org.primefaces.component.inputtext.InputText;
 import com.econtact.authWeb.app.utils.FilterUtils;
 import com.econtact.authWeb.app.utils.WebUtils;
 import com.econtact.dataModel.data.service.UniverDictService;
+import com.econtact.dataModel.data.util.LocaleLabels;
 import com.econtact.dataModel.model.AbstractEnum;
 import com.econtact.dataModel.model.entity.dictionary.UniverDictEntity;
 
@@ -111,4 +112,17 @@ public class FilterHelper implements Serializable{
 		}
 	}
 	
+	
+	public List<SelectItem> getSignSelectItems(boolean optional) {
+		List<SelectItem> result = new ArrayList<>();
+		if (optional) {
+			SelectItem allItem = new SelectItem(null,"");
+			allItem.setNoSelectionOption(true);
+			result.add(allItem);
+		}
+		result.add(new SelectItem(true, labelsHelper.getLocalizedMessage(LocaleLabels.SIGN_FILTER_ACTUAL)));
+		result.add(new SelectItem(false, labelsHelper.getLocalizedMessage(LocaleLabels.SIGN_FILTER_DELETE)));
+		
+		return result;
+	}
 }

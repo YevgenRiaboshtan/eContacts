@@ -13,7 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.econtact.authWeb.app.beans.helper.MenuHelper;
 import com.econtact.dataModel.data.context.UserContext;
-import com.econtact.dataModel.model.entity.AbstractEntity;
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 
 @Named
@@ -28,16 +27,6 @@ public class UserSessionBean implements Serializable {
 	private MenuHelper menuUtils;
 	
 	private MenuModel topMenuModel;
-	
-	private AbstractEntity editedObject;
-
-	public AbstractEntity getEditedObject() {
-		return editedObject;
-	}
-
-	public void setEditedObject(AbstractEntity editedObject) {
-		this.editedObject = editedObject;
-	}
 	
 	@PostConstruct
 	public void init() {

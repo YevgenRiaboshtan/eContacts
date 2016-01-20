@@ -14,7 +14,7 @@
 				<menuItem>
 					<id>usersListMenuItem</id>
 					<labelLocaleKey>topMenu.userItem.subMenu.admin.list.menuItem.label</labelLocaleKey>
-					<path>/superAdmin/adminsList.jsf</path>
+					<path>/superAdmin/admins/list.jsf</path>
 				</menuItem>
 				<menuItem>
 					<id>connectLogMenuItem</id>

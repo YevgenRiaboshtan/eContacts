@@ -3,17 +3,11 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:p="http://primefaces.org/ui"
 	template="/WEB-INF/templates/default.xhtml">
 	<ui:define name="content">
-ADMIN CONTENT
-<br />
-<p:inputText value="sd" width="10px"/>
-		<a href="/econtact/index.jsf">TO MAIN</a>
-		<br />
-		<a href="/econtact/user/user.xhtml">TO USER</a>
-		<br />
-		<a href="/econtact/share/share.xhtml">TO SHARE</a>
-		<br />
+		<ui:include src="/panel/newUserPanel.xhtml" >
+			<ui:param name="bean" value="#{superAdminCRUDBean}"/>
+		</ui:include>
 	</ui:define>
 </ui:composition>

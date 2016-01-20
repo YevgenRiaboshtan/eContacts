@@ -21,7 +21,7 @@ public class DisconnectSuccessHandler extends SimpleUrlLogoutSuccessHandler {
 	
 	public DisconnectSuccessHandler() {
 		super();
-		setDefaultTargetUrl("/" + NavigationHelper.LOGIN_PAGE);
+		setDefaultTargetUrl(NavigationHelper.LOGIN_PAGE);
 	} 
 	
 	@Override

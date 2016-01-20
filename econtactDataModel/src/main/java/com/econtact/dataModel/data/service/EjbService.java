@@ -11,6 +11,8 @@ import com.econtact.dataModel.model.entity.AbstractEntity;
 public interface EjbService {
 	<T extends AbstractView> T findById(Class<T> findClass, Object id);
 
+	<T extends AbstractView> T findById(Class<T> findClass, Object id, String graphName);
+	
 	<T extends AbstractEntity> T saveOrUpdate(T entity, UserContext userContext) throws UniqueConstraintException;
 
 	void remove(AbstractEntity entity, UserContext userContext);

@@ -22,13 +22,15 @@
 				style="text-align: center;" filterEvent="enter">
 				<p:column width="140">
 					<f:facet name="header">
-						<p:commandButton icon="fa fa-plus" immediate="true" actionListener="#{navigationHelper.navigate('/superAdmin/users/new.jsf')}" />
+						<p:commandButton icon="fa fa-plus" immediate="true" actionListener="#{navigationHelper.navigate('/superAdmin/admins/new.jsf')}" />
 					</f:facet>
-					<p:commandButton id="editUser" icon="ui-icon-pencil" immediate="true"  />
+					<p:commandButton id="editUser" icon="ui-icon-pencil" immediate="true" 
+					rendered="#{adminItem.sign == 0}" actionListener="#{navigationHelper.navigate('/superAdmin/admins/edit.jsf', adminItem.id)}" />
             		<p:tooltip value="#{viewMsg['btn.edit.tooltip.text']}" for="editUser" />
             		<p:commandButton id="userHistory" icon="fa fa-history" actionListener="#{superAdminAdminsTableBean.showUserHistory(adminItem)}"/>
             		<p:tooltip value="#{viewMsg['admins.list.user.history.btn.tooltip.text']}" for="userHistory"/>
-            		<p:commandButton id="removeUser" icon="ui-icon-close" update=":adminTableForm:adminDataTable" actionListener="#{superAdminAdminsTableBean.adminsModel.removeEntity(adminItem)}"/>
+            		<p:commandButton id="removeUser" icon="ui-icon-close" update=":adminTableForm:adminDataTable" 
+            		rendered="#{adminItem.sign == 0}" actionListener="#{superAdminAdminsTableBean.adminsModel.removeEntity(adminItem)}"/>
             		<p:tooltip value="#{viewMsg['btn.remove.tooltip.text']}" for="removeUser"/>
 				</p:column>
 				<p:column headerText="#{viewMsg['admins.list.id.header']}" sortBy="#{adminItem.id}" filterBy="#{adminItem.id}">
@@ -64,6 +66,16 @@
 						</p:selectOneMenu>
 					</f:facet>
 					<p:outputLabel value="#{labelsHelper.getLocalizedMessage(adminItem.enabledUser.labelKey)}"></p:outputLabel>
+				</p:column>
+				<p:column headerText="#{viewMsg['sign.filter.label']}" sortBy="#{adminItem.sign}" filterBy="#{adminItem.sign}">
+					<f:attribute name="filterDataType" value="SIGN"></f:attribute>
+					<f:attribute name="filterField" value="sign"></f:attribute>
+					<f:facet name="filter">
+						<p:selectOneMenu onchange="PF('adminDataTable').filter()">
+							<f:selectItems value="#{filterHelper.getSignSelectItems(true)}"/>
+						</p:selectOneMenu>
+					</f:facet>
+					<p:outputLabel value="#{labelsHelper.getSignLabel(adminItem.sign)}"/>
 				</p:column>
 			</p:dataTable> 
 		</h:form>

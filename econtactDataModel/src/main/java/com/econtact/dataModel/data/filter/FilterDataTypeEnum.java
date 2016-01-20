@@ -21,5 +21,7 @@ public enum FilterDataTypeEnum {
 	/** булеве*/
 	BOOLEAN,
 	/** жодне*/
-	NONE;
+	NONE,
+	/** Поле Sign для показа удаленных и актулаьных записей */
+	SIGN;
 }

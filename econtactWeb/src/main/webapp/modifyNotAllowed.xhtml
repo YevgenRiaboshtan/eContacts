@@ -5,8 +5,15 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:pe="http://primefaces.org/ui/extensions"
 	template="/WEB-INF/templates/default.xhtml">
 	<ui:define name="content">
-		<ui:include src="/shared/editUserProfilePanel.xhtml" />
+		Вы не можете редактировать данную запись.<br />
+		<h:form>
+			<p:commandLink ajax="true" immediate="true"
+				value="#{viewMsg['access.denied.to.main.label']}"
+				actionListener="#{navigationHelper.navigate(navigationHelper.indexPage)}">
+			</p:commandLink>
+		</h:form>
 	</ui:define>
 </ui:composition>

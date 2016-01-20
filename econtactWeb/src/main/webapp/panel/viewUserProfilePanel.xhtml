@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	<p:panel>
+		<h:form prependId="false" id="userEditForm">
+			<h:panelGrid columns="2">
+				<p:outputLabel value="${viewMsg['newUser.login.input.label']}" />
+				<p:outputLabel value="#{userProfileCRUDBean.entity.login}"/>
+
+				<p:outputLabel value="#{viewMsg['newUser.first.name.input.label']}" />
+				<p:outputLabel value="#{userProfileCRUDBean.entity.firstName}"/>
+				
+				<p:outputLabel value="#{viewMsg['newUser.last.name.input.label']}"/>
+				<p:outputLabel value="#{userProfileCRUDBean.entity.lastName}"/>
+			</h:panelGrid>
+		</h:form>
+	</p:panel>
+</ui:composition>

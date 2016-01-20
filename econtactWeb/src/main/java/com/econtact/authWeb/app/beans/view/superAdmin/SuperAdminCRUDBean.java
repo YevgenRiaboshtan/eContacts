@@ -31,7 +31,12 @@ public class SuperAdminCRUDBean extends GeneralCRUDBean<AccountUserEntity> {
 	
 	@Override
 	protected void afterSaveNavigate() throws IOException {
-		navigationHelper.navigate("/superAdmin/adminsList.jsf");
+		navigationHelper.navigate("/superAdmin/admins/list.jsf");
+	}
+	
+	@Override
+	protected void cancelNavigate() throws IOException {
+		navigationHelper.navigate("/superAdmin/admins/list.jsf");
 	}
 	
 	@Override
@@ -48,5 +53,15 @@ public class SuperAdminCRUDBean extends GeneralCRUDBean<AccountUserEntity> {
 		entity.setRoleConfirm(ConfirmStatusEnum.CONFIRMED);
 		entity.setAllowCreateRegister(true);
 		entity.setParentUser(userSession.getPrincipal());
+	}
+
+	@Override
+	protected AccountUserEntity createDefaultEntity() {
+		AccountUserEntity result = new AccountUserEntity();
+		return result;
+	}
+	
+	protected boolean canModifyEntity(AccountUserEntity entity){
+		return true;
 	}
 }

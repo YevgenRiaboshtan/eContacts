@@ -21,6 +21,7 @@ import com.econtact.dataModel.data.filter.FilterDefLike;
 import com.econtact.dataModel.data.filter.FilterDefNotEquals;
 import com.econtact.dataModel.data.filter.FilterDefNotNull;
 import com.econtact.dataModel.data.filter.FilterDefStartsWithIgnoreCase;
+import com.econtact.dataModel.data.util.EntityHelper;
 
 public final class FilterUtils {
 	
@@ -47,6 +48,13 @@ public final class FilterUtils {
 			break;
 		case ENUM:
 			result = new FilterDefEquals(field, value);
+			break;
+		case SIGN:
+			if (Boolean.valueOf((String) value)) {
+				result = new FilterDefEquals(field, EntityHelper.ACTUAL_SIGN);
+			} else {
+				result = new FilterDefNotEquals(field, EntityHelper.ACTUAL_SIGN);
+			}
 			break;
 		case NONE:
 		default:

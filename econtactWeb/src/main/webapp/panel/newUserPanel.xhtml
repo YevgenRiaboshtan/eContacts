@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	<p:panel>
+		<p:outputLabel value="#{viewMsg['newUser.create.form.title']}"></p:outputLabel>
+		<h:form prependId="false" id="userEditForm">
+			<h:panelGrid columns="3">
+				<p:outputLabel value="${viewMsg['newUser.login.input.label']}"
+					for="userLogin" />
+				<p:inputText id="userLogin" value="#{bean.entity.login}"
+					required="true" maxlength="100">
+				</p:inputText>
+				<p:message for="userLogin" showDetail="true" closable="true"
+					autoUpdate="true" />
+
+				<p:outputLabel value="#{viewMsg['newUser.password.input.label']}"
+					for="userPassword" />
+				<p:password id="userPassword" maxlength="100"
+					value="#{bean.entity.password}" required="true" feedback="true"
+					weakLabel="#{viewMsg['newUser.password.input.feedback.weak']}"
+					goodLabel="#{viewMsg['newUser.password.input.feedback.good']}"
+					strongLabel="#{viewMsg['newUser.password.input.feedback.weak']}"
+					promptLabel="#{viewMsg['newUser.password.input.required.message']}"
+					match="userPassrowdRepeat"
+					validatorMessage="#{viewMsg['input.has.wrong.symbol']}">
+				</p:password>
+				<p:message for="userPassword" />
+
+				<p:outputLabel
+					value="#{viewMsg['newUser.password.repeat.input.label']}"
+					for="userPassrowdRepeat" />
+				<p:password id="userPassrowdRepeat" maxlength="100"
+					value="#{bean.entity.password}" required="true" />
+				<p:message for="userPassrowdRepeat" />
+
+				<p:outputLabel value="#{viewMsg['newUser.first.name.input.label']}"
+					for="userFirstName" />
+				<p:inputText id="userFirstName" value="#{bean.entity.firstName}"
+					required="true" maxlength="100" />
+				<p:message for="userFirstName" showDetail="true" />
+
+				<p:outputLabel value="#{viewMsg['newUser.last.name.input.label']}"
+					for="userLastName" maxlength="100" />
+				<p:inputText id="userLastName" value="#{bean.entity.lastName}"
+					required="true" />
+				<p:message for="userLastName" showDetail="true" />
+
+				<p:outputLabel value="#{viewMsg['newUser.user.status.label']}"
+					for="userStatus" />
+				<p:selectOneMenu id="userStatus" editable="false"
+					value="#{bean.entity.enabledUser}" rendered="true">
+					<f:selectItems
+						value="#{filterHelper.getEnumSelectItems('com.econtact.dataModel.model.entity.accout.UserStatusEnum', false)}" />
+				</p:selectOneMenu>
+				<p:column />
+
+				<p:commandButton value="#{viewMsg['btn.save.label']}" ajax="true"
+					update="userEditForm" actionListener="#{bean.save()}">
+					<f:ajax execute="userEditForm" />
+				</p:commandButton>
+				<p:commandButton value="#{viewMsg['btn.cancel.label']}"
+					immediate="true" actionListener="#{bean.cancel()}" />
+				<p:column />
+			</h:panelGrid>
+		</h:form>
+	</p:panel>
+</ui:composition>

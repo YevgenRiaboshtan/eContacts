@@ -3,6 +3,7 @@ package com.econtact.authWeb.app.beans.view;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
+import java.math.BigDecimal;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -11,6 +12,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.persistence.OptimisticLockException;
+
+import org.apache.commons.lang.StringUtils;
 
 import com.econtact.authWeb.app.beans.helper.LabelsHelper;
 import com.econtact.authWeb.app.beans.helper.NavigationHelper;
@@ -39,8 +42,19 @@ public abstract class GeneralCRUDBean<T extends AbstractEntity> implements Seria
 	private Class<T> entityClass;
 	
 	@PostConstruct
-	public void init() {
+	public void init() throws IOException {
 		entityClass = (Class<T>) getParameterClass( 0, getClass());
+		String idParam = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get(NavigationHelper.ID_PARAM);
+		if (StringUtils.isNotBlank(idParam)) {
+			T entity = genericService.findById(entityClass, BigDecimal.valueOf(Long.valueOf(idParam)), getDefaultEntityGraph()); 
+			if (canModifyEntity(entity)) {
+				setEntity(entity);
+			} else {
+				navigationHelper.navigate(NavigationHelper.MODIFY_NOT_ALLOWED_PAGE);
+			}
+		} else {
+			setEntity(createDefaultEntity());
+		}
 	}
 	
 	public T getEntity() {
@@ -85,6 +99,14 @@ public abstract class GeneralCRUDBean<T extends AbstractEntity> implements Seria
 	
 	protected void preSave() {
 	}
+	
+	protected String getDefaultEntityGraph() {
+		return null;
+	}
+	
+	abstract protected boolean canModifyEntity(T entity);
+	
+	abstract protected T createDefaultEntity();	
 	
 	private Class<?> getParameterClass(int pos, Class<?> target) {
 		return (Class<?>) ((ParameterizedType) target.getGenericSuperclass())

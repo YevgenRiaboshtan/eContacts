@@ -17,5 +17,9 @@ public class LocaleLabels {
 	public static final String COMMON_WARNING_MESSAGE = "common.warning.message";
 	public static final String COMMON_INFO_MESSAGE = "common.info.message";
 	
+	public static final String SIGN_FILTER_ACTUAL = "sign.filter.actual";
+	public static final String SIGN_FILTER_DELETE = "sign.filter.delete";
+	
+	
 	private LocaleLabels() {};
 }
