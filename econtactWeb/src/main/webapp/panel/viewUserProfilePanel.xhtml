@@ -6,15 +6,21 @@
 	xmlns:p="http://primefaces.org/ui">
 	<p:panel>
 		<h:form prependId="false" id="userEditForm">
-			<h:panelGrid columns="2">
+			<h:panelGrid columns="3">
 				<p:outputLabel value="${viewMsg['newUser.login.input.label']}" />
 				<p:outputLabel value="#{userProfileCRUDBean.entity.login}"/>
-
+				<p:outputLabel></p:outputLabel>
+				
 				<p:outputLabel value="#{viewMsg['newUser.first.name.input.label']}" />
 				<p:outputLabel value="#{userProfileCRUDBean.entity.firstName}"/>
+				<p:inputText value="#{userProfileCRUDBean.newFirstName}"></p:inputText>
 				
 				<p:outputLabel value="#{viewMsg['newUser.last.name.input.label']}"/>
 				<p:outputLabel value="#{userProfileCRUDBean.entity.lastName}"/>
+				<p:inputText value="#{userProfileCRUDBean.newLastName}"></p:inputText>
+				 
+				<p:commandButton id="saveButton" value="#{viewMsg['btn.save.label']}" ajax="true" actionListener="#{userProfileCRUDBean.save()}" update="userEditForm"></p:commandButton>
+				<p:tooltip for="saveButton" value="#{viewMsg['btn.save.tooltip.text']}"></p:tooltip>
 			</h:panelGrid>
 		</h:form>
 	</p:panel>
