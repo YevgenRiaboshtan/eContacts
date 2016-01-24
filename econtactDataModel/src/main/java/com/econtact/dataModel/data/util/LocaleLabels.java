@@ -20,6 +20,10 @@ public class LocaleLabels {
 	public static final String SIGN_FILTER_ACTUAL = "sign.filter.actual";
 	public static final String SIGN_FILTER_DELETE = "sign.filter.delete";
 	
+	/**
+	 * Неверный пароль
+	 */
+	public static final String NEW_USER_WRONG_CURRENT_PASSWORD_ERROR_MESSAGE = "newUser.wrong.current.password.error.message";
 	
 	private LocaleLabels() {};
 }

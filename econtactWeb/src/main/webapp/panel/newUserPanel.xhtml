@@ -22,11 +22,12 @@
 					value="#{bean.entity.password}" required="true" feedback="true"
 					weakLabel="#{viewMsg['newUser.password.input.feedback.weak']}"
 					goodLabel="#{viewMsg['newUser.password.input.feedback.good']}"
-					strongLabel="#{viewMsg['newUser.password.input.feedback.weak']}"
+					strongLabel="#{viewMsg['newUser.password.input.feedback.strong']}"
 					promptLabel="#{viewMsg['newUser.password.input.required.message']}"
 					match="userPassrowdRepeat"
 					validatorMessage="#{viewMsg['input.has.wrong.symbol']}">
 				</p:password>
+				<!-- match для порівняння пароля -->
 				<p:message for="userPassword" />
 
 				<p:outputLabel

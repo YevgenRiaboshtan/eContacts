@@ -46,6 +46,7 @@ public abstract class AbstractUserEntity extends AbstractEntity<BigDecimal> {
 	@Column(name = "first_name", nullable = false, length = 100)
 	private String firstName;
 
+
 	/**
 	 * Имя пользователя. Last name of the User Entity.
 	 */
@@ -101,7 +102,7 @@ public abstract class AbstractUserEntity extends AbstractEntity<BigDecimal> {
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-
+	
 	public String getLastName() {
 		return lastName;
 	}
