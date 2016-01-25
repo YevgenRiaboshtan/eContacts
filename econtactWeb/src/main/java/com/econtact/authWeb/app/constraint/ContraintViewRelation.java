@@ -11,6 +11,7 @@ public class ContraintViewRelation implements Serializable {
 	private static final long serialVersionUID = -2160068012106575745L;
 
 	private final String constraintName;
+	//FIXME need remove this field
 	private final String idField;
 	private final String errorMessageKey;
 

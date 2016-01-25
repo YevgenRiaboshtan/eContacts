@@ -1,4 +1,4 @@
-package com.econtact.authWeb.app.beans.view.superAdmin;
+package com.econtact.authWeb.app.beans.view.church;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;

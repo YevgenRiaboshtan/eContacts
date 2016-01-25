@@ -20,18 +20,13 @@
 				sortBy="#{churchItem.createDate}">
 				<p:column>
 					<f:facet name="header">
-						<p:commandButton icon="fa fa-plus" immediate="true" actionListener="#{navigationHelper.navigate('/user/church/newChurch.jsf')}" />
+						<p:commandButton icon="fa fa-plus" immediate="true" actionListener="#{navigationHelper.navigate('/user/church/new.jsf')}" />
 					</f:facet>
 				</p:column>
-				<p:column sortBy="#{churchItem.id}" filterBy="#{churchItem.id}" headerText="#{viewMsg['admins.list.id.header']}">
-					<f:attribute name="filterDataType" value="NUMBER" />
-					<f:attribute name="filterField" value="id" />
-					<p:outputLabel value="#{churchItem.id}"></p:outputLabel>
-				</p:column>
-				<p:column sortBy="#{churchItem.namechurch}" filterBy="#{churchItem.namechurch}" headerText="#{viewMsg['church.name.label']}">
+				<p:column sortBy="#{churchItem.nameChurch}" filterBy="#{churchItem.nameChurch}" headerText="#{viewMsg['church.name.label']}">
 					<f:attribute name="filterDataType" value="TEXT" />
-					<f:attribute name="filterField" value="namechurch" />
-					<p:outputLabel value="#{churchItem.namechurch}"></p:outputLabel>
+					<f:attribute name="filterField" value="nameChurch" />
+					<p:outputLabel value="#{churchItem.nameChurch}"></p:outputLabel>
 				</p:column>
 				<p:column sortBy="#{churchItem.description}" filterBy="#{churchItem.description}" headerText="#{viewMsg['church.description.label']}">
 					<f:attribute name="filterDataType" value="TEXT" />
@@ -43,16 +38,14 @@
 					<f:attribute name="filterField" value="owner.login" />
 					<p:outputLabel value="#{churchItem.owner.login}"></p:outputLabel>
 				</p:column>
-				<p:column sortBy="#{churchItem.owner.fullName}" filterBy="#{churchItem.owner.fullName}" headerText="#{viewMsg['church.owner.fullName.label']}">
-					<f:attribute name="filterDataType" value="TEXT" />
-					<f:attribute name="filterField" value="owner.fullName" />
+				<p:column headerText="#{viewMsg['church.owner.fullName.label']}">
 					<p:outputLabel value="#{churchItem.owner.fullName}"></p:outputLabel>
 				</p:column>
 				<p:column sortBy="#{churchItem.createDate}" filterBy="#{churchItem.createDate}" headerText="#{viewMsg['church.createDate.label']}">
 					<f:attribute name="filterDataType" value="DATE" />
 					<f:attribute name="filterField" value="createDate" />
 					<p:outputLabel value="#{churchItem.createDate}">
-						<f:convertDateTime pattern="dd.MM.yyyy"/>
+						<f:convertDateTime pattern="dd.MM.yyyy" timeZone="#{userSessionBean.userContext.userTimeZone}" />
 					</p:outputLabel>
 				</p:column>
 				<p:column sortBy="#{churchItem.confirmCreate}" filterBy="#{churchItem.confirmCreate}" headerText="#{viewMsg['church.confirm.label']}">

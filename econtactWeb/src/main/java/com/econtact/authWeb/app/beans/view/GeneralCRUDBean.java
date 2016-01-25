@@ -46,7 +46,7 @@ public abstract class GeneralCRUDBean<T extends AbstractEntity> implements Seria
 		entityClass = (Class<T>) getParameterClass( 0, getClass());
 		String idParam = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get(NavigationHelper.ID_PARAM);
 		if (StringUtils.isNotBlank(idParam)) {
-			T entity = genericService.findById(entityClass, BigDecimal.valueOf(Long.valueOf(idParam)), getDefaultEntityGraph()); 
+			T entity = genericService.findById(entityClass, BigDecimal.valueOf(Long.parseLong(idParam)), getDefaultEntityGraph()); 
 			if (canModifyEntity(entity)) {
 				setEntity(entity);
 			} else {
@@ -80,8 +80,9 @@ public abstract class GeneralCRUDBean<T extends AbstractEntity> implements Seria
 			}
 		} catch (UniqueConstraintException e) {
 			ContraintViewRelation relation = UniqueConstraintHandleUtils.getInstance().handleException(e);
-			FacesContext.getCurrentInstance().addMessage(relation.getIdField(),
-					new FacesMessage(labelsHelper.getLocalizedMessage(relation.getErrorMessageKey())));
+			FacesMessage errorMessage = new FacesMessage(labelsHelper.getLocalizedMessage(relation.getErrorMessageKey()));
+			errorMessage.setSeverity(FacesMessage.SEVERITY_WARN);
+			FacesContext.getCurrentInstance().addMessage(null, errorMessage);
 		}
 	}
 	

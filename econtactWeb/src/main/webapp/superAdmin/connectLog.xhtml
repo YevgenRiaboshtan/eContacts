@@ -36,7 +36,7 @@
 						</p:inputText>
 					</f:facet>
 					<p:outputLabel value="#{connectItem.dateCon}" >
-						<f:convertDateTime pattern="dd.MM.yyyy hh:mm:ss"/>
+						<f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss" timeZone="#{userSessionBean.userContext.userTimeZone}"/>
 					</p:outputLabel>
 				</p:column>
 				<p:column headerText="#{viewMsg['connectLog.list.ip.header']}"
