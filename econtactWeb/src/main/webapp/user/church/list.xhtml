@@ -22,6 +22,8 @@
 					<f:facet name="header">
 						<p:commandButton icon="fa fa-plus" immediate="true" actionListener="#{navigationHelper.navigate('/user/church/new.jsf')}" />
 					</f:facet>
+					<p:commandButton id="editChurch" icon="ui-icon-pencil" actionListener="#{navigationHelper.navigate('/user/church/edit.jsf', churchItem.id)}"></p:commandButton>
+					<p:tooltip for="editChurch" value="#{viewMsg['btn.edit.tooltip.text']}"></p:tooltip>
 				</p:column>
 				<p:column sortBy="#{churchItem.nameChurch}" filterBy="#{churchItem.nameChurch}" headerText="#{viewMsg['church.name.label']}">
 					<f:attribute name="filterDataType" value="TEXT" />

@@ -1,5 +1,6 @@
 package com.econtact.authWeb.app.beans.view.church;
 
+import java.io.IOException;
 import java.util.Date;
 
 import javax.faces.bean.ManagedBean;
@@ -31,5 +32,15 @@ public class ChurchCRUDBean extends GeneralCRUDBean<ChurchEntity> {
 		entity.setOwner(userSession.getPrincipal());
 		entity.setCreateDate(new Date());
 		return entity;
+	}
+	
+	@Override
+	protected void afterSaveNavigate() throws IOException {
+		navigationHelper.navigate("/user/church/list.jsf");
+	}
+	
+	@Override
+	protected void cancelNavigate() throws IOException {
+		navigationHelper.navigate("/user/church/list.jsf");
 	}
 }
