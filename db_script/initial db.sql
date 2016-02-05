@@ -91,7 +91,6 @@ CREATE TABLE econtactschema.church
 (
   id numeric(38,0) NOT NULL,
   version bigint,
-  confirm_create integer NOT NULL,
   create_date timestamp without time zone NOT NULL,
   description_church character varying(1000),
   name_church character varying(255) NOT NULL,
@@ -304,7 +303,6 @@ CREATE TABLE econtactschema.church_aud
   id numeric(38,0) NOT NULL,
   rev bigint NOT NULL,
   revtype smallint,
-  confirm_create integer,
   create_date timestamp without time zone,
   description_church character varying(1000),
   name_church character varying(255),

@@ -6,12 +6,12 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.component.datatable.DataTable;
 
-import com.econtact.authWeb.app.beans.view.GeneralTableBean;
+import com.econtact.authWeb.app.beans.view.AbstractViewBean;
 import com.econtact.authWeb.app.dataTable.model.superAdmin.ConnectLogDataTableLazyModel;
 
 @ManagedBean(name = "superAdminConnectLogTableBean")
 @ViewScoped
-public class SuperAdminConnectLogTableBean extends GeneralTableBean {
+public class SuperAdminConnectLogTableBean extends AbstractViewBean {
 	private static final long serialVersionUID = 9003339582411814740L;
 
 	private ConnectLogDataTableLazyModel connectLogModel;

@@ -8,7 +8,6 @@ import javax.faces.bean.ViewScoped;
 
 import com.econtact.authWeb.app.beans.view.GeneralCRUDBean;
 import com.econtact.dataModel.data.util.EntityHelper;
-import com.econtact.dataModel.model.entity.accout.ConfirmStatusEnum;
 import com.econtact.dataModel.model.entity.church.ChurchEntity;
 
 @ManagedBean (name = "churchCRUDBean")
@@ -28,7 +27,6 @@ public class ChurchCRUDBean extends GeneralCRUDBean<ChurchEntity> {
 	@Override
 	protected ChurchEntity createDefaultEntity() {
 		ChurchEntity entity = new ChurchEntity();
-		entity.setConfirmCreate(ConfirmStatusEnum.NOT_CONFIRMED);
 		entity.setOwner(userSession.getPrincipal());
 		entity.setCreateDate(new Date());
 		return entity;

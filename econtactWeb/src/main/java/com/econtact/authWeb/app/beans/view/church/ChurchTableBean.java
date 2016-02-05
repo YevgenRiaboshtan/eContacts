@@ -6,12 +6,12 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.component.datatable.DataTable;
 
-import com.econtact.authWeb.app.beans.view.GeneralTableBean;
+import com.econtact.authWeb.app.beans.view.AbstractViewBean;
 import com.econtact.authWeb.app.dataTable.model.church.ChurchsDataTableLazyModel;
 
 @ManagedBean (name = "churchTableBean")
 @ViewScoped
-public class ChurchTableBean extends GeneralTableBean {
+public class ChurchTableBean extends AbstractViewBean {
 	private static final long serialVersionUID = -7179818194774205326L;
 
 	private ChurchsDataTableLazyModel churchDataTabelModel;

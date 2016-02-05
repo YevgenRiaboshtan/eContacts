@@ -5,7 +5,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,7 +26,6 @@ import com.econtact.dataModel.data.context.EJBContext;
 import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.entity.AbstractEntity;
 import com.econtact.dataModel.model.entity.AuditSupport;
-import com.econtact.dataModel.model.entity.accout.ConfirmStatusEnum;
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 
 @Entity
@@ -72,13 +70,6 @@ public class ChurchEntity extends AbstractEntity<BigDecimal> implements AuditSup
 	@JoinColumn(name = "id_owner_fk")
 	@NotAudited
 	private SessionUserEntity owner;
-
-	/**
-	 * Статус подтверждения создания Confirm church create. See also {@link ConfirmStatusEnum}
-	 */
-	@Enumerated
-	@Column(name = "confirm_create", nullable = false, precision = 1, scale = 0)
-	private ConfirmStatusEnum confirmCreate;
 
 	/**
 	 * Created date.
@@ -135,14 +126,6 @@ public class ChurchEntity extends AbstractEntity<BigDecimal> implements AuditSup
 
 	public void setOwner(SessionUserEntity owner) {
 		this.owner = owner;
-	}
-
-	public ConfirmStatusEnum getConfirmCreate() {
-		return confirmCreate;
-	}
-
-	public void setConfirmCreate(ConfirmStatusEnum confirmCreate) {
-		this.confirmCreate = confirmCreate;
 	}
 
 	public Date getCreateDate() {

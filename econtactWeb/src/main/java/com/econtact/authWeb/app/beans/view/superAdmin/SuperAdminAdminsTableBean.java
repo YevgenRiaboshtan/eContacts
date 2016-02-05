@@ -13,14 +13,14 @@ import javax.faces.context.FacesContext;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
 
-import com.econtact.authWeb.app.beans.view.GeneralTableBean;
+import com.econtact.authWeb.app.beans.view.AbstractViewBean;
 import com.econtact.authWeb.app.dataTable.model.superAdmin.AdminDataTableLazyModel;
 import com.econtact.authWeb.app.dataTable.model.superAdmin.UserHistoryDataTableLazyModel;
 import com.econtact.dataModel.model.entity.accout.AccountUserEntity;
 
 @ManagedBean(name = "superAdminAdminsTableBean")
 @ViewScoped
-public class SuperAdminAdminsTableBean extends GeneralTableBean {
+public class SuperAdminAdminsTableBean extends AbstractViewBean {
 	private static final long serialVersionUID = -7422685704892233421L;
 
 	private AdminDataTableLazyModel adminsModel;
