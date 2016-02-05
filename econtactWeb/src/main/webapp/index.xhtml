@@ -9,7 +9,9 @@
 	<ui:define name="content">
 		Index page for test.
 		<h:form>
-			<p:commandButton actionListener="#{testBean.test()}" ajax="true"></p:commandButton>
+			<p:commandButton value="test all" actionListener="#{testBean.testAll()}" ajax="true"></p:commandButton>
+			<p:commandButton value="test" actionListener="#{testBean.test()}" ajax="true"></p:commandButton>
+			<p:commandButton value="Reset" actionListener="#{testBean.resetCurrent()}" ajax="true"></p:commandButton>
 		</h:form>
 	</ui:define>
 </ui:composition>
