@@ -50,16 +50,6 @@
 						<f:convertDateTime pattern="dd.MM.yyyy" timeZone="#{userSessionBean.userContext.userTimeZone}" />
 					</p:outputLabel>
 				</p:column>
-				<p:column sortBy="#{churchItem.confirmCreate}" filterBy="#{churchItem.confirmCreate}" headerText="#{viewMsg['church.confirm.label']}">
-					<f:attribute name="filterDataType" value="ENUM" />
-					<f:attribute name="filterField" value="confirmCreate" />
-					<f:facet name="filter">
-						<p:selectOneMenu onchange="PF('churchDataTable').filter()" converter="confirmStatusEnumConverter">
-							<f:selectItems value="#{filterHelper.getEnumSelectItems('com.econtact.dataModel.model.entity.accout.ConfirmStatusEnum', true)}"></f:selectItems>
-						</p:selectOneMenu>
-					</f:facet>
-					<p:outputLabel value="#{labelsHelper.getLocalizedMessage(churchItem.confirmCreate.labelKey)}"></p:outputLabel>
-				</p:column>	
 			</p:dataTable>
 		</h:form>
 	</ui:define>
