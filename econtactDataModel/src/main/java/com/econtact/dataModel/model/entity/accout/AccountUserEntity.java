@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -36,6 +37,7 @@ public class AccountUserEntity extends AbstractUserEntity implements AuditSuppor
 	private static final String NOTE_PATTERN = "Пользователь ID: '%s'";
 	public static final String USER_LOGIN_SIGN_UNIQUE_CONSTRAINT = "user_login_sign_unique_constraint";
 	public static final String ROLE_A = "role";
+	public static final String PARENT_USER_A = "parentUser";
 
 	/**
 	 * Пароль пользователя в зашифрованном виде.
@@ -78,7 +80,7 @@ public class AccountUserEntity extends AbstractUserEntity implements AuditSuppor
 	 * Вышестоящий пользователь.
 	 * Parent User. {@link SessionUserEntity}
 	 */
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_parent_user_fk")
 	@NotAudited
 	private SessionUserEntity parentUser;

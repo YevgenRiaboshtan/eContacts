@@ -1,22 +1,14 @@
 package com.econtact.authWeb.app.beans.view.superAdmin;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.component.datatable.DataTable;
-import org.primefaces.context.RequestContext;
 
 import com.econtact.authWeb.app.beans.view.AbstractViewBean;
 import com.econtact.authWeb.app.dataTable.model.superAdmin.AdminDataTableLazyModel;
 import com.econtact.authWeb.app.dataTable.model.superAdmin.UserHistoryDataTableLazyModel;
-import com.econtact.dataModel.model.entity.accout.AccountUserEntity;
 
 @ManagedBean(name = "superAdminAdminsTableBean")
 @ViewScoped
@@ -51,15 +43,5 @@ public class SuperAdminAdminsTableBean extends AbstractViewBean {
 
 	public void setAdminHistoryModel(UserHistoryDataTableLazyModel adminHistoryModel) {
 		this.adminHistoryModel = adminHistoryModel;
-	}
-
-	public void showUserHistory(AccountUserEntity user) {
-		Map<String, Object> options = new HashMap<String, Object>();
-		options.put("resizable", false);
-        options.put("draggable", false);
-        options.put("modal", true);
-        Map<String, List<String>> param = new HashMap<String, List<String>>();
-        param.put("idUser", new ArrayList<>(Arrays.asList(user.getId().toString())));
-		RequestContext.getCurrentInstance().openDialog("users/userHistory", options, param);
 	}
 }

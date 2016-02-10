@@ -131,5 +131,9 @@ public abstract class AbstractGenericDataTableModel<T extends AbstractView> exte
 		return result;
 	}
 
+	protected UserContext getUserContext() {
+		return userContext;
+	}
+
 	protected abstract SearchCriteria<T> createQueries();
 }

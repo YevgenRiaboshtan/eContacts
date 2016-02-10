@@ -9,6 +9,7 @@
 	<ui:define name="contentWrapper">
 		<h:form onsubmit="action='/econtact/j_spring_security_check';"
 			prependId="false" method="POST" acceptcharset="UTF-8">
+			<p:focus for="j_username"></p:focus>
 			<table class="centerWrapper">
 				<c:if test="${param.error != null}">
 					<tr>
@@ -28,7 +29,7 @@
 				<tr>
 					<td><p:outputLabel for="j_username"
 							value="#{viewMsg['loginPanel.login.label']}:" /></td>
-					<td><p:inputText id="j_username" type="text" /></td>
+					<td><p:inputText id="j_username" type="text"  /></td>
 				</tr>
 				<tr>
 					<td><p:outputLabel for="j_password"

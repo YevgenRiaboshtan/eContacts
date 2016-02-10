@@ -6,10 +6,21 @@
 			<icon>fa fa-home</icon>
 			<path>/index.jsf</path>
 		</menuItem>
-		<menuItem>
-			<id>projectMenuItem</id>
-			<labelLocaleKey>topMenu.churchItem.label</labelLocaleKey>
-			<path>/user/church/list.jsf</path>
-		</menuItem>
+		<subMenuItem>
+			<id>structureTopSubMenu</id>
+			<labelLocaleKey>topMenu.structure.menu.label</labelLocaleKey>
+			<elements>
+				<menuItem>
+					<id>churchMenuItem</id>
+					<labelLocaleKey>topMenu.churchItem.label</labelLocaleKey>
+					<path>/employee/church/list.jsf</path>
+				</menuItem>
+				<menuItem>
+					<id>employeeMenuItem</id>
+					<labelLocaleKey>topMenu.employee.menu.label</labelLocaleKey>
+					<path>/admin/employee/list.jsf</path>
+				</menuItem>
+			</elements>
+		</subMenuItem>
 	</elements>
 </topMenuBar>

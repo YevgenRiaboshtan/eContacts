@@ -8,13 +8,13 @@
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	template="/WEB-INF/templates/default.xhtml">
 	<ui:define name="content">
-		<p:outputLabel value="#{viewMsg['admins.list.capture.label']}"></p:outputLabel>
-		<h:form id="adminTableForm">
-			<p:dataTable id="adminDataTable" var="adminItem" lazy="true"
-				value="#{superAdminAdminsTableBean.adminsModel}" widgetVar="adminDataTable"
+		<p:outputLabel value="#{viewMsg['employee.list.capture']}"></p:outputLabel>
+		<h:form id="employeeTableForm">
+			<p:dataTable id="employeeDataTable" var="employeeItem" lazy="true"
+				value="#{employeesTableBean.adminEmployeeTableModel}" widgetVar="employeeDataTable"
 				paginator="true" rows="10" rowsPerPageTemplate="10,15,20"
 				scrollHeight="425" scrollable="true"
-				sortBy="#{adminItem.login}"
+				sortBy="#{employeeItem.id}"
 				paginatorPosition="bottom"
 				currentPageReportTemplate="#{viewMsg['datatable.rows.count.label']} {totalRecords}"
 				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {JumpToPageDropdown} {NextPageLink} {LastPageLink}"
@@ -22,40 +22,37 @@
 				style="text-align: center;" filterEvent="enter">
 				<p:column width="70">
 					<f:facet name="header">
-						<p:commandButton icon="fa fa-plus" immediate="true" actionListener="#{navigationHelper.navigate('/superAdmin/admins/new.jsf')}" />
+						<p:commandButton icon="fa fa-plus" immediate="true" actionListener="#{navigationHelper.navigate('/admin/employee/new.jsf')}" />
 					</f:facet>
 					<p:commandButton id="editUser" icon="ui-icon-pencil" immediate="true" 
-					rendered="#{adminItem.sign == 0}" actionListener="#{navigationHelper.navigate('/superAdmin/admins/edit.jsf', adminItem.id)}" />
+					rendered="#{employeeItem.sign == 0}" actionListener="#{navigationHelper.navigate('/admin/employee/edit.jsf', employeeItem.id)}" />
             		<p:tooltip value="#{viewMsg['btn.edit.tooltip.text']}" for="editUser" />
-            		<p:commandButton id="removeUser" icon="ui-icon-close" update=":adminTableForm:adminDataTable" 
-            		rendered="#{adminItem.sign == 0}" actionListener="#{superAdminAdminsTableBean.adminsModel.removeEntity(adminItem)}"/>
-            		<p:tooltip value="#{viewMsg['btn.remove.tooltip.text']}" for="removeUser"/>
-				</p:column>
-				<p:column headerText="#{viewMsg['admins.list.id.header']}" sortBy="#{adminItem.id}" filterBy="#{adminItem.id}">
+        		</p:column>
+				<p:column headerText="#{viewMsg['admins.list.id.header']}" sortBy="#{employeeItem.id}" filterBy="#{employeeItem.id}">
 					<f:attribute name="filterDataType" value="NUMBER" />
 					<f:attribute name="filterField" value="id" />
-					<p:outputLabel value="#{adminItem.id}"></p:outputLabel>
+					<p:outputLabel value="#{employeeItem.id}"></p:outputLabel>
 				</p:column>
 				<p:column headerText="#{viewMsg['admins.list.login.column.header']}"
-					sortBy="#{adminItem.login}"  filterBy="#{adminItem.login}">
+					sortBy="#{employeeItem.login}"  filterBy="#{employeeItem.login}">
 					<f:attribute name="filterDataType" value="TEXT" />
 					<f:attribute name="filterField" value="login" />
-					<p:outputLabel value="#{adminItem.login}"></p:outputLabel>
+					<p:outputLabel value="#{employeeItem.login}"></p:outputLabel>
 				</p:column>
 				<p:column headerText="#{viewMsg['admins.list.first.name.column.header']}"
-					sortBy="#{adminItem.firstName}" filterBy="#{adminItem.firstName}">
+					sortBy="#{employeeItem.firstName}" filterBy="#{employeeItem.firstName}">
 					<f:attribute name="filterDataType" value="TEXT" />
 					<f:attribute name="filterField" value="firstName" />
-					<p:outputLabel value="#{adminItem.firstName}" />
+					<p:outputLabel value="#{employeeItem.firstName}" />
 				</p:column>
 				<p:column headerText="#{viewMsg['admins.list.last.name.column.header']}"
-					sortBy="#{adminItem.lastName}" filterBy="#{adminItem.lastName}">
+					sortBy="#{employeeItem.lastName}" filterBy="#{employeeItem.lastName}">
 					<f:attribute name="filterDataType" value="TEXT" />
 					<f:attribute name="filterField" value="lastName" />
-					<p:outputLabel value="#{adminItem.lastName}"></p:outputLabel>
+					<p:outputLabel value="#{employeeItem.lastName}"></p:outputLabel>
 				</p:column>
 				<p:column headerText="#{viewMsg['admins.list.user.status.column.header']}" 
-					sortBy="#{adminItem.enabledUser}" filterBy="#{adminItem.enabledUser}" >
+					sortBy="#{employeeItem.enabledUser}" filterBy="#{employeeItem.enabledUser}" >
 					<f:attribute name="filterDataType" value="ENUM"/>
 					<f:attribute name="filterField" value="enabledUser" />
 					<f:facet name="filter">
@@ -63,17 +60,7 @@
 							<f:selectItems value="#{filterHelper.getEnumSelectItems('com.econtact.dataModel.model.entity.accout.UserStatusEnum', true)}"/>
 						</p:selectOneMenu>
 					</f:facet>
-					<p:outputLabel value="#{labelsHelper.getLocalizedMessage(adminItem.enabledUser.labelKey)}"></p:outputLabel>
-				</p:column>
-				<p:column headerText="#{viewMsg['sign.filter.label']}" sortBy="#{adminItem.sign}" filterBy="#{adminItem.sign}">
-					<f:attribute name="filterDataType" value="SIGN"></f:attribute>
-					<f:attribute name="filterField" value="sign"></f:attribute>
-					<f:facet name="filter">
-						<p:selectOneMenu onchange="PF('adminDataTable').filter()">
-							<f:selectItems value="#{filterHelper.getSignSelectItems(true)}"/>
-						</p:selectOneMenu>
-					</f:facet>
-					<p:outputLabel value="#{labelsHelper.getSignLabel(adminItem.sign)}"/>
+					<p:outputLabel value="#{labelsHelper.getLocalizedMessage(employeeItem.enabledUser.labelKey)}"></p:outputLabel>
 				</p:column>
 			</p:dataTable> 
 		</h:form>
