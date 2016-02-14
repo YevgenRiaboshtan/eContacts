@@ -47,7 +47,7 @@ public abstract class AbstractGenericService implements EjbService {
 	public <T extends AbstractView> T findById(Class<T> findClass, Object id, String grapthName) {
 		Map<String, Object> hints = new HashMap();
 		if (StringUtils.isNotBlank(grapthName)) {
-			hints.put("javax.persistence.fetchgraph", getEntityManager().getEntityGraph(grapthName));
+			hints.put(QueryHints.LOADGRAPH, getEntityManager().getEntityGraph(grapthName));
 		}
 		return getEntityManager().find(findClass, id, hints);
 	}

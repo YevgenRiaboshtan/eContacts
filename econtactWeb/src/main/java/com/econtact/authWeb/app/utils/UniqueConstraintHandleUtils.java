@@ -1,6 +1,5 @@
 package com.econtact.authWeb.app.utils;
 
-import java.nio.channels.ShutdownChannelGroupException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,10 +45,10 @@ public class UniqueConstraintHandleUtils {
 	private void loadConstraints() {
 		constraints = new HashMap<Class, Map<String, ContraintViewRelation>>();
 		Map<String, ContraintViewRelation> advancedUser = new HashMap<String, ContraintViewRelation>();
-		advancedUser.put(AccountUserEntity.USER_LOGIN_SIGN_UNIQUE_CONSTRAINT, new ContraintViewRelation(AccountUserEntity.USER_LOGIN_SIGN_UNIQUE_CONSTRAINT, "userLogin", "newUser.user.login.already.exist.error.message"));
+		advancedUser.put(AccountUserEntity.USER_LOGIN_SIGN_UNIQUE_CONSTRAINT, new ContraintViewRelation(AccountUserEntity.USER_LOGIN_SIGN_UNIQUE_CONSTRAINT, "newUser.user.login.already.exist.error.message"));
 		constraints.put(AccountUserEntity.class, advancedUser);
 		Map<String, ContraintViewRelation> church = new HashMap<String, ContraintViewRelation>();
-		church.put(ChurchEntity.CHURCH_NAME_SIGN_UNIQUE_CONSTRAINT, new ContraintViewRelation(ChurchEntity.CHURCH_NAME_SIGN_UNIQUE_CONSTRAINT, "churchName", "church.name.sign.unique.constraint"));
+		church.put(ChurchEntity.CHURCH_NAME_SIGN_UNIQUE_CONSTRAINT, new ContraintViewRelation(ChurchEntity.CHURCH_NAME_SIGN_UNIQUE_CONSTRAINT, "church.name.sign.unique.constraint"));
 		constraints.put(ChurchEntity.class, church);
 	}
 

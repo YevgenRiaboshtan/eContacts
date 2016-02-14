@@ -3,9 +3,50 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 	<p:panel>
 		<h:form prependId="false" id="userEditForm">
+		 <p:messages id="messages"  closable="true" />
+		
+			<h:panelGrid columns="3">
+
+				<!--First Spotlight-->
+				<pe:spotlight id="idPanel1"
+					blocked="${testBean.editable}"
+					style="padding:10px;margin:10px;"
+					styleClass="ui-widget ui-widget-content ui-corner-all">
+
+					<p:selectBooleanButton
+						value="#{testBean.editable}" offLabel="Edit"
+						onLabel="Save">
+						<p:ajax event="change" process="idPanel1" update="idPanel1" listener="#{testBean.test()}"/>
+					</p:selectBooleanButton>
+
+					<h:panelGroup layout="block" style="margin-top: 10px;">  
+  
+            Address1:  
+            <h:panelGrid columns="2">
+							<h:outputLabel value="Address" />
+							<h:inputText value="#{testBean.addr.addres}"
+								disabled="${!testBean.editable}" />
+
+							<h:outputLabel value="City" />
+							<h:inputText value="#{testBean.addr.city}"
+								disabled="${!testBean.editable}" />
+
+							<h:outputLabel value="ZIP" />
+							<h:inputText value="#{testBean.addr.zip}"
+								disabled="${!testBean.editable}" />
+						</h:panelGrid>
+					</h:panelGroup>
+				</pe:spotlight>
+			</h:panelGrid>
+		
+		
+		
+		
+		
 			<h:panelGrid columns="3">
 				<p:outputLabel value="${viewMsg['newUser.login.input.label']}" />
 				<p:outputLabel value="#{userProfileCRUDBean.entity.login}"/>

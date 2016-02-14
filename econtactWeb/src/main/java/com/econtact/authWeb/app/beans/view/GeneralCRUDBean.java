@@ -20,6 +20,7 @@ import com.econtact.authWeb.app.beans.helper.NavigationHelper;
 import com.econtact.authWeb.app.constraint.ContraintViewRelation;
 import com.econtact.authWeb.app.utils.UniqueConstraintHandleUtils;
 import com.econtact.dataModel.data.service.GenericService;
+import com.econtact.dataModel.data.util.LocaleLabels;
 import com.econtact.dataModel.data.util.UniqueConstraintException;
 import com.econtact.dataModel.model.entity.AbstractEntity;
 
@@ -40,6 +41,7 @@ public abstract class GeneralCRUDBean<T extends AbstractEntity> implements Seria
 	
 	protected T entity;
 	private Class<T> entityClass;
+	private boolean optimistickLockException = false;
 	
 	@PostConstruct
 	public void init() throws IOException {
@@ -65,7 +67,10 @@ public abstract class GeneralCRUDBean<T extends AbstractEntity> implements Seria
 		this.entity = entity;
 	}
 	
-	
+	public boolean isOptimistickLockException() {
+		return optimistickLockException;
+	}
+
 	public void save() throws IOException {
 		preSave();
 		try {
@@ -73,21 +78,28 @@ public abstract class GeneralCRUDBean<T extends AbstractEntity> implements Seria
 			afterSaveNavigate();
 		} catch (EJBException e) {
 			if (e.getCause() instanceof OptimisticLockException) {
-				//TODO handle optimistick lock exception
-				
+				FacesMessage optimisticsMsg = new FacesMessage(labelsHelper.getLocalizedMessage(LocaleLabels.OPTIMISTIC_LOCK_EXCEPTION_MESSAGE));
+				optimisticsMsg.setSeverity(FacesMessage.SEVERITY_ERROR);
+				FacesContext.getCurrentInstance().addMessage(null, optimisticsMsg);
+				optimistickLockException = true;
 			} else {
 				throw e;
 			}
 		} catch (UniqueConstraintException e) {
 			ContraintViewRelation relation = UniqueConstraintHandleUtils.getInstance().handleException(e);
 			FacesMessage errorMessage = new FacesMessage(labelsHelper.getLocalizedMessage(relation.getErrorMessageKey()));
-			errorMessage.setSeverity(FacesMessage.SEVERITY_WARN);
+			errorMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, errorMessage);
 		}
 	}
 	
 	public void cancel() throws IOException {
 		cancelNavigate();
+	}
+	
+	public void refresh() throws IOException {
+		this.entity = genericService.findById(entityClass, entity.getId(), getDefaultEntityGraph());
+		optimistickLockException = false;
 	}
 	
 	protected void afterSaveNavigate() throws IOException {

@@ -3,6 +3,8 @@ package com.econtact.dataModel.model.entity.accout;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -32,6 +34,7 @@ public abstract class AbstractUserEntity extends AbstractEntity<BigDecimal> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
 	@Column(name = EntityHelper.ID_F, unique = true, nullable = false, precision = 38, scale = 0)
+	@Access(AccessType.PROPERTY)
 	private BigDecimal id;
 
 	/**
@@ -45,7 +48,6 @@ public abstract class AbstractUserEntity extends AbstractEntity<BigDecimal> {
 	 */
 	@Column(name = "first_name", nullable = false, length = 100)
 	private String firstName;
-
 
 	/**
 	 * Имя пользователя. Last name of the User Entity.
@@ -102,7 +104,7 @@ public abstract class AbstractUserEntity extends AbstractEntity<BigDecimal> {
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-	
+
 	public String getLastName() {
 		return lastName;
 	}

@@ -38,6 +38,9 @@ public class UserProfileCRUDBean implements Serializable {
 
 	private AccountUserEntity entity;
 
+	private boolean editable = false;
+	
+	
 	private String newFirstName;
 	private String newLastName;
 	private String currentPassword;
@@ -132,6 +135,14 @@ public class UserProfileCRUDBean implements Serializable {
 
 	public void setConfirmNewPassword(String confirmNewPassword) {
 		this.confirmNewPassword = confirmNewPassword;
+	}
+
+	public boolean isEditable() {
+		return editable;
+	}
+
+	public void setEditable(boolean editable) {
+		this.editable = editable;
 	}
 	
 	

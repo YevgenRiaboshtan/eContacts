@@ -7,6 +7,8 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
+import org.hibernate.proxy.HibernateProxyHelper;
+
 import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.AbstractView;
 
@@ -52,7 +54,8 @@ public abstract class AbstractEntity<PK extends Serializable> implements Abstrac
         if (this == obj) {
             return true;
         }
-        if (obj == null || getClass() != obj.getClass()) {
+        if (obj == null 
+        	|| HibernateProxyHelper.getClassWithoutInitializingProxy(this) != HibernateProxyHelper.getClassWithoutInitializingProxy(obj)) {
             return false;
         }
         final AbstractEntity other = (AbstractEntity) obj;
