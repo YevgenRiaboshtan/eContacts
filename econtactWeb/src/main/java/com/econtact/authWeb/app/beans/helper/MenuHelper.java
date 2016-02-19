@@ -35,6 +35,7 @@ public class MenuHelper implements Serializable {
 	public static final String SUPER_ADMIN_TOP_MENU_FILE_NAME = "superAdminTopMenu.xml";
 	public static final String ADMIN_TOP_MENU_FILE_NAME = "adminTopMenu.xml";
 	public static final String EMPLOYEE_TOP_MENU_FILE_NAME = "employeeTopMenu.xml";
+	public static final String REGISTER_TOP_MENU_FILE_NAME = "registerTopMenu.xml";
 	
 	@Inject
 	LabelsHelper labelsHelper;
@@ -49,8 +50,10 @@ public class MenuHelper implements Serializable {
 			fileName = ADMIN_TOP_MENU_FILE_NAME;
 			break;
 		case ROLE_EMPLOYEE:
-		case ROLE_REGISTER:
 			fileName = EMPLOYEE_TOP_MENU_FILE_NAME;
+			break;
+		case ROLE_REGISTER:
+			fileName = REGISTER_TOP_MENU_FILE_NAME;
 			break;		
 		default:
 			break;

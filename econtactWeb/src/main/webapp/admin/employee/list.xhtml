@@ -56,7 +56,7 @@
 					<f:attribute name="filterDataType" value="ENUM"/>
 					<f:attribute name="filterField" value="enabledUser" />
 					<f:facet name="filter">
-						<p:selectOneMenu onchange="PF('adminDataTable').filter()" converter="activeConverter" >
+						<p:selectOneMenu onchange="PF('employeeDataTable').filter()" converter="activeConverter" >
 							<f:selectItems value="#{filterHelper.getEnumSelectItems('com.econtact.dataModel.model.entity.accout.UserStatusEnum', true)}"/>
 						</p:selectOneMenu>
 					</f:facet>

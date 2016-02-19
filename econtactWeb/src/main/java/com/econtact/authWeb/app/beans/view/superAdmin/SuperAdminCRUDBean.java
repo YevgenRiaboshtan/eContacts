@@ -12,6 +12,7 @@ import com.econtact.authWeb.app.security.PasswordUtils;
 import com.econtact.dataModel.model.entity.accout.AccountUserEntity;
 import com.econtact.dataModel.model.entity.accout.ConfirmStatusEnum;
 import com.econtact.dataModel.model.entity.accout.RoleType;
+import com.econtact.dataModel.model.entity.accout.UserStatusEnum;
 
 
 @ManagedBean(name = "superAdminCRUDBean")
@@ -57,6 +58,7 @@ public class SuperAdminCRUDBean extends GeneralCRUDBean<AccountUserEntity> {
 		entity.setRoleConfirm(ConfirmStatusEnum.CONFIRMED);
 		entity.setAllowCreateRegister(true);
 		entity.setParentUser(userSession.getPrincipal());
+		entity.setEnabledUser(UserStatusEnum.ENABLE);
 		entity.setSalt(PasswordUtils.getRandomSalt());
 		return result;
 	}

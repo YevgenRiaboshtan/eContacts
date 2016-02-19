@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eContact Help</title>
+<script type="text/javascript">
+	function loadContent(path) {
+    	document.getElementById('detailFrame').src = path;
+	}
+</script>
+<style type="text/css" >
+.full {
+	width: 100%;
+	height: 100%;
+}
+html, body {
+	width: 99%;
+	height: 99%;
+}
+</style>
+</head>
+
+<body>
+	<table class="full">
+		<tr>
+			<td style="width: 30%;"> 
+			<ul>
+				<li>
+					<a href="" onClick="loadContent('intro.html')">intro</a>
+				</li>
+				<li>
+					<a href="" onClick="loadContent('1/1.html')">1</a>
+				</li>
+			</ul>
+			</td>
+			<td >
+				<iframe id="detailFrame" src="intro.html" width="100%" height="100%" ></iframe>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>
