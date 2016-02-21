@@ -5,11 +5,11 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Inject;
 import javax.persistence.OptimisticLockException;
 
@@ -42,22 +42,6 @@ public abstract class GeneralCRUDBean<T extends AbstractEntity> implements Seria
 	protected T entity;
 	private Class<T> entityClass;
 	private boolean optimistickLockException = false;
-	
-	@PostConstruct
-	public void init() throws IOException {
-		entityClass = (Class<T>) getParameterClass( 0, getClass());
-		String idParam = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get(NavigationHelper.ID_PARAM);
-		if (StringUtils.isNotBlank(idParam)) {
-			T entity = genericService.findById(entityClass, BigDecimal.valueOf(Long.parseLong(idParam)), getDefaultEntityGraph()); 
-			if (canModifyEntity(entity)) {
-				setEntity(entity);
-			} else {
-				navigationHelper.navigate(NavigationHelper.MODIFY_NOT_ALLOWED_PAGE);
-			}
-		} else {
-			setEntity(createDefaultEntity());
-		}
-	}
 	
 	public T getEntity() {
 		return entity;
@@ -124,5 +108,20 @@ public abstract class GeneralCRUDBean<T extends AbstractEntity> implements Seria
 	private Class<?> getParameterClass(int pos, Class<?> target) {
 		return (Class<?>) ((ParameterizedType) target.getGenericSuperclass())
 				.getActualTypeArguments()[pos];
+	}
+	
+	public void isAllowEdit(ComponentSystemEvent event) throws IOException{
+		String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get(NavigationHelper.ID_PARAM);
+		if (StringUtils.isNotBlank(id)) {
+			entityClass = (Class<T>) getParameterClass( 0, getClass());
+			T entity = genericService.findById(entityClass, BigDecimal.valueOf(Long.parseLong(id)), getDefaultEntityGraph()); 
+			if (canModifyEntity(entity)) {
+				setEntity(entity);
+			} else {
+				navigationHelper.navigate(NavigationHelper.MODIFY_NOT_ALLOWED_PAGE);
+			}
+		} else {
+			setEntity(createDefaultEntity());
+		}
 	}
 }
