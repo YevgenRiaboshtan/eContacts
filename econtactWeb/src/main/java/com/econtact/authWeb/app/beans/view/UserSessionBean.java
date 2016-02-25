@@ -1,6 +1,9 @@
 package com.econtact.authWeb.app.beans.view;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
@@ -15,7 +18,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.econtact.authWeb.app.beans.helper.MenuHelper;
 import com.econtact.dataModel.data.context.UserContext;
+import com.econtact.dataModel.data.filter.FilterDefEquals;
+import com.econtact.dataModel.data.query.GenericFilterDefQueries;
+import com.econtact.dataModel.data.query.SearchCriteria;
 import com.econtact.dataModel.data.service.AuthenticationService;
+import com.econtact.dataModel.data.util.EntityHelper;
+import com.econtact.dataModel.model.entity.access.AccessChurchEntity;
+import com.econtact.dataModel.model.entity.accout.ConfirmStatusEnum;
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 
 @Named
@@ -26,13 +35,16 @@ public class UserSessionBean implements Serializable {
 	@EJB
 	private AuthenticationService authenticationService;
 	
-	private SessionUserEntity principal;
-	private UserContext userContext;
-	
 	@Inject
 	private MenuHelper menuUtils;
 	
+	private SessionUserEntity principal;
+	
+	private UserContext userContext;
+	
 	private MenuModel topMenuModel;
+	
+	private Map<BigDecimal, AccessChurchEntity> churchAccess;
 	
 	@PostConstruct
 	public void init() {
@@ -41,6 +53,7 @@ public class UserSessionBean implements Serializable {
 	}
 
 	@PreDestroy
+	//FIXME need implement another way for logout event;
 	public void destroy() {
 		authenticationService.disconnectUser("", principal);
 	}
@@ -58,5 +71,17 @@ public class UserSessionBean implements Serializable {
 	
 	public UserContext getUserContext() {
 		return userContext;
+	}
+	
+	public AccessChurchEntity getChurchAccess(BigDecimal idChurch) {
+		if (churchAccess == null) {
+			SearchCriteria<AccessChurchEntity> criteria = new SearchCriteria<>(new GenericFilterDefQueries<>(AccessChurchEntity.class));
+			criteria.andFilter(new FilterDefEquals(AccessChurchEntity.CONFIRM_A, ConfirmStatusEnum.CONFIRMED))
+					.andFilter(new FilterDefEquals(AccessChurchEntity.USER_A, principal))
+					.andFilter(new FilterDefEquals(EntityHelper.SIGN_A, EntityHelper.ACTUAL_SIGN));
+			
+			
+		}
+		return 	churchAccess.get(idChurch);
 	}
 }

@@ -6,9 +6,8 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/WEB-INF/templates/default.xhtml">
 	<ui:define name="content">
-		<f:event listener="#{superAdminCRUDBean.isAllowEdit}" type="preRenderView" />
-		<ui:include src="/panel/editUserPanel.xhtml" >
-			<ui:param name="bean" value="#{superAdminCRUDBean}"/>
-		</ui:include>
+		<f:event listener="#{churchCRUDBean.isAllowEdit}" type="preRenderView" />
+		<p:outputLabel value="#{viewMsg['church.edit.label']}"></p:outputLabel>
+		<ui:include src="/panel/church/editChurchPanel.xhtml"/>
 	</ui:define>
 </ui:composition>

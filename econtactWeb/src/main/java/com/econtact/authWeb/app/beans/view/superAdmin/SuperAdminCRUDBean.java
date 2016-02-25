@@ -42,7 +42,7 @@ public class SuperAdminCRUDBean extends GeneralCRUDBean<AccountUserEntity> {
 	
 	@Override
 	protected void preSave() {
-		if (StringUtils.isEmpty(entity.getSalt())) {
+		if (entity.getId() == null) {
 			entity.setPassword(PasswordUtils.convertPassword(entity.getPassword(), entity.getSalt()));
 		}
 		if (StringUtils.isNotBlank(newPassword)) {
@@ -54,12 +54,12 @@ public class SuperAdminCRUDBean extends GeneralCRUDBean<AccountUserEntity> {
 	@Override
 	protected AccountUserEntity createDefaultEntity() {
 		AccountUserEntity result = new AccountUserEntity();
-		entity.setRole(RoleType.ROLE_ADMIN);
-		entity.setRoleConfirm(ConfirmStatusEnum.CONFIRMED);
-		entity.setAllowCreateRegister(true);
-		entity.setParentUser(userSession.getPrincipal());
-		entity.setEnabledUser(UserStatusEnum.ENABLE);
-		entity.setSalt(PasswordUtils.getRandomSalt());
+		result.setRole(RoleType.ROLE_ADMIN);
+		result.setRoleConfirm(ConfirmStatusEnum.CONFIRMED);
+		result.setAllowCreateRegister(true);
+		result.setParentUser(userSession.getPrincipal());
+		result.setEnabledUser(UserStatusEnum.ENABLE);
+		result.setSalt(PasswordUtils.getRandomSalt());
 		return result;
 	}
 	

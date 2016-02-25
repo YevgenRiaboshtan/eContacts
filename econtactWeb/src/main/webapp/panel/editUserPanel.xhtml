@@ -7,7 +7,7 @@
 	<p:panel>
 	
 		<p:outputLabel value="#{viewMsg['newUser.edit.form.title']}"></p:outputLabel>
-		<h:form prependId="false" id="userEditForm">
+		<h:form id="userEditForm">
 			<p:messages id="messages" autoUpdate="true" closable="true" />
 			<p:commandButton value="refresh" rendered="#{bean.optimistickLockException}" ajax="true" actionListener="#{bean.refresh()}" update="userEditForm"/>
 			<h:panelGrid columns="2">
@@ -53,8 +53,7 @@
 				</p:selectOneMenu>
 
 				<p:commandButton value="#{viewMsg['btn.save.label']}" ajax="true"
-					update="userEditForm" actionListener="#{bean.save()}">
-					<f:ajax execute="userEditForm" />
+					actionListener="#{bean.save()}" >
 				</p:commandButton>
 				<p:commandButton value="#{viewMsg['btn.cancel.label']}"
 					immediate="true" actionListener="#{bean.cancel()}" />

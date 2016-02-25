@@ -6,6 +6,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/WEB-INF/templates/default.xhtml">
 	<ui:define name="content">
+		<f:event listener="#{superAdminCRUDBean.isAllowEdit}" type="preRenderView" />
 		<ui:include src="/panel/newUserPanel.xhtml" >
 			<ui:param name="bean" value="#{superAdminCRUDBean}"/>
 		</ui:include>

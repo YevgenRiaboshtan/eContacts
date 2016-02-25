@@ -13,12 +13,17 @@
 				<menuItem>
 					<id>churchMenuItem</id>
 					<labelLocaleKey>topMenu.churchItem.label</labelLocaleKey>
-					<path>/employee/church/list.jsf</path>
+					<path>/admin/church/list.jsf</path>
 				</menuItem>
 				<menuItem>
 					<id>employeeMenuItem</id>
 					<labelLocaleKey>topMenu.employee.menu.label</labelLocaleKey>
 					<path>/admin/employee/list.jsf</path>
+				</menuItem>
+				<menuItem>
+					<id>groupMenuItem</id>
+					<labelLocaleKey>groupList.page.capture</labelLocaleKey>
+					<path>/employee/group/list.jsf</path>
 				</menuItem>
 			</elements>
 		</subMenuItem>

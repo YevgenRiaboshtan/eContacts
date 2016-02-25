@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
@@ -19,6 +20,7 @@ import com.econtact.authWeb.app.beans.helper.LabelsHelper;
 import com.econtact.authWeb.app.beans.helper.NavigationHelper;
 import com.econtact.authWeb.app.constraint.ContraintViewRelation;
 import com.econtact.authWeb.app.utils.UniqueConstraintHandleUtils;
+import com.econtact.dataModel.data.context.UserContext;
 import com.econtact.dataModel.data.service.GenericService;
 import com.econtact.dataModel.data.util.LocaleLabels;
 import com.econtact.dataModel.data.util.UniqueConstraintException;
@@ -37,11 +39,27 @@ public abstract class GeneralCRUDBean<T extends AbstractEntity> implements Seria
 	protected UserSessionBean userSession;
 	
 	@EJB
-	GenericService genericService;
+	protected GenericService genericService;
 	
 	protected T entity;
 	private Class<T> entityClass;
 	private boolean optimistickLockException = false;
+	
+	@PostConstruct
+	public void init() throws IOException {
+		String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get(NavigationHelper.ID_PARAM);
+		if (StringUtils.isNotBlank(id)) {
+			entityClass = (Class<T>) getParameterClass( 0, getClass());
+			T entity = genericService.findById(entityClass, BigDecimal.valueOf(Long.parseLong(id)), getDefaultEntityGraph()); 
+			if (entity != null) {
+				setEntity(entity);
+			} else {
+				cancelNavigate();
+			}
+		} else {
+			setEntity(createDefaultEntity());
+		}
+	}
 	
 	public T getEntity() {
 		return entity;
@@ -56,9 +74,9 @@ public abstract class GeneralCRUDBean<T extends AbstractEntity> implements Seria
 	}
 
 	public void save() throws IOException {
-		preSave();
 		try {
-			genericService.saveOrUpdate(entity, userSession.getUserContext());
+			preSave();
+			entity = saveorUpdate(entity, userSession.getUserContext());
 			afterSaveNavigate();
 		} catch (EJBException e) {
 			if (e.getCause() instanceof OptimisticLockException) {
@@ -74,7 +92,7 @@ public abstract class GeneralCRUDBean<T extends AbstractEntity> implements Seria
 			FacesMessage errorMessage = new FacesMessage(labelsHelper.getLocalizedMessage(relation.getErrorMessageKey()));
 			errorMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, errorMessage);
-		}
+		} 
 	}
 	
 	public void cancel() throws IOException {
@@ -84,6 +102,10 @@ public abstract class GeneralCRUDBean<T extends AbstractEntity> implements Seria
 	public void refresh() throws IOException {
 		this.entity = genericService.findById(entityClass, entity.getId(), getDefaultEntityGraph());
 		optimistickLockException = false;
+	}
+	
+	protected T saveorUpdate(T entity, UserContext userContext) throws UniqueConstraintException {
+		return genericService.saveOrUpdate(entity, userContext);
 	}
 	
 	protected void afterSaveNavigate() throws IOException {
@@ -111,17 +133,8 @@ public abstract class GeneralCRUDBean<T extends AbstractEntity> implements Seria
 	}
 	
 	public void isAllowEdit(ComponentSystemEvent event) throws IOException{
-		String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get(NavigationHelper.ID_PARAM);
-		if (StringUtils.isNotBlank(id)) {
-			entityClass = (Class<T>) getParameterClass( 0, getClass());
-			T entity = genericService.findById(entityClass, BigDecimal.valueOf(Long.parseLong(id)), getDefaultEntityGraph()); 
-			if (canModifyEntity(entity)) {
-				setEntity(entity);
-			} else {
-				navigationHelper.navigate(NavigationHelper.MODIFY_NOT_ALLOWED_PAGE);
-			}
-		} else {
-			setEntity(createDefaultEntity());
+		if (!canModifyEntity(getEntity())) {
+			navigationHelper.navigate(NavigationHelper.MODIFY_NOT_ALLOWED_PAGE);
 		}
 	}
 }
