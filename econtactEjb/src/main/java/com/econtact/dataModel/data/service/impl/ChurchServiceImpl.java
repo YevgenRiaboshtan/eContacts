@@ -26,15 +26,15 @@ public class ChurchServiceImpl extends GenericServiceImpl implements ChurchServi
 			AccessChurchEntity access = new AccessChurchEntity();
 			access.setChurch(church);
 			access.setUser(userContext.getUser());
-			access.setConfirm(ConfirmStatusEnum.CONFIRMED);
-			access.setAddContactPermit(ConfirmStatusEnum.CONFIRMED);
-			access.setEditContactPermit(ConfirmStatusEnum.CONFIRMED);
-			access.setEditGroupPermit(ConfirmStatusEnum.CONFIRMED);
-			access.setEditPermit(ConfirmStatusEnum.CONFIRMED);
-			access.setEditUserPermit(ConfirmStatusEnum.CONFIRMED);
-			access.setViewPermit(ConfirmStatusEnum.CONFIRMED);
-			access.setEditAccessPermit(ConfirmStatusEnum.CONFIRMED);
-			super.saveOrUpdate(access, userContext);
+			access.setConfirm(true);
+			access.setAddContactPermit(true);
+			access.setEditContactPermit(true);
+			access.setEditGroupPermit(true);
+			access.setEditPermit(true);
+			access.setEditUserPermit(true);
+			access.setViewPermit(true);
+			access.setEditAccessPermit(true);
+			getEntityManager().merge(access);
 		} else {
 			church = super.saveOrUpdate(church, userContext);
 		}

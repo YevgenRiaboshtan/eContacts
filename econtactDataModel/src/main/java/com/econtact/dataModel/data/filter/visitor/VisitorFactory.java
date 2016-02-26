@@ -38,6 +38,10 @@ public class VisitorFactory {
             	return new GreaterThanVisitor(ctx);
             case GREATER_THAN_OR_EQUALS:
             	return new GreaterThanOrEqualVisitor(ctx);
+            case IN_LIST:
+            	return new InListVisitor(ctx);
+            case NOT_IN_LIST:
+            	return new NotInListVisitor(ctx);
             default:
                 throw new UnsupportedOperationException("Filter with type :'"
                         + filterDefEnum + "' not supported. Fix me");

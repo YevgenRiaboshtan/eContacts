@@ -5,7 +5,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,12 +17,13 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.SQLDelete;
 
 import com.econtact.dataModel.data.context.EJBContext;
 import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.entity.AbstractEntity;
-import com.econtact.dataModel.model.entity.accout.ConfirmStatusEnum;
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 import com.econtact.dataModel.model.entity.church.ChurchEntity;
 import com.econtact.dataModel.model.entity.church.GroupEntity;
@@ -58,8 +58,9 @@ public class AccessChurchEntity extends AbstractEntity<BigDecimal> {
 	/**
 	 * Пользователь {@link SessionUserEntity} которому предоставляется доступ к общине
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "id_user_fk", nullable = false)
+	@Fetch(FetchMode.SELECT)
 	private SessionUserEntity user;
 
 	/**
@@ -72,57 +73,50 @@ public class AccessChurchEntity extends AbstractEntity<BigDecimal> {
 	/**
 	 * Подтверждение предоставленого доступа
 	 */
-	@Enumerated
 	@Column(name = "confirm", nullable = false)
-	private ConfirmStatusEnum confirm;
+	private boolean confirm = false;
 
 	/**
 	 * Доступ на просмотр общины {@link ChurchEntity}
 	 */
-	@Enumerated
 	@Column(name = "view_permit", nullable = false)
-	private ConfirmStatusEnum viewPermit;
+	private boolean viewPermit = false;
 
 	/**
 	 * Доступ на редактирование информации об общине {@link ChurchEntity}
 	 */
-	@Enumerated
 	@Column(name = "edit_permit", nullable = false)
-	private ConfirmStatusEnum editPermit;
+	private boolean editPermit = false;
 
 	/**
 	 * Доступ на добавление/удаление пользователей {@link SessionUserEntity} в общине {@link ChurchEntity}
 	 */
-	@Enumerated
 	@Column(name = "edit_user_permit", nullable = false)
-	private ConfirmStatusEnum editUserPermit;
+	private boolean editUserPermit = false;
 
 	/**
 	 * Доступ на добавление/удаление групп {@link GroupEntity} в общине {@link ChurchEntity}
 	 */
-	@Enumerated
 	@Column(name = "edit_group_permit", nullable = false)
-	private ConfirmStatusEnum editGroupPermit;
+	private boolean editGroupPermit = false;
 
 	/**
 	 * Доступ на добавление контактов в общине {@link ChurchEntity}
 	 */
-	@Enumerated
 	@Column(name = "add_contact_permit", nullable = false)
-	private ConfirmStatusEnum addContactPermit;
+	private boolean addContactPermit = false;
 
 	/**
 	 * Доступ на руправление доступами {@link AccessChurchEntity} к общине {@link ChurchEntity}
 	 */
-	@Enumerated
 	@Column(name = "adit_access_permit", nullable = false)
-	private ConfirmStatusEnum editAccessPermit;
+	private boolean editAccessPermit = false;
+	
 	/**
 	 * Доступ на изменение/удаление контактов в общине {@link ChurchEntity}
 	 */
-	@Enumerated
 	@Column(name = "edit_contact_permit", nullable = false)
-	private ConfirmStatusEnum editContactPermit;
+	private boolean editContactPermit = false;
 
 	@Column(name = EntityHelper.UPD_DATE_F, nullable = false)
 	private Date updDate;
@@ -157,68 +151,68 @@ public class AccessChurchEntity extends AbstractEntity<BigDecimal> {
 		this.church = church;
 	}
 
-	public ConfirmStatusEnum getConfirm() {
+	public boolean isConfirm() {
 		return confirm;
 	}
 
-	public void setConfirm(ConfirmStatusEnum confirm) {
+	public void setConfirm(boolean confirm) {
 		this.confirm = confirm;
 	}
 
-	public ConfirmStatusEnum getViewPermit() {
+	public boolean isViewPermit() {
 		return viewPermit;
 	}
 
-	public void setViewPermit(ConfirmStatusEnum viewPermit) {
+	public void setViewPermit(boolean viewPermit) {
 		this.viewPermit = viewPermit;
 	}
 
-	public ConfirmStatusEnum getEditPermit() {
+	public boolean isEditPermit() {
 		return editPermit;
 	}
 
-	public void setEditPermit(ConfirmStatusEnum editPermit) {
+	public void setEditPermit(boolean editPermit) {
 		this.editPermit = editPermit;
 	}
 
-	public ConfirmStatusEnum getEditUserPermit() {
+	public boolean isEditUserPermit() {
 		return editUserPermit;
 	}
 
-	public void setEditUserPermit(ConfirmStatusEnum editUserPermit) {
+	public void setEditUserPermit(boolean editUserPermit) {
 		this.editUserPermit = editUserPermit;
 	}
 
-	public ConfirmStatusEnum getEditGroupPermit() {
+	public boolean isEditGroupPermit() {
 		return editGroupPermit;
 	}
 
-	public void setEditGroupPermit(ConfirmStatusEnum editGroupPermit) {
+	public void setEditGroupPermit(boolean editGroupPermit) {
 		this.editGroupPermit = editGroupPermit;
 	}
 
-	public ConfirmStatusEnum getAddContactPermit() {
+	public boolean isAddContactPermit() {
 		return addContactPermit;
 	}
 
-	public void setAddContactPermit(ConfirmStatusEnum addContactPermit) {
+	public void setAddContactPermit(boolean addContactPermit) {
 		this.addContactPermit = addContactPermit;
 	}
 
-	public ConfirmStatusEnum getEditContactPermit() {
-		return editContactPermit;
-	}
-
-	public void setEditContactPermit(ConfirmStatusEnum editContactPermit) {
-		this.editContactPermit = editContactPermit;
-	}
-
-	public ConfirmStatusEnum getEditAccessPermit() {
+	public boolean isEditAccessPermit() {
 		return editAccessPermit;
 	}
 
-	public void setEditAccessPermit(ConfirmStatusEnum editAccessPermit) {
+	public void setEditAccessPermit(boolean editAccessPermit) {
 		this.editAccessPermit = editAccessPermit;
+	}
+
+	public boolean isEditContactPermit() {
+		return editContactPermit;
+	}
+
+	public void setEditContactPermit(boolean editContactPermit) {
+		this.editContactPermit = editContactPermit;
 	}
 
 	public Date getUpdDate() {

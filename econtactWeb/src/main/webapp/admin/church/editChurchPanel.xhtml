@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	<p:panel>
+		<h:form id="churchForm">
+			<p:messages id="messages" closable="true" autoUpdate="true" />
+			<h:panelGrid columns="2">
+				<p:outputLabel value="#{viewMsg['church.name.label']} *"></p:outputLabel>
+				<p:inputText value="#{churchCRUDBean.entity.nameChurch}"
+					maxlength="255" required="true"
+					label="#{viewMsg['church.name.label']}"></p:inputText>
+
+				<p:outputLabel value="#{viewMsg['church.description.label']}"></p:outputLabel>
+				<p:inputTextarea value="#{churchCRUDBean.entity.description}"
+					rows="10" cols="100"></p:inputTextarea>
+
+
+
+				<p:commandButton value="#{viewMsg['btn.save.label']}" ajax="true"
+					actionListener="#{churchCRUDBean.save()}">
+				</p:commandButton>
+				<p:commandButton value="#{viewMsg['btn.cancel.label']}"
+					immediate="true" actionListener="#{churchCRUDBean.cancel()}" />
+			</h:panelGrid>
+			<p:autoComplete id="newUser" value="#{churchCRUDBean.accessUser}"
+				completeMethod="#{churchCRUDBean.accessUserComplete}"
+				converter="userAutocompleteConverter" var="user"
+				itemLabel="#{user.login}" itemValue="#{user}" queryDelay="700"
+				maxResults="10" />
+			<p:commandButton icon="fa fa-plus"
+				action="#{churchCRUDBean.addAccessUser}" partialSubmit="true"
+				process="newUser, @this" update="newUser accessTable" />
+
+			<p:dataTable id="accessTable" var="item" value="#{churchCRUDBean.accesses}"
+				editable="true">
+				<p:ajax event="rowEdit" partialSubmit="true" process="@this" listener="#{churchCRUDBean.onAccessEdit}" />
+
+				<p:column style="width:100px">
+					<p:rowEditor />
+					<p:commandButton value="-" ajax="true" partialSubmit="true" process="@this" update="accessTable" actionListener="#{churchCRUDBean.removeAccessUser(item)}"/>
+				</p:column>
+				<p:column headerText="#{viewMsg['admins.list.login.column.header']}">
+					<p:outputLabel value="#{item.user.login}"></p:outputLabel>
+				</p:column>
+				<p:column headerText="confirm">
+					<p:cellEditor>
+						<f:facet name="output">
+							<p:selectBooleanCheckbox value="#{item.confirm}" disabled="true"/>
+						</f:facet>
+						<f:facet name="input">
+							<p:selectBooleanCheckbox value="#{item.confirm}"/>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</p:panel>
+</ui:composition>
