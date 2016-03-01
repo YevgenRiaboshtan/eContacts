@@ -24,6 +24,9 @@ public abstract class MenuElementTopMenuBar implements Serializable {
 	@XmlElement
 	private String path;
 
+	@XmlElement
+	private Integer idRecDict;
+	
 	public String getId() {
 		return id;
 	}
@@ -54,6 +57,14 @@ public abstract class MenuElementTopMenuBar implements Serializable {
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	public Integer getIdRecDict() {
+		return idRecDict;
+	}
+
+	public void setIdRecDict(Integer idRecDict) {
+		this.idRecDict = idRecDict;
 	}
 
 }

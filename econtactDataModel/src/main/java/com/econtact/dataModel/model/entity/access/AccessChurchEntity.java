@@ -3,6 +3,8 @@ package com.econtact.dataModel.model.entity.access;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,6 +19,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.SQLDelete;
@@ -38,6 +42,7 @@ import com.econtact.dataModel.model.entity.church.GroupEntity;
 @Table(name = "access_church", schema = EntityHelper.E_CONTACT_SCHEMA, uniqueConstraints = { @UniqueConstraint(name = "user_church_unique", columnNames = {
 		"id_user_fk", "id_church_fk", EntityHelper.SIGN_F }) })
 @SQLDelete(sql = "UPDATE econtactschema.access_church set sign = id where id = ? and version = ?")
+@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 public class AccessChurchEntity extends AbstractEntity<BigDecimal> {
 	private static final long serialVersionUID = -3925502235711757060L;
 	private static final String SEQ_NAME = "accessChurchSeq";
@@ -111,7 +116,7 @@ public class AccessChurchEntity extends AbstractEntity<BigDecimal> {
 	 */
 	@Column(name = "adit_access_permit", nullable = false)
 	private boolean editAccessPermit = false;
-	
+
 	/**
 	 * Доступ на изменение/удаление контактов в общине {@link ChurchEntity}
 	 */

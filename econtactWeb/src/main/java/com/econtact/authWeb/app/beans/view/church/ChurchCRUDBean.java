@@ -12,8 +12,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.validation.constraints.NotNull;
 
-import org.primefaces.event.RowEditEvent;
-
 import com.econtact.authWeb.app.beans.view.GeneralCRUDBean;
 import com.econtact.authWeb.app.utils.WebUtils;
 import com.econtact.dataModel.data.context.UserContext;
@@ -29,16 +27,15 @@ import com.econtact.dataModel.model.entity.access.AccessChurchEntity;
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 import com.econtact.dataModel.model.entity.church.ChurchEntity;
 
-@ManagedBean (name = "churchCRUDBean")
+@ManagedBean(name = "churchCRUDBean")
 @ViewScoped
 public class ChurchCRUDBean extends GeneralCRUDBean<ChurchEntity> {
 	private static final long serialVersionUID = 5261936332118028517L;
-	
-	private Set<AccessChurchEntity> accesses;
-	private Set<BigDecimal> toRemove = new HashSet<BigDecimal>();
-	
+
+	private List<AccessChurchEntity> accesses;
+	private Set<AccessChurchEntity> toRemove = new HashSet<AccessChurchEntity>();
 	private SessionUserEntity accessUser;
-	
+
 	public SessionUserEntity getAccessUser() {
 		return accessUser;
 	}
@@ -47,37 +44,34 @@ public class ChurchCRUDBean extends GeneralCRUDBean<ChurchEntity> {
 		this.accessUser = accessUser;
 	}
 
-	public Set<AccessChurchEntity> getAccesses() {
+	public List<AccessChurchEntity> getAccesses() {
 		return accesses;
 	}
 
-	public void setAccesses(Set<AccessChurchEntity> accesses) {
+	public void setAccesses(List<AccessChurchEntity> accesses) {
 		this.accesses = accesses;
-	}
-
-	public void onAccessEdit(@NotNull RowEditEvent event) {
-		accesses.add((AccessChurchEntity) event.getObject());
 	}
 	
 	public List<SessionUserEntity> accessUserComplete(String login) {
 		List<BigDecimal> existIds = new ArrayList<BigDecimal>();
 		accesses.forEach(access -> existIds.add(access.getUser().getId()));
-		SearchCriteria<SessionUserEntity> criteria = new SearchCriteria<>(new GenericFilterDefQueries<>(SessionUserEntity.class));
+		existIds.add(userSession.getPrincipal().getId());
+		SearchCriteria<SessionUserEntity> criteria = new SearchCriteria<>(new GenericFilterDefQueries<>(
+				SessionUserEntity.class));
 		criteria.andFilter(new FilterDefStartsWith(SessionUserEntity.LOGIN_A, login))
 				.andFilter(new FilterDefEquals(EntityHelper.SIGN_A, EntityHelper.ACTUAL_SIGN))
 				.andFilter(new FilterDefNotInList(EntityHelper.ID_A, existIds));
 		return genericService.find(criteria, 0, 10);
 	}
-	
+
 	public void removeAccessUser(@NotNull AccessChurchEntity item) {
 		accesses.remove(item);
 		if (item.getId() != null) {
-			toRemove.add(item.getId());
+			toRemove.add(item);
 		}
 	}
-	
+
 	public void addAccessUser() {
-		//FIXME очищать кеш после выбора или удалять толкьо выбранные элемент
 		if (accessUser != null) {
 			AccessChurchEntity access = new AccessChurchEntity();
 			access.setChurch(entity);
@@ -86,11 +80,12 @@ public class ChurchCRUDBean extends GeneralCRUDBean<ChurchEntity> {
 			accessUser = null;
 		}
 	}
-	
+
 	@Override
 	protected boolean canModifyEntity(ChurchEntity entity) {
-		if (EntityHelper.ACTUAL_SIGN.equals(entity.getSign())
-				&& userSession.getPrincipal().equals(entity.getOwner())) {
+		if (EntityHelper.ACTUAL_SIGN.equals(entity.getSign()) 
+				&& (userSession.getPrincipal().equals(entity.getOwner())
+						|| userSession.getChurchAccess(entity.getId()).isEditPermit())) {
 			return true;
 		}
 		return false;
@@ -100,15 +95,16 @@ public class ChurchCRUDBean extends GeneralCRUDBean<ChurchEntity> {
 	public void setEntity(ChurchEntity entity) {
 		super.setEntity(entity);
 		if (entity.getId() != null) {
-			SearchCriteria<AccessChurchEntity> criteria = new SearchCriteria<>(new GenericFilterDefQueries<>(AccessChurchEntity.class));
-			criteria.andFilter(new FilterDefEquals(EntityHelper.SIGN_A, EntityHelper.ACTUAL_SIGN))
-					.andFilter(new FilterDefEquals(AccessChurchEntity.CHURCH_A, getEntity()));
-			accesses = new HashSet<AccessChurchEntity>(genericService.find(criteria));
+			SearchCriteria<AccessChurchEntity> criteria = new SearchCriteria<>(new GenericFilterDefQueries<>(
+					AccessChurchEntity.class));
+			criteria.andFilter(new FilterDefEquals(EntityHelper.SIGN_A, EntityHelper.ACTUAL_SIGN)).andFilter(
+					new FilterDefEquals(AccessChurchEntity.CHURCH_A, getEntity()));
+			accesses = new ArrayList<AccessChurchEntity>(genericService.find(criteria));
 		} else {
-			accesses = new HashSet<AccessChurchEntity>();
+			accesses = new ArrayList<AccessChurchEntity>();
 		}
 	}
-	
+
 	@Override
 	protected ChurchEntity createDefaultEntity() {
 		ChurchEntity entity = new ChurchEntity();
@@ -116,16 +112,16 @@ public class ChurchCRUDBean extends GeneralCRUDBean<ChurchEntity> {
 		entity.setCreateDate(new Date());
 		return entity;
 	}
-	
+
 	protected ChurchEntity saveorUpdate(ChurchEntity entity, UserContext userContext) throws UniqueConstraintException {
-		return WebUtils.getBean(ChurchService.class).saveOrUpdate(entity, userContext);
+		return WebUtils.getBean(ChurchService.class).saveOrUpdate(entity, userContext, accesses, toRemove);
 	}
-	
+
 	@Override
 	protected void afterSaveNavigate() throws IOException {
 		navigationHelper.navigate("/admin/church/list.jsf");
 	}
-	
+
 	@Override
 	protected void cancelNavigate() throws IOException {
 		navigationHelper.navigate("/admin/church/list.jsf");

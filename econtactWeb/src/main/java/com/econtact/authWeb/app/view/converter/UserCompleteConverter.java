@@ -20,7 +20,13 @@ public class UserCompleteConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		return WebUtils.getBean(GenericService.class).findById(SessionUserEntity.class, ((Map)component.getAttributes().get(USERS_ATTR)).get(value));
+		BigDecimal idUser = (BigDecimal) ((Map)component.getAttributes().get(USERS_ATTR)).get(value);
+		if (idUser != null) {
+			SessionUserEntity result = WebUtils.getBean(GenericService.class).findById(SessionUserEntity.class, idUser);
+			((Map) component.getAttributes().get(USERS_ATTR)).remove(value);
+			return result;
+		}
+		return null;
 	}
 
 	@Override

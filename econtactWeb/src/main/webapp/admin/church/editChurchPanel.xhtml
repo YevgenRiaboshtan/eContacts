@@ -7,55 +7,83 @@
 	<p:panel>
 		<h:form id="churchForm">
 			<p:messages id="messages" closable="true" autoUpdate="true" />
-			<h:panelGrid columns="2">
-				<p:outputLabel value="#{viewMsg['church.name.label']} *"></p:outputLabel>
-				<p:inputText value="#{churchCRUDBean.entity.nameChurch}"
-					maxlength="255" required="true"
-					label="#{viewMsg['church.name.label']}"></p:inputText>
+			<p:panel>
+				<h:panelGrid columns="2">
+					<p:outputLabel value="#{viewMsg['church.name.label']} *"></p:outputLabel>
+					<p:inputText value="#{churchCRUDBean.entity.nameChurch}"
+						maxlength="255" required="true"
+						label="#{viewMsg['church.name.label']}"></p:inputText>
 
-				<p:outputLabel value="#{viewMsg['church.description.label']}"></p:outputLabel>
-				<p:inputTextarea value="#{churchCRUDBean.entity.description}"
-					rows="10" cols="100"></p:inputTextarea>
+					<p:outputLabel value="#{viewMsg['church.description.label']}"></p:outputLabel>
+					<p:inputTextarea value="#{churchCRUDBean.entity.description}"
+						rows="10" cols="100"></p:inputTextarea>
 
+					<p:commandButton value="#{viewMsg['btn.save.label']}" ajax="true"
+						actionListener="#{churchCRUDBean.save()}">
+					</p:commandButton>
+					<p:commandButton value="#{viewMsg['btn.cancel.label']}"
+						immediate="true" actionListener="#{churchCRUDBean.cancel()}" />
+				</h:panelGrid>
+			</p:panel>
+			<p:panel
+				rendered="#{userSessionBean.getChurchAccess(churchCRUDBean.entity.id).editUserPermit}">
+				<p:outputLabel value="#{viewMsg['access.church.add.user.message']}" />
+				<p:autoComplete id="newUser" value="#{churchCRUDBean.accessUser}"
+					completeMethod="#{churchCRUDBean.accessUserComplete}"
+					converter="userAutocompleteConverter" var="user"
+					itemLabel="#{user.login}" itemValue="#{user}" queryDelay="700"
+					maxResults="10" />
 
+				<p:commandButton icon="fa fa-plus" id="addUserBtn"
+					action="#{churchCRUDBean.addAccessUser}" partialSubmit="true"
+					process="accessTable, newUser, @this" update="newUser accessTable" />
+				<p:tooltip for="addUserBtn"
+					value="#{viewMsg['btn.add.tooltip.text']}" />
 
-				<p:commandButton value="#{viewMsg['btn.save.label']}" ajax="true"
-					actionListener="#{churchCRUDBean.save()}">
-				</p:commandButton>
-				<p:commandButton value="#{viewMsg['btn.cancel.label']}"
-					immediate="true" actionListener="#{churchCRUDBean.cancel()}" />
-			</h:panelGrid>
-			<p:autoComplete id="newUser" value="#{churchCRUDBean.accessUser}"
-				completeMethod="#{churchCRUDBean.accessUserComplete}"
-				converter="userAutocompleteConverter" var="user"
-				itemLabel="#{user.login}" itemValue="#{user}" queryDelay="700"
-				maxResults="10" />
-			<p:commandButton icon="fa fa-plus"
-				action="#{churchCRUDBean.addAccessUser}" partialSubmit="true"
-				process="newUser, @this" update="newUser accessTable" />
-
-			<p:dataTable id="accessTable" var="item" value="#{churchCRUDBean.accesses}"
-				editable="true">
-				<p:ajax event="rowEdit" partialSubmit="true" process="@this" listener="#{churchCRUDBean.onAccessEdit}" />
-
-				<p:column style="width:100px">
-					<p:rowEditor />
-					<p:commandButton value="-" ajax="true" partialSubmit="true" process="@this" update="accessTable" actionListener="#{churchCRUDBean.removeAccessUser(item)}"/>
-				</p:column>
-				<p:column headerText="#{viewMsg['admins.list.login.column.header']}">
-					<p:outputLabel value="#{item.user.login}"></p:outputLabel>
-				</p:column>
-				<p:column headerText="confirm">
-					<p:cellEditor>
-						<f:facet name="output">
-							<p:selectBooleanCheckbox value="#{item.confirm}" disabled="true"/>
-						</f:facet>
-						<f:facet name="input">
-							<p:selectBooleanCheckbox value="#{item.confirm}"/>
-						</f:facet>
-					</p:cellEditor>
-				</p:column>
-			</p:dataTable>
+				<p:dataTable id="accessTable" var="item" scrollHeight="302"
+					scrollable="true" value="#{churchCRUDBean.accesses}" rows="10"
+					paginator="true" paginatorPosition="bottom"
+					paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {JumpToPageDropdown} {NextPageLink} {LastPageLink}"
+					sortBy="#{item.user.login}">
+					<p:column style="width:100px">
+						<p:commandButton value="-" ajax="true" partialSubmit="true"
+							process="@this" update="accessTable"
+							actionListener="#{churchCRUDBean.removeAccessUser(item)}" />
+					</p:column>
+					<p:column
+						headerText="#{viewMsg['admins.list.login.column.header']}">
+						<p:outputLabel value="#{item.user.login}"></p:outputLabel>
+					</p:column>
+					<p:column headerText="#{viewMsg['access.church.confirm']}">
+						<p:selectBooleanCheckbox value="#{item.confirm}" />
+					</p:column>
+					<p:column headerText="#{viewMsg['access.church.view.permit']}">
+						<p:selectBooleanCheckbox value="#{item.viewPermit}" />
+					</p:column>
+					<p:column headerText="#{viewMsg['access.church.edit.permit']}">
+						<p:selectBooleanCheckbox value="#{item.editPermit}" />
+					</p:column>
+					<p:column headerText="#{viewMsg['access.church.edit.user.permit']}">
+						<p:selectBooleanCheckbox value="#{item.editUserPermit}" />
+					</p:column>
+					<p:column
+						headerText="#{viewMsg['access.church.edit.group.permit']}">
+						<p:selectBooleanCheckbox value="#{item.editGroupPermit}" />
+					</p:column>
+					<p:column
+						headerText="#{viewMsg['access.church.add.contact.permit']}">
+						<p:selectBooleanCheckbox value="#{item.addContactPermit}" />
+					</p:column>
+					<p:column
+						headerText="#{viewMsg['access.church.edit.contact.permit']}">
+						<p:selectBooleanCheckbox value="#{item.editContactPermit}" />
+					</p:column>
+					<p:column
+						headerText="#{viewMsg['access.church.edit.access.permit']}">
+						<p:selectBooleanCheckbox value="#{item.editAccessPermit}" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
 		</h:form>
 	</p:panel>
 </ui:composition>

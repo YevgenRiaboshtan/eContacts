@@ -3,6 +3,8 @@ package com.econtact.dataModel.model.entity.church;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +20,8 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
@@ -45,6 +49,7 @@ public class ChurchEntity extends AbstractEntity<BigDecimal> implements AuditSup
 	 * identifier of the Church.
 	 */
 	@Id
+	@Access(AccessType.PROPERTY)
 	@SequenceGenerator(name = SEQ_NAME, sequenceName = "seq_church_id", schema = EntityHelper.E_CONTACT_SCHEMA, allocationSize = 1)
 	@GeneratedValue(generator = SEQ_NAME, strategy = GenerationType.SEQUENCE)
 	@Column(name = EntityHelper.ID_F, precision = 38, scale = 0, unique = true, nullable = false)
@@ -67,6 +72,7 @@ public class ChurchEntity extends AbstractEntity<BigDecimal> implements AuditSup
 	 */
 	@ManyToOne
 	@JoinColumn(name = "id_owner_fk")
+	@Fetch(FetchMode.SELECT)
 	@NotAudited
 	private SessionUserEntity owner;
 
@@ -169,7 +175,7 @@ public class ChurchEntity extends AbstractEntity<BigDecimal> implements AuditSup
 		setSign(EntityHelper.ACTUAL_SIGN);
 		setUpdData();
 	}
-	
+
 	@PreUpdate
 	protected void setUpdData() {
 		setUpdAuthor(EJBContext.get().getUser().getUpdData());

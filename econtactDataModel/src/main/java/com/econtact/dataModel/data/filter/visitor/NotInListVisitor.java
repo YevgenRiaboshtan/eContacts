@@ -12,7 +12,7 @@ public class NotInListVisitor extends AbstractVisitor<FilterDefNotInList> {
 	public void processFilter(FilterDefNotInList filter) {
 		if (!filter.getValue().isEmpty()) {
 			predicate = cbCtx.getCriteriaBuilder()
-					.not(cbCtx.getRoot().get(filter.getFieldName()).in(filter.getValue()));
+					.not(cbCtx.getRoot().get(filter.getFieldName()).in(cbCtx.createFindParam(filter.getValue())));
 		}
 	}
 

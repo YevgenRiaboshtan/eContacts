@@ -8,34 +8,45 @@
 	template="/WEB-INF/templates/default.xhtml">
 	<ui:define name="content">
 		<p:outputLabel value="#{viewMsg['churchListPage.cature']}"></p:outputLabel>
-		<h:form id="churchTableForm" >
-			<p:dataTable id="churchDataTable" lazy="true" widgetVar="churchDataTable"
+		<h:form id="churchTableForm">
+			<p:dataTable id="churchDataTable" lazy="true"
+				widgetVar="churchDataTable"
 				value="#{churchTableBean.churchsDataTabelModel}" var="churchItem"
-				paginator="true" paginatorPosition="bottom"
-				rows="10" rowsPerPageTemplate="10,15,20"
+				paginator="true" paginatorPosition="bottom" rows="10"
+				rowsPerPageTemplate="10,15,20"
 				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {JumpToPageDropdown} {NextPageLink} {LastPageLink}"
-				scrollHeight="425" scrollable="true"
-				style="text-align: center;" filterEvent="enter"
+				scrollHeight="425" scrollable="true" style="text-align: center;"
+				filterEvent="enter"
 				emptyMessage="#{viewMsg['datatable.empty.message']}"
 				sortBy="#{churchItem.createDate}">
 				<p:column width="70">
 					<f:facet name="header">
-						<p:commandButton icon="fa fa-plus" immediate="true" actionListener="#{navigationHelper.navigate('/admin/church/new.jsf')}" />
+						<p:commandButton icon="fa fa-plus" immediate="true"
+							actionListener="#{navigationHelper.navigate('/admin/church/new.jsf')}" />
 					</f:facet>
-					<p:commandButton id="editChurch" icon="ui-icon-pencil" actionListener="#{navigationHelper.navigate('/admin/church/edit.jsf', churchItem.id)}"></p:commandButton>
-					<p:tooltip for="editChurch" value="#{viewMsg['btn.edit.tooltip.text']}"></p:tooltip>
+					<p:commandButton id="editChurch" icon="ui-icon-pencil"
+						actionListener="#{navigationHelper.navigate('/admin/church/edit.jsf', churchItem.id)}"
+						rendered="#{not empty userSessionBean.getChurchAccess(churchItem.id) and userSessionBean.getChurchAccess(churchItem.id).editPermit}"></p:commandButton>
+					<p:tooltip for="editChurch"
+						value="#{viewMsg['btn.edit.tooltip.text']}"></p:tooltip>
 				</p:column>
-				<p:column sortBy="#{churchItem.nameChurch}" filterBy="#{churchItem.nameChurch}" headerText="#{viewMsg['church.name.label']}">
+				<p:column sortBy="#{churchItem.nameChurch}"
+					filterBy="#{churchItem.nameChurch}"
+					headerText="#{viewMsg['church.name.label']}">
 					<f:attribute name="filterDataType" value="TEXT" />
 					<f:attribute name="filterField" value="nameChurch" />
 					<p:outputLabel value="#{churchItem.nameChurch}"></p:outputLabel>
 				</p:column>
-				<p:column sortBy="#{churchItem.description}" filterBy="#{churchItem.description}" headerText="#{viewMsg['church.description.label']}">
+				<p:column sortBy="#{churchItem.description}"
+					filterBy="#{churchItem.description}"
+					headerText="#{viewMsg['church.description.label']}">
 					<f:attribute name="filterDataType" value="TEXT" />
 					<f:attribute name="filterField" value="description" />
 					<p:outputLabel value="#{churchItem.description}"></p:outputLabel>
 				</p:column>
-				<p:column sortBy="#{churchItem.owner.login}" filterBy="#{churchItem.owner.login}" headerText="#{viewMsg['church.owner.login.label']}">
+				<p:column sortBy="#{churchItem.owner.login}"
+					filterBy="#{churchItem.owner.login}"
+					headerText="#{viewMsg['church.owner.login.label']}">
 					<f:attribute name="filterDataType" value="TEXT" />
 					<f:attribute name="filterField" value="owner.login" />
 					<p:outputLabel value="#{churchItem.owner.login}"></p:outputLabel>
@@ -43,11 +54,14 @@
 				<p:column headerText="#{viewMsg['church.owner.fullName.label']}">
 					<p:outputLabel value="#{churchItem.owner.fullName}"></p:outputLabel>
 				</p:column>
-				<p:column sortBy="#{churchItem.createDate}" filterBy="#{churchItem.createDate}" headerText="#{viewMsg['church.createDate.label']}">
+				<p:column sortBy="#{churchItem.createDate}"
+					filterBy="#{churchItem.createDate}"
+					headerText="#{viewMsg['church.createDate.label']}">
 					<f:attribute name="filterDataType" value="DATE" />
 					<f:attribute name="filterField" value="createDate" />
 					<p:outputLabel value="#{churchItem.createDate}">
-						<f:convertDateTime pattern="dd.MM.yyyy" timeZone="#{userSessionBean.userContext.userTimeZone}" />
+						<f:convertDateTime pattern="dd.MM.yyyy"
+							timeZone="#{userSessionBean.userContext.userTimeZone}" />
 					</p:outputLabel>
 				</p:column>
 			</p:dataTable>

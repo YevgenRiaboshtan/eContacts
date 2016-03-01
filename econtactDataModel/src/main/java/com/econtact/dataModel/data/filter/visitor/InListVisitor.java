@@ -11,7 +11,7 @@ public class InListVisitor extends AbstractVisitor<FilterDefInList>{
 	@Override
 	public void processFilter(FilterDefInList filter) {
         if (!filter.getValue().isEmpty()) {
-            predicate = getPath(filter.getFieldName()).in(filter.getValue());
+        	predicate = getPath(filter.getFieldName()).in(cbCtx.createFindParam(filter.getValue()));
         }
     }
 }
