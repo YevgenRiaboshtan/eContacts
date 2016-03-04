@@ -3,8 +3,6 @@ package com.econtact.dataModel.model.entity.access;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -50,6 +48,9 @@ public class AccessChurchEntity extends AbstractEntity<BigDecimal> {
 	public static final String USER_A = "user";
 	public static final String CHURCH_A = "church";
 	public static final String CONFIRM_A = "confirm";
+	public static final String VIEW_PERMIT_A = "viewPermit";
+	public static final String EDIT_PERMIT_A = "editPermit";
+	
 
 	/**
 	 * идентификатор доступа
@@ -112,7 +113,7 @@ public class AccessChurchEntity extends AbstractEntity<BigDecimal> {
 	private boolean addContactPermit = false;
 
 	/**
-	 * Доступ на руправление доступами {@link AccessChurchEntity} к общине {@link ChurchEntity}
+	 * Доступ на управление доступами {@link AccessChurchEntity} к общине {@link ChurchEntity}
 	 */
 	@Column(name = "adit_access_permit", nullable = false)
 	private boolean editAccessPermit = false;

@@ -4,10 +4,8 @@ import org.primefaces.component.datatable.DataTable;
 
 import com.econtact.authWeb.app.dataTable.model.AbstractGenericDataTableModel;
 import com.econtact.dataModel.data.context.UserContext;
-import com.econtact.dataModel.data.filter.FilterDefEquals;
-import com.econtact.dataModel.data.query.GenericFilterDefQueries;
 import com.econtact.dataModel.data.query.SearchCriteria;
-import com.econtact.dataModel.data.util.EntityHelper;
+import com.econtact.dataModel.data.query.church.ChurchsQueries;
 import com.econtact.dataModel.model.entity.church.ChurchEntity;
 
 public class ChurchsDataTableLazyModel extends AbstractGenericDataTableModel<ChurchEntity> {
@@ -19,8 +17,7 @@ public class ChurchsDataTableLazyModel extends AbstractGenericDataTableModel<Chu
 
 	@Override
 	protected SearchCriteria<ChurchEntity> createQueries() {
-		SearchCriteria<ChurchEntity> criteria = new SearchCriteria<>(new GenericFilterDefQueries<>(ChurchEntity.class));
-		criteria.andFilter(new FilterDefEquals(EntityHelper.SIGN_A, EntityHelper.ACTUAL_SIGN));
+		SearchCriteria<ChurchEntity> criteria = new SearchCriteria<>(new ChurchsQueries(getUserContext().getUser()));
 		return criteria;
 	}
 

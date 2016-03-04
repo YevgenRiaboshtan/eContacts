@@ -78,6 +78,7 @@ public abstract class GeneralCRUDBean<T extends AbstractEntity> implements Seria
 			preSave();
 			entity = saveorUpdate(entity, userSession.getUserContext());
 			afterSaveNavigate();
+			userSession.clearChurchAccess();
 		} catch (EJBException e) {
 			if (e.getCause() instanceof OptimisticLockException) {
 				FacesMessage optimisticsMsg = new FacesMessage(labelsHelper.getLocalizedMessage(LocaleLabels.OPTIMISTIC_LOCK_EXCEPTION_MESSAGE));

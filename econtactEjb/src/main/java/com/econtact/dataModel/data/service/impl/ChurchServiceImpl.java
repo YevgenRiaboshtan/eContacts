@@ -13,6 +13,7 @@ import com.econtact.dataModel.data.util.UniqueConstraintException;
 import com.econtact.dataModel.model.entity.access.AccessChurchEntity;
 import com.econtact.dataModel.model.entity.accout.RoleType;
 import com.econtact.dataModel.model.entity.church.ChurchEntity;
+import com.econtact.dataModel.model.entity.church.GroupEntity;
 
 @Stateless
 @Local(ChurchService.class)
@@ -20,12 +21,13 @@ import com.econtact.dataModel.model.entity.church.ChurchEntity;
 public class ChurchServiceImpl extends GenericServiceImpl implements ChurchService {
 
 	@Override
-	public ChurchEntity saveOrUpdate(ChurchEntity church, UserContext userContext, Collection<AccessChurchEntity> modify, Collection<AccessChurchEntity> toRemove) throws UniqueConstraintException {
-		if (church.getId() == null
-				&&	RoleType.ROLE_ADMIN.equals(userContext.getUser().getRole())) {
-			church = super.saveOrUpdate(church, userContext);
+	public ChurchEntity saveOrUpdate(ChurchEntity church, UserContext userContext,
+			Collection<AccessChurchEntity> modify, Collection<AccessChurchEntity> toRemove,
+			Collection<GroupEntity> groups, Collection<GroupEntity> groupsToRemove) throws UniqueConstraintException {
+		final ChurchEntity result = super.saveOrUpdate(church, userContext);
+		if (church.getId() == null && RoleType.ROLE_ADMIN.equals(userContext.getUser().getRole())) {
 			AccessChurchEntity access = new AccessChurchEntity();
-			access.setChurch(church);
+			access.setChurch(result);
 			access.setUser(userContext.getUser());
 			access.setConfirm(true);
 			access.setAddContactPermit(true);
@@ -36,17 +38,26 @@ public class ChurchServiceImpl extends GenericServiceImpl implements ChurchServi
 			access.setViewPermit(true);
 			access.setEditAccessPermit(true);
 			getEntityManager().merge(access);
-		} else {
-			church = super.saveOrUpdate(church, userContext);
-			toRemove.forEach(item -> super.remove(item, userContext));
-			modify.forEach(item -> {
-				try {
-					super.saveOrUpdate(item, userContext);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}	
-			});
 		}
+		toRemove.forEach(item -> super.remove(item, userContext));
+		modify.forEach(item -> {
+			try {
+				item.setChurch(result);
+				super.saveOrUpdate(item, userContext);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+
+		groupsToRemove.forEach(item -> super.remove(item, userContext));
+		groups.forEach(item -> {
+			try {
+				item.setChurch(result);
+				super.saveOrUpdate(item, userContext);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
 		return church;
 	}
 

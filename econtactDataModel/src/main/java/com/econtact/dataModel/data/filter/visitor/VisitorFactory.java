@@ -42,6 +42,10 @@ public class VisitorFactory {
             	return new InListVisitor(ctx);
             case NOT_IN_LIST:
             	return new NotInListVisitor(ctx);
+            case EQUALS_TWO_FIELDS:
+            	return new EqualsTwoFieldsVisitor(ctx);
+            case NOT_EQUALS_TWO_FIELDS:
+            	return new NotEqualsTwoFieldsVisitor(ctx);
             default:
                 throw new UnsupportedOperationException("Filter with type :'"
                         + filterDefEnum + "' not supported. Fix me");

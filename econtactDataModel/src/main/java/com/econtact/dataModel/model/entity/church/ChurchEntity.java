@@ -45,6 +45,8 @@ public class ChurchEntity extends AbstractEntity<BigDecimal> implements AuditSup
 
 	public static final String CHURCH_NAME_SIGN_UNIQUE_CONSTRAINT = "church_name_sign_unique_constraint";
 	public static final String NAME_CHURCH_A = "nameChurch";
+	public static final String OWNER_A = "owner";
+	
 	/**
 	 * identifier of the Church.
 	 */
@@ -101,6 +103,7 @@ public class ChurchEntity extends AbstractEntity<BigDecimal> implements AuditSup
 	@Column(name = EntityHelper.SIGN_F, nullable = false, precision = 38, scale = 0)
 	private BigDecimal sign;
 
+	//FIXME add list accesses and groups or create view 
 	public BigDecimal getId() {
 		return id;
 	}

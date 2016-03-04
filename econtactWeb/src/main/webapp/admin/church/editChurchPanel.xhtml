@@ -7,26 +7,53 @@
 	<p:panel>
 		<h:form id="churchForm">
 			<p:messages id="messages" closable="true" autoUpdate="true" />
-			<p:panel>
-				<h:panelGrid columns="2">
-					<p:outputLabel value="#{viewMsg['church.name.label']} *"></p:outputLabel>
-					<p:inputText value="#{churchCRUDBean.entity.nameChurch}"
-						maxlength="255" required="true"
-						label="#{viewMsg['church.name.label']}"></p:inputText>
+			<h:panelGrid columns="2">
+				<p:panel>
+					<h:panelGrid columns="2">
+						<p:outputLabel value="#{viewMsg['church.name.label']} *"></p:outputLabel>
+						<p:inputText value="#{churchCRUDBean.entity.nameChurch}"
+							maxlength="255" required="true"
+							label="#{viewMsg['church.name.label']}"></p:inputText>
 
-					<p:outputLabel value="#{viewMsg['church.description.label']}"></p:outputLabel>
-					<p:inputTextarea value="#{churchCRUDBean.entity.description}"
-						rows="10" cols="100"></p:inputTextarea>
+						<p:outputLabel value="#{viewMsg['church.description.label']}"></p:outputLabel>
+						<p:inputTextarea value="#{churchCRUDBean.entity.description}"
+							rows="10" cols="100"></p:inputTextarea>
 
-					<p:commandButton value="#{viewMsg['btn.save.label']}" ajax="true"
-						actionListener="#{churchCRUDBean.save()}">
-					</p:commandButton>
-					<p:commandButton value="#{viewMsg['btn.cancel.label']}"
-						immediate="true" actionListener="#{churchCRUDBean.cancel()}" />
-				</h:panelGrid>
-			</p:panel>
+						<p:commandButton value="#{viewMsg['btn.save.label']}" ajax="true"
+							actionListener="#{churchCRUDBean.save()}">
+						</p:commandButton>
+						<p:commandButton value="#{viewMsg['btn.cancel.label']}"
+							immediate="true" actionListener="#{churchCRUDBean.cancel()}" />
+					</h:panelGrid>
+				</p:panel>
+				<p:panel
+					rendered="#{churchCRUDBean.entity.owner.equals(userSessionBean.principal) 
+								or userSessionBean.getChurchAccess(churchCRUDBean.entity.id).editGroupPermit}">
+					<p:outputLabel value="#{viewMsg['church.new.group.name.label']}" />
+					<p:inputText id="groupName" value="#{churchCRUDBean.groupName}" maxlength="255"
+							label="#{viewMsg['church.name.label']}" />
+					
+					<p:commandButton icon="fa fa-plus" id="addGroupBtn" ajax="true" actionListener="#{churchCRUDBean.addGroup}"
+						partialSubmit="true" process="groupName, @this" update="groupsTable groupName" />
+					<p:tooltip for="addGroupBtn"
+						value="#{viewMsg['btn.add.tooltip.text']}" />
+					<p:dataTable value="#{churchCRUDBean.groups}" var="group"
+						id="groupsTable" paginator="true" rows="5" scrollable="true" scrollHeight="111"
+						emptyMessage="#{viewMsg['datatable.empty.message']}">
+						<p:column width="40">
+							<p:commandButton value="-" ajax="true" partialSubmit="true"
+								process="@this" update="groupsTable"
+								actionListener="#{churchCRUDBean.removeGroup(group)}" />
+						</p:column>
+						<p:column headerText="#{viewMsg['groupList.page.name.label']}">
+							<p:outputLabel value="#{group.name}" />
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</h:panelGrid>
 			<p:panel
-				rendered="#{userSessionBean.getChurchAccess(churchCRUDBean.entity.id).editUserPermit}">
+				rendered="#{churchCRUDBean.entity.owner.equals(userSessionBean.principal)
+								or userSessionBean.getChurchAccess(churchCRUDBean.entity.id).editUserPermit}">
 				<p:outputLabel value="#{viewMsg['access.church.add.user.message']}" />
 				<p:autoComplete id="newUser" value="#{churchCRUDBean.accessUser}"
 					completeMethod="#{churchCRUDBean.accessUserComplete}"
@@ -39,12 +66,16 @@
 					process="accessTable, newUser, @this" update="newUser accessTable" />
 				<p:tooltip for="addUserBtn"
 					value="#{viewMsg['btn.add.tooltip.text']}" />
-
+			</p:panel>
+			<p:panel
+				rendered="#{churchCRUDBean.entity.owner.equals(userSessionBean.principal) 
+									or userSessionBean.getChurchAccess(churchCRUDBean.entity.id).editUserPermit 
+									or userSessionBean.getChurchAccess(churchCRUDBean.entity.id).editAccessPermit}">
 				<p:dataTable id="accessTable" var="item" scrollHeight="302"
 					scrollable="true" value="#{churchCRUDBean.accesses}" rows="10"
 					paginator="true" paginatorPosition="bottom"
 					paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {JumpToPageDropdown} {NextPageLink} {LastPageLink}"
-					sortBy="#{item.user.login}">
+					sortBy="#{item.user.login}" emptyMessage="#{viewMsg['datatable.empty.message']}">
 					<p:column style="width:100px">
 						<p:commandButton value="-" ajax="true" partialSubmit="true"
 							process="@this" update="accessTable"
@@ -54,32 +85,48 @@
 						headerText="#{viewMsg['admins.list.login.column.header']}">
 						<p:outputLabel value="#{item.user.login}"></p:outputLabel>
 					</p:column>
-					<p:column headerText="#{viewMsg['access.church.confirm']}">
+					<p:column headerText="#{viewMsg['access.church.confirm']}"
+						rendered="#{churchCRUDBean.entity.owner.equals(userSessionBean.principal)
+										or userSessionBean.getChurchAccess(churchCRUDBean.entity.id).editAccessPermit}">
 						<p:selectBooleanCheckbox value="#{item.confirm}" />
 					</p:column>
-					<p:column headerText="#{viewMsg['access.church.view.permit']}">
+					<p:column headerText="#{viewMsg['access.church.view.permit']}"
+						rendered="#{churchCRUDBean.entity.owner.equals(userSessionBean.principal)
+										or userSessionBean.getChurchAccess(churchCRUDBean.entity.id).editAccessPermit}">
 						<p:selectBooleanCheckbox value="#{item.viewPermit}" />
 					</p:column>
-					<p:column headerText="#{viewMsg['access.church.edit.permit']}">
+					<p:column headerText="#{viewMsg['access.church.edit.permit']}"
+						rendered="#{churchCRUDBean.entity.owner.equals(userSessionBean.principal)
+										or userSessionBean.getChurchAccess(churchCRUDBean.entity.id).editAccessPermit}">
 						<p:selectBooleanCheckbox value="#{item.editPermit}" />
 					</p:column>
-					<p:column headerText="#{viewMsg['access.church.edit.user.permit']}">
+					<p:column headerText="#{viewMsg['access.church.edit.user.permit']}"
+						rendered="#{churchCRUDBean.entity.owner.equals(userSessionBean.principal)
+										or userSessionBean.getChurchAccess(churchCRUDBean.entity.id).editAccessPermit}">
 						<p:selectBooleanCheckbox value="#{item.editUserPermit}" />
 					</p:column>
 					<p:column
-						headerText="#{viewMsg['access.church.edit.group.permit']}">
+						headerText="#{viewMsg['access.church.edit.group.permit']}"
+						rendered="#{churchCRUDBean.entity.owner.equals(userSessionBean.principal)
+										or userSessionBean.getChurchAccess(churchCRUDBean.entity.id).editAccessPermit}">
 						<p:selectBooleanCheckbox value="#{item.editGroupPermit}" />
 					</p:column>
 					<p:column
-						headerText="#{viewMsg['access.church.add.contact.permit']}">
+						headerText="#{viewMsg['access.church.add.contact.permit']}"
+						rendered="#{churchCRUDBean.entity.owner.equals(userSessionBean.principal)
+										or userSessionBean.getChurchAccess(churchCRUDBean.entity.id).editAccessPermit}">
 						<p:selectBooleanCheckbox value="#{item.addContactPermit}" />
 					</p:column>
 					<p:column
-						headerText="#{viewMsg['access.church.edit.contact.permit']}">
+						headerText="#{viewMsg['access.church.edit.contact.permit']}"
+						rendered="#{churchCRUDBean.entity.owner.equals(userSessionBean.principal)
+										or userSessionBean.getChurchAccess(churchCRUDBean.entity.id).editAccessPermit}">
 						<p:selectBooleanCheckbox value="#{item.editContactPermit}" />
 					</p:column>
 					<p:column
-						headerText="#{viewMsg['access.church.edit.access.permit']}">
+						headerText="#{viewMsg['access.church.edit.access.permit']}"
+						rendered="#{churchCRUDBean.entity.owner.equals(userSessionBean.principal)
+										or userSessionBean.getChurchAccess(churchCRUDBean.entity.id).editAccessPermit}">
 						<p:selectBooleanCheckbox value="#{item.editAccessPermit}" />
 					</p:column>
 				</p:dataTable>
