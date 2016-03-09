@@ -37,7 +37,7 @@
 						partialSubmit="true" process="groupName, @this" update="groupsTable groupName" />
 					<p:tooltip for="addGroupBtn"
 						value="#{viewMsg['btn.add.tooltip.text']}" />
-					<p:dataTable value="#{churchCRUDBean.groups}" var="group"
+					<p:dataTable value="#{churchCRUDBean.entity.groups}" var="group"
 						id="groupsTable" paginator="true" rows="5" scrollable="true" scrollHeight="111"
 						emptyMessage="#{viewMsg['datatable.empty.message']}">
 						<p:column width="40">

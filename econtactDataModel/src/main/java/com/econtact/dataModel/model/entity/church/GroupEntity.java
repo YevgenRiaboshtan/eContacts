@@ -25,7 +25,6 @@ import com.econtact.dataModel.data.context.EJBContext;
 import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.entity.AbstractEntity;
 import com.econtact.dataModel.model.entity.AuditSupport;
-import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 
 @Entity
 @Table(name = "group", schema = EntityHelper.E_CONTACT_SCHEMA)
@@ -61,15 +60,6 @@ public class GroupEntity extends AbstractEntity<BigDecimal> implements AuditSupp
 	 */
 	@Column(name = "description", length = 2000)
 	private String description;
-
-	//TODO investigate necessary this field. 
-	/**
-	 * Group`s owner
-	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_owner_fk", nullable = false)
-	@NotAudited
-	private SessionUserEntity owner;
 
 	/**
 	 * Church that contained group
@@ -110,14 +100,6 @@ public class GroupEntity extends AbstractEntity<BigDecimal> implements AuditSupp
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public SessionUserEntity getOwner() {
-		return owner;
-	}
-
-	public void setOwner(SessionUserEntity owner) {
-		this.owner = owner;
 	}
 
 	public ChurchEntity getChurch() {
