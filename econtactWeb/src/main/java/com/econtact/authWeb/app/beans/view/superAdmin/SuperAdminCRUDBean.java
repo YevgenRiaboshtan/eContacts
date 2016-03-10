@@ -57,7 +57,7 @@ public class SuperAdminCRUDBean extends GeneralCRUDBean<AccountUserEntity> {
 		result.setRole(RoleType.ROLE_ADMIN);
 		result.setRoleConfirm(ConfirmStatusEnum.CONFIRMED);
 		result.setAllowCreateRegister(true);
-		result.setParentUser(userSession.getPrincipal());
+		result.setParentUser(userSessionBean.getPrincipal());
 		result.setEnabledUser(UserStatusEnum.ENABLE);
 		result.setSalt(PasswordUtils.getRandomSalt());
 		return result;

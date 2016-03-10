@@ -6,84 +6,56 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions">
 	<p:panel>
-		<h:form prependId="false" id="userEditForm">
-		 <p:messages id="messages"  closable="true" />
-		
+		<h:form>
 			<h:panelGrid columns="3">
-
-				<!--First Spotlight-->
-				<pe:spotlight id="idPanel1"
-					blocked="${testBean.editable}"
+				<pe:spotlight 
+					blocked="${userProfileCRUDBean.editable}"
 					style="padding:10px;margin:10px;"
 					styleClass="ui-widget ui-widget-content ui-corner-all">
+					<p:messages id="messages" closable="true" />
 
-					<p:selectBooleanButton
-						value="#{testBean.editable}" offLabel="Edit"
-						onLabel="Save">
-						<p:ajax event="change" process="idPanel1" update="idPanel1" listener="#{testBean.test()}"/>
-					</p:selectBooleanButton>
+					<h:panelGroup layout="block" style="margin-top: 10px;">
+						<h:panelGrid columns="2">
+							<h:outputLabel value="#{viewMsg['newUser.login.input.label']}" />
+							<p:outputLabel value="#{userProfileCRUDBean.entity.login}" />
 
-					<h:panelGroup layout="block" style="margin-top: 10px;">  
-  
-            Address1:  
-            <h:panelGrid columns="2">
-							<h:outputLabel value="Address" />
-							<h:inputText value="#{testBean.addr.addres}"
-								disabled="${!testBean.editable}" />
+							<h:outputLabel value="#{viewMsg['newUser.first.name.input.label']}" />
+							<h:inputText value="#{userProfileCRUDBean.entity.firstName}"
+								disabled="${!userProfileCRUDBean.editable}" />
 
-							<h:outputLabel value="City" />
-							<h:inputText value="#{testBean.addr.city}"
-								disabled="${!testBean.editable}" />
+							<h:outputLabel value="#{viewMsg['newUser.last.name.input.label']}" />
+							<h:inputText value="#{userProfileCRUDBean.entity.lastName}"
+								disabled="${!userProfileCRUDBean.editable}" />
 
-							<h:outputLabel value="ZIP" />
-							<h:inputText value="#{testBean.addr.zip}"
-								disabled="${!testBean.editable}" />
+							<h:outputLabel rendered="#{userProfileCRUDBean.editable}"
+								value="#{viewMsg['newUser.new.password.input.label']}" />
+							<p:password rendered="#{userProfileCRUDBean.editable}"
+								value="#{userProfileCRUDBean.newPassword}" feedback="true"
+								weakLabel="#{viewMsg['newUser.password.input.feedback.weak']}"
+								goodLabel="#{viewMsg['newUser.password.input.feedback.good']}"
+								strongLabel="#{viewMsg['newUser.password.input.feedback.strong']}"
+								promptLabel="#{viewMsg['newUser.password.input.required.message']}"
+								match="userPassrowdRepeat" />
+
+							<p:outputLabel rendered="#{userProfileCRUDBean.editable}"
+								value="#{viewMsg['newUser.password.repeat.input.label']}"
+								for="userPassrowdRepeat" />
+							<p:password id="userPassrowdRepeat"
+								rendered="#{userProfileCRUDBean.editable}"/>
+
+							<p:commandButton value="#{viewMsg['btn.edit.label']}"
+								rendered="#{!userProfileCRUDBean.editable}" ajax="true"
+								actionListener="#{userProfileCRUDBean.edit}"
+								immediate="true"
+								update="@form"/>
+							<p:commandButton value="#{viewMsg['btn.save.label']}"
+								rendered="#{userProfileCRUDBean.editable}" ajax="true"
+								actionListener="#{userProfileCRUDBean.save}"
+								update="@all"/>
+
 						</h:panelGrid>
 					</h:panelGroup>
 				</pe:spotlight>
-			</h:panelGrid>
-		
-		
-		
-		
-		
-			<h:panelGrid columns="3">
-				<p:outputLabel value="${viewMsg['newUser.login.input.label']}" />
-				<p:outputLabel value="#{userProfileCRUDBean.entity.login}"/>
-				<p:outputLabel></p:outputLabel>
-				
-				<p:outputLabel value="#{viewMsg['newUser.first.name.input.label']}" />
-				<p:outputLabel value="#{userProfileCRUDBean.entity.firstName}"/>
-				<p:inputText value="#{userProfileCRUDBean.newLastName}"></p:inputText>
-				
-				<p:outputLabel value="#{viewMsg['newUser.last.name.input.label']}"/>
-				<p:outputLabel value="#{userProfileCRUDBean.entity.lastName}"/>
-				<p:inputText value="#{userProfileCRUDBean.newLastName}"></p:inputText>
-				
-				<p:outputLabel value = "#{viewMsg['newUser.password.current.label']}"/>
-				<p:inputText id = "currentPassword" value = "#{userProfileCRUDBean.currentPassword}"></p:inputText>
-				<p:message for="currentPassword" />
-				
-				<p:outputLabel
-					value="#{viewMsg['newUser.new.password.input.label']}"
-					for="userPassword" />
-				<p:password id="userPassword" value="#{userProfileCRUDBean.newPassword}"
-					feedback="true"
-					weakLabel="#{viewMsg['newUser.password.input.feedback.weak']}"
-					goodLabel="#{viewMsg['newUser.password.input.feedback.good']}"
-					strongLabel="#{viewMsg['newUser.password.input.feedback.strong']}"
-					promptLabel="#{viewMsg['newUser.password.input.required.message']}"
-					match="userPassrowdRepeat" />
-				<p:message for="userPassword" />
-
-				<p:outputLabel
-					value="#{viewMsg['newUser.password.repeat.input.label']}"
-					for="userPassrowdRepeat" />
-				<p:password id="userPassrowdRepeat" value="#{userProfileCRUDBean.confirmNewPassword}" />
-				<p:message for="userPassrowdRepeat" />
-
-				<p:commandButton id="saveButton" value="#{viewMsg['btn.save.label']}" ajax="true" actionListener="#{userProfileCRUDBean.save()}" update="userEditForm"></p:commandButton>
-				<p:tooltip for="saveButton" value="#{viewMsg['btn.save.tooltip.text']}"></p:tooltip>
 			</h:panelGrid>
 		</h:form>
 	</p:panel>

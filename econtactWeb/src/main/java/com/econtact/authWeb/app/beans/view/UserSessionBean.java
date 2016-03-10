@@ -23,7 +23,6 @@ import com.econtact.dataModel.data.query.SearchCriteria;
 import com.econtact.dataModel.data.service.GenericService;
 import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.entity.access.AccessChurchEntity;
-import com.econtact.dataModel.model.entity.accout.ConfirmStatusEnum;
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 
 @Named
@@ -79,7 +78,6 @@ public class UserSessionBean implements Serializable {
 	}
 	
 	public void clearChurchAccess() {
-		churchAccess.clear();
 		churchAccess = null;
 	}
 }

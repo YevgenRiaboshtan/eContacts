@@ -36,7 +36,7 @@ public class ChurchCRUDBean extends GeneralCRUDBean<ChurchEntity> {
 	public List<SessionUserEntity> accessUserComplete(String login) {
 		List<BigDecimal> existIds = new ArrayList<BigDecimal>();
 		entity.getAccess().forEach(access -> existIds.add(access.getUser().getId()));
-		existIds.add(userSession.getPrincipal().getId());
+		existIds.add(userSessionBean.getPrincipal().getId());
 		existIds.add(entity.getOwner().getId());
 		SearchCriteria<SessionUserEntity> criteria = new SearchCriteria<>(new GenericFilterDefQueries<>(
 				SessionUserEntity.class));
@@ -75,9 +75,9 @@ public class ChurchCRUDBean extends GeneralCRUDBean<ChurchEntity> {
 	@Override
 	protected boolean canModifyEntity(ChurchEntity entity) {
 		if (EntityHelper.ACTUAL_SIGN.equals(entity.getSign())
-				&& (userSession.getPrincipal().equals(entity.getOwner()) || (userSession
-						.getChurchAccess(entity.getId()) != null && userSession.getChurchAccess(entity.getId())
-						.isEditPermit()))) {
+				&& (userSessionBean.getPrincipal().equals(entity.getOwner()) 
+						|| (userSessionBean.getChurchAccess(entity.getId()) != null 
+								&& userSessionBean.getChurchAccess(entity.getId()).isEditPermit()))) {
 			return true;
 		}
 		return false;
@@ -86,11 +86,13 @@ public class ChurchCRUDBean extends GeneralCRUDBean<ChurchEntity> {
 	@Override
 	public void setEntity(ChurchEntity entity) {
 		if (entity.getId() != null) {
-			SearchCriteria<AccessChurchEntity> accessCriteria = new SearchCriteria<>(new GenericFilterDefQueries<>(AccessChurchEntity.class));
+			SearchCriteria<AccessChurchEntity> accessCriteria = new SearchCriteria<>(new GenericFilterDefQueries<>(
+					AccessChurchEntity.class));
 			accessCriteria.andFilter(new FilterDefEquals(AccessChurchEntity.CHURCH_A, entity)).andFilter(
 					new FilterDefEquals(EntityHelper.SIGN_A, EntityHelper.ACTUAL_SIGN));
 			entity.setAccess(genericService.find(accessCriteria));
-			SearchCriteria<GroupEntity> groupCriteria = new SearchCriteria<>(new GenericFilterDefQueries<>(GroupEntity.class));
+			SearchCriteria<GroupEntity> groupCriteria = new SearchCriteria<>(new GenericFilterDefQueries<>(
+					GroupEntity.class));
 			groupCriteria.andFilter(new FilterDefEquals(GroupEntity.CHURCH_A, entity)).andFilter(
 					new FilterDefEquals(EntityHelper.SIGN_A, EntityHelper.ACTUAL_SIGN));
 			entity.setGroups(genericService.find(groupCriteria));
@@ -101,10 +103,10 @@ public class ChurchCRUDBean extends GeneralCRUDBean<ChurchEntity> {
 	@Override
 	protected ChurchEntity createDefaultEntity() {
 		final ChurchEntity entity = new ChurchEntity();
-		entity.setOwner(userSession.getPrincipal());
+		entity.setOwner(userSessionBean.getPrincipal());
 		entity.setCreateDate(new Date());
 		final AccessChurchEntity ownerAccess = new AccessChurchEntity();
-		ownerAccess.setUser(userSession.getPrincipal());
+		ownerAccess.setUser(userSessionBean.getPrincipal());
 		ownerAccess.setConfirm(true);
 		ownerAccess.setViewPermit(true);
 		ownerAccess.setEditPermit(true);
@@ -115,6 +117,12 @@ public class ChurchCRUDBean extends GeneralCRUDBean<ChurchEntity> {
 		ownerAccess.setEditGroupPermit(true);
 		entity.addAccess(ownerAccess);
 		return entity;
+	}
+
+	@Override
+	public void save() throws IOException {
+		super.save();
+		userSessionBean.clearChurchAccess();
 	}
 
 	@Override
@@ -136,12 +144,15 @@ public class ChurchCRUDBean extends GeneralCRUDBean<ChurchEntity> {
 	}
 
 	public List<AccessChurchEntity> getAccesses() {
-		return entity.getAccess().stream().filter(access -> {
-			return !userSession.getPrincipal().equals(access.getUser()) && !entity.getOwner().equals(access.getUser());
-		}).sorted((acc1, acc2) -> {
-			return acc1.getUser().getLogin().compareToIgnoreCase(acc2.getUser().getLogin());
-		})
-		.collect(Collectors.toList());
+		return entity
+				.getAccess()
+				.stream()
+				.filter(access -> {
+					return !userSessionBean.getPrincipal().equals(access.getUser())
+							&& !entity.getOwner().equals(access.getUser());
+				}).sorted((acc1, acc2) -> {
+					return acc1.getUser().getLogin().compareToIgnoreCase(acc2.getUser().getLogin());
+				}).collect(Collectors.toList());
 	}
 
 	public String getGroupName() {

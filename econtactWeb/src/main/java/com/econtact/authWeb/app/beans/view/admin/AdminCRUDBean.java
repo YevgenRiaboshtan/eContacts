@@ -23,7 +23,7 @@ public class AdminCRUDBean extends GeneralCRUDBean<AccountUserEntity> {
 	
 	@Override
 	protected boolean canModifyEntity(AccountUserEntity entity) {
-		return userSession.getPrincipal().equals(entity.getParentUser());
+		return userSessionBean.getPrincipal().equals(entity.getParentUser());
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class AdminCRUDBean extends GeneralCRUDBean<AccountUserEntity> {
 		entity.setRole(RoleType.ROLE_EMPLOYEE);
 		entity.setRoleConfirm(ConfirmStatusEnum.CONFIRMED);
 		entity.setSalt(PasswordUtils.getRandomSalt());
-		entity.setParentUser(userSession.getPrincipal());
+		entity.setParentUser(userSessionBean.getPrincipal());
 		entity.setEnabledUser(UserStatusEnum.ENABLE);
 		return entity;
 	}

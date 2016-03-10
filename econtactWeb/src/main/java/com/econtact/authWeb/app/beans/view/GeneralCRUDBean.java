@@ -26,7 +26,7 @@ import com.econtact.dataModel.data.util.LocaleLabels;
 import com.econtact.dataModel.data.util.UniqueConstraintException;
 import com.econtact.dataModel.model.entity.AbstractEntity;
 
-public abstract class GeneralCRUDBean<T extends AbstractEntity> implements Serializable {
+public abstract class GeneralCRUDBean<T extends AbstractEntity> extends AbstractViewBean implements Serializable {
 	private static final long serialVersionUID = 1839876621381844278L;
 
 	@Inject
@@ -34,9 +34,6 @@ public abstract class GeneralCRUDBean<T extends AbstractEntity> implements Seria
 	
 	@Inject
 	LabelsHelper labelsHelper;
-	
-	@Inject
-	protected UserSessionBean userSession;
 	
 	@EJB
 	protected GenericService genericService;
@@ -76,9 +73,8 @@ public abstract class GeneralCRUDBean<T extends AbstractEntity> implements Seria
 	public void save() throws IOException {
 		try {
 			preSave();
-			entity = saveorUpdate(entity, userSession.getUserContext());
+			entity = saveorUpdate(entity, userSessionBean.getUserContext());
 			afterSaveNavigate();
-			userSession.clearChurchAccess();
 		} catch (EJBException e) {
 			if (e.getCause() instanceof OptimisticLockException) {
 				FacesMessage optimisticsMsg = new FacesMessage(labelsHelper.getLocalizedMessage(LocaleLabels.OPTIMISTIC_LOCK_EXCEPTION_MESSAGE));
