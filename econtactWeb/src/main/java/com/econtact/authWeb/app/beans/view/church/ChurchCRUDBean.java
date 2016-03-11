@@ -120,12 +120,6 @@ public class ChurchCRUDBean extends GeneralCRUDBean<ChurchEntity> {
 	}
 
 	@Override
-	public void save() throws IOException {
-		super.save();
-		userSessionBean.clearChurchAccess();
-	}
-
-	@Override
 	protected void afterSaveNavigate() throws IOException {
 		navigationHelper.navigate("/admin/church/list.jsf");
 	}

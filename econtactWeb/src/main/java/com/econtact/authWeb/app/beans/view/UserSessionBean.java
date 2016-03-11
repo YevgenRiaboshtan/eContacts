@@ -76,8 +76,4 @@ public class UserSessionBean implements Serializable {
 		}
 		return 	churchAccess.get(idChurch);
 	}
-	
-	public void clearChurchAccess() {
-		churchAccess = null;
-	}
 }
