@@ -12,6 +12,13 @@ import org.hibernate.proxy.HibernateProxyHelper;
 import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.AbstractView;
 
+/**
+ * Абстрактный класс для всех сущностей
+ * Abstract class for all entities.
+ * @author evgeniy
+ *
+ * @param <PK> - тип идентификатора сущности. Id`s type.
+ */
 @MappedSuperclass
 public abstract class AbstractEntity<PK extends Serializable> implements AbstractView<PK> {
 	private static final long serialVersionUID = 1L;
@@ -34,10 +41,20 @@ public abstract class AbstractEntity<PK extends Serializable> implements Abstrac
 		return uid;
 	}
 
+	/**
+	 * Возвращает версию объекта.
+	 * Return entity version.
+	 * @return - версия объекта. Entity version.
+	 */
 	public Long getVersion() {
 		return version;
 	}
 
+	/**
+	 * Устанавливает версию объекта
+	 * Set entity version.
+	 * @param version - версия объекта. Entity version.
+	 */
 	public void setVersion(Long version) {
 		this.version = version;
 	}
@@ -70,6 +87,4 @@ public abstract class AbstractEntity<PK extends Serializable> implements Abstrac
         }
         return isEquals;
     }
-	
-	
 }

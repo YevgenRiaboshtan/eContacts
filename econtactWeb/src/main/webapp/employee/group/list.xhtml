@@ -19,8 +19,10 @@
 				emptyMessage="#{viewMsg['datatable.empty.message']}">
 				<p:column width="70">
 					<f:facet name="header">
-						<p:commandButton icon="fa fa-plus" immediate="true" actionListener="#{navigationHelper.navigate('/admin/church/new.jsf')}" />
+						<p:commandButton icon="fa fa-plus" immediate="true" actionListener="#{navigationHelper.navigate('/employee/group/new.jsf')}" />
 					</f:facet>
+					<p:commandButton icon="ui-icon-pencil" immediate="true" actionListener="#{navigationHelper.navigate('/employee/group/edit.jsf', item.id)}"
+						rendered="#{not empty userSessionBean.getGroupAccess(item.id) and userSessionBean.getGroupAccess(item.id).editPermit}"/>
 				</p:column>
 				<p:column sortBy="#{item.name}" filterBy="#{item.name}" headerText="#{viewMsg['groupList.page.name.label']}">
 					<f:attribute name="filterDataType" value="TEXT" />
@@ -32,7 +34,7 @@
 					<f:attribute name="filterField" value="description" />
 					<p:outputLabel value="#{item.description}"></p:outputLabel>
 				</p:column>
-				<p:column sortBy="#{item.church.nameChurch}" filterBy="#{item.church.nameChurch}" headerText="#{viewMsg['church.name.label']}">
+				<p:column sortBy="#{item.church.nameChurch}" filterBy="#{item.church.nameChurch}" headerText="#{viewMsg['groupList.page.church.name.label']}">
 					<f:attribute name="filterDataType" value="TEXT" />
 					<f:attribute name="filterField" value="church.nameChurch" />
 					<p:outputLabel value="#{item.church.nameChurch}"></p:outputLabel>

@@ -104,11 +104,21 @@ public abstract class AbstractGenericService implements EjbService {
 
 	@Override
 	public <T> List<T> find(SearchCriteria<T> criteria) {
-		return find(criteria, null, null);
+		return find(criteria, null, null, null);
+	}
+	
+	@Override
+	public <T> List<T> find(SearchCriteria<T> criteria, String graphName) {
+		return find(criteria, null, null, graphName);
 	}
 
 	@Override
 	public <T> List<T> find(SearchCriteria<T> criteria, Integer from, Integer count) {
+		return find(criteria, from, count, null);
+	}
+
+	@Override
+	public <T> List<T> find(SearchCriteria<T> criteria, Integer from, Integer count, String graphName) {
 		final Query query = criteria.getSelectQuery(getEntityManager());
 		if (from != null && from > 0) {
 			query.setFirstResult(from);
@@ -116,10 +126,13 @@ public abstract class AbstractGenericService implements EjbService {
 		if (count != null && count > 0) {
 			query.setMaxResults(count);
 		}
+		if (StringUtils.isNotBlank(graphName)) {
+			query.setHint(QueryHints.LOADGRAPH, getEntityManager().getEntityGraph(graphName));
+		}
 		final List<T> result = query.getResultList();
 		return result;
 	}
-
+	
 	@Override
 	public <T> Long getRowCount(SearchCriteria<T> criteria) {
 		final TypedQuery<Long> query = criteria.getRowCountQuery(getEntityManager());

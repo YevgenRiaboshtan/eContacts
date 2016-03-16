@@ -50,7 +50,7 @@ public class AccessChurchEntity extends AbstractEntity<BigDecimal> {
 	public static final String CONFIRM_A = "confirm";
 	public static final String VIEW_PERMIT_A = "viewPermit";
 	public static final String EDIT_PERMIT_A = "editPermit";
-	
+	public static final String EDIT_GROUP_PERMIT_A = "editGroupPermit";
 
 	/**
 	 * идентификатор доступа
@@ -80,49 +80,49 @@ public class AccessChurchEntity extends AbstractEntity<BigDecimal> {
 	 * Подтверждение предоставленого доступа
 	 */
 	@Column(name = "confirm", nullable = false)
-	private boolean confirm = false;
+	private boolean confirm;
 
 	/**
 	 * Доступ на просмотр общины {@link ChurchEntity}
 	 */
 	@Column(name = "view_permit", nullable = false)
-	private boolean viewPermit = false;
+	private boolean viewPermit;
 
 	/**
 	 * Доступ на редактирование информации об общине {@link ChurchEntity}
 	 */
 	@Column(name = "edit_permit", nullable = false)
-	private boolean editPermit = false;
+	private boolean editPermit;
 
 	/**
 	 * Доступ на добавление/удаление пользователей {@link SessionUserEntity} в общине {@link ChurchEntity}
 	 */
 	@Column(name = "edit_user_permit", nullable = false)
-	private boolean editUserPermit = false;
+	private boolean editUserPermit;
 
 	/**
 	 * Доступ на добавление/удаление групп {@link GroupEntity} в общине {@link ChurchEntity}
 	 */
 	@Column(name = "edit_group_permit", nullable = false)
-	private boolean editGroupPermit = false;
+	private boolean editGroupPermit;
 
 	/**
 	 * Доступ на добавление контактов в общине {@link ChurchEntity}
 	 */
 	@Column(name = "add_contact_permit", nullable = false)
-	private boolean addContactPermit = false;
+	private boolean addContactPermit;
 
 	/**
 	 * Доступ на управление доступами {@link AccessChurchEntity} к общине {@link ChurchEntity}
 	 */
 	@Column(name = "adit_access_permit", nullable = false)
-	private boolean editAccessPermit = false;
+	private boolean editAccessPermit;
 
 	/**
 	 * Доступ на изменение/удаление контактов в общине {@link ChurchEntity}
 	 */
 	@Column(name = "edit_contact_permit", nullable = false)
-	private boolean editContactPermit = false;
+	private boolean editContactPermit;
 
 	@Column(name = EntityHelper.UPD_DATE_F, nullable = false)
 	private Date updDate;

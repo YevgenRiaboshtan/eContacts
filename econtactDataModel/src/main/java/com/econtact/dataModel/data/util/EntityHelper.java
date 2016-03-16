@@ -7,7 +7,8 @@ public final class EntityHelper {
 
 	public static final String E_CONTACT_PU = "econtactPU";
 	public static final String E_CONTACT_SCHEMA= "econtactschema";
-	
+
+	public static final String POINT = ".";
 	public static final String ID_A = "id";
 	public static final String ID_F = "id";
 	public static final String SIGN_F = "sign";

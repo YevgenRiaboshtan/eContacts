@@ -20,8 +20,12 @@ public interface EjbService {
 	<T> T findSingleResult(SearchCriteria<T> criteria);
 
 	<T> List<T> find(SearchCriteria<T> criteria);
+	
+	<T> List<T> find(SearchCriteria<T> criteria, String graphName);
 
 	<T> List<T> find(SearchCriteria<T> criteria, Integer from, Integer count);
+	
+	<T> List<T> find(SearchCriteria<T> criteria, Integer from, Integer count, String graphName);
 
 	<T> Long getRowCount(SearchCriteria<T> criteria);
 }

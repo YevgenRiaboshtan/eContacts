@@ -77,9 +77,7 @@ public class UniverDictServiceImpl implements UniverDictService {
 					|| idRecLinks.isEmpty()) {
 				return result;
 			}
-			for (BigDecimal id : idRecLinks.values()) {
-				result.add(em.find(UniverDictEntity.class, id));
-			}
+			idRecLinks.values().stream().forEach(id -> result.add(em.find(UniverDictEntity.class, id)));
 			return result;
 		} finally {
 			lock.unlock();

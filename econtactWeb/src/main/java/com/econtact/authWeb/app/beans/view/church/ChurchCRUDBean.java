@@ -75,9 +75,8 @@ public class ChurchCRUDBean extends GeneralCRUDBean<ChurchEntity> {
 	@Override
 	protected boolean canModifyEntity(ChurchEntity entity) {
 		if (EntityHelper.ACTUAL_SIGN.equals(entity.getSign())
-				&& (userSessionBean.getPrincipal().equals(entity.getOwner()) 
-						|| (userSessionBean.getChurchAccess(entity.getId()) != null 
-								&& userSessionBean.getChurchAccess(entity.getId()).isEditPermit()))) {
+				&& userSessionBean.getChurchAccess(entity.getId()) != null 
+				&& userSessionBean.getChurchAccess(entity.getId()).isEditPermit()) {
 			return true;
 		}
 		return false;

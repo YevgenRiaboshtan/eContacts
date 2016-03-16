@@ -21,7 +21,6 @@ import com.econtact.authWeb.app.utils.WebUtils;
 import com.econtact.dataModel.data.service.UniverDictService;
 import com.econtact.dataModel.data.util.LocaleLabels;
 import com.econtact.dataModel.model.AbstractEnum;
-import com.econtact.dataModel.model.entity.dictionary.UniverDictEntity;
 
 @Named
 @ApplicationScoped
@@ -44,9 +43,8 @@ public class FilterHelper implements Serializable{
 		SelectItem allItem = new SelectItem(null, "");
 		allItem.setNoSelectionOption(true);
 		items.add(allItem);
-		for (UniverDictEntity item : univerDictService.findUniverDictByParamDict(dictionaryName)){
-			items.add(new SelectItem(item, item.getNameRecDict()));
-		}
+		univerDictService.findUniverDictByParamDict(dictionaryName)
+			.stream().forEach(item -> items.add(new SelectItem(item, item.getNameRecDict())));
 		return items;
 	}
 	

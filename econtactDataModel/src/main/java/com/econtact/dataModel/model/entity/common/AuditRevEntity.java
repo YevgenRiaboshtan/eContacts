@@ -32,7 +32,7 @@ import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 import com.econtact.dataModel.model.entity.dictionary.UniverDictEntity;
 
 /**
- * Описывает сущность ревизии фискального аудита. see also
+ * Описывает сущность ревизии аудита. see also
  * http://lukaszantoniak.wordpress.com/2011/07/02/hhh-5580/
  * 
  * @author evgeniy
@@ -50,6 +50,9 @@ public class AuditRevEntity implements AbstractView<Long> {
 	private static final long serialVersionUID = 1L;
 	private static final String SEQ_NAME = "auditRevSeq";
 
+	/**
+	 * Идентификатор
+	 */
 	@SequenceGenerator(name = SEQ_NAME, sequenceName = "s$audit_rev", schema = EntityHelper.E_CONTACT_SCHEMA, allocationSize = 1)
 	@Id
 	@RevisionNumber
@@ -57,37 +60,67 @@ public class AuditRevEntity implements AbstractView<Long> {
 	@Column(name = EntityHelper.ID_F, nullable = false)
 	private Long id;
 
+	/**
+	 * Время ревизии
+	 */
 	@RevisionTimestamp
 	@Column(name = "time_stamp")
 	private long timestamp;
 
+	/**
+	 * Дата события.
+	 */
 	@Column(name = "date_ev", nullable = false)
 	private Date dateEv;
 
+	/**
+	 * Название события.
+	 */
 	@Column(name = "name_ev", nullable = true, length = 300)
 	private String nameEv;
-
+	
+	/**
+	 * Описание события.
+	 */
 	@Column(name = "note", nullable = true, length = 1000)
 	private String note;
 
+	/**
+	 * Событие из универсального справочника {@link UniverDictEntity}
+	 * 
+	 */
 	@ManyToOne
 	@JoinColumn(name = "id_event_ud", nullable = false)
 	@Fetch(FetchMode.SELECT)
 	private UniverDictEntity event;
 
+	/**
+	 * Пользователь {@link SessionUserEntity} который изменяет сущность.
+	 */
 	@ManyToOne
 	@JoinColumn(name = "id_user_fk")
 	@NotAudited
 	private SessionUserEntity user;
 
+	/**
+	 * Получение пользователя {@link SessionUserEntity} производившего изменения
+	 * @return - {@link SessionUserEntity} - пользователь производивший изменения
+	 */
 	public SessionUserEntity getUser() {
 		return user;
 	}
 
+	/**
+	 * Установка пользователя {@link SessionUserEntity} производившего изменения
+	 * @param user - {@link SessionUserEntity} - пользователь системы.
+	 */
 	public void setUser(SessionUserEntity user) {
 		this.user = user;
 	}
 
+	/**
+	 * Список зависимых изменяемых объектов.
+	 */
 	@OneToMany(mappedBy = AuditRevChangedEntity.AUDIT_REV_A, cascade = { CascadeType.PERSIST, CascadeType.REFRESH })
 	private List<AuditRevChangedEntity> changesEntities = new ArrayList<>();
 
@@ -96,50 +129,98 @@ public class AuditRevEntity implements AbstractView<Long> {
 		return id;
 	}
 
+	/**
+	 * Установка Идентификатора
+	 * @param id - идентификатор
+	 */
 	public void setId(Long id) {
 		this.id = id;
 	}
 
+	/**
+	 * Получение времени события
+	 * @return - время события
+	 */
 	public long getTimestamp() {
 		return timestamp;
 	}
 
+	/**
+	 * Установка времени события
+	 * @param timestamp - время события
+	 */
 	public void setTimestamp(long timestamp) {
 		this.timestamp = timestamp;
 	}
 
+	/**
+	 * Получение даты события
+	 * @return - дата события
+	 */
 	public Date getDateEv() {
 		return dateEv;
 	}
 
+	/**
+	 * Установка даты события
+	 * @param dateEv - дата события
+	 */
 	public void setDateEv(Date dateEv) {
 		this.dateEv = dateEv;
 	}
 
+	/**
+	 * Установка названия события
+	 * @return - название события
+	 */
 	public String getNameEv() {
 		return nameEv;
 	}
 
+	/**
+	 * Установка названия события
+	 * @param nameEv - название события
+	 */
 	public void setNameEv(String nameEv) {
 		this.nameEv = nameEv;
 	}
 
+	/**
+	 * Установка описания события
+	 * @return - описание события
+	 */
 	public String getNote() {
 		return note;
 	}
-
+	
+	/**
+	 * Установка описания события
+	 * @param note - описание события
+	 */
 	public void setNote(String note) {
 		this.note = note;
 	}
 
+	/**
+	 * Получение события 
+	 * @return - {@link UniverDictEntity} - событие
+	 */
 	public UniverDictEntity getEvent() {
 		return event;
 	}
 
+	/**
+	 * Установка события
+	 * @param event - {@link UniverDictEntity} - событие
+	 */
 	public void setEvent(UniverDictEntity event) {
 		this.event = event;
 	}
 
+	/**
+	 * Добавление зависимого изменяемого объекта
+	 * @param changesEntity - изменяемы объект
+	 */
 	public void addChangesEntity(final AuditRevChangedEntity changesEntity) {
 		if (!changesEntities.contains(changesEntity)) {
 			changesEntity.setAuditRev(this);

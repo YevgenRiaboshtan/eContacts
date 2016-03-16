@@ -1,10 +1,12 @@
+
 package com.econtact.authWeb.app.beans.view;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -23,6 +25,7 @@ import com.econtact.dataModel.data.query.SearchCriteria;
 import com.econtact.dataModel.data.service.GenericService;
 import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.entity.access.AccessChurchEntity;
+import com.econtact.dataModel.model.entity.access.AccessGroupEntity;
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 
 @Named
@@ -37,12 +40,12 @@ public class UserSessionBean implements Serializable {
 	private MenuHelper menuUtils;
 	
 	private SessionUserEntity principal;
-	
 	private UserContext userContext;
 	
 	private MenuModel topMenuModel;
 	
 	private Map<BigDecimal, AccessChurchEntity> churchAccess;
+	private Map<BigDecimal, AccessGroupEntity> groupAccess;
 	
 	@PostConstruct
 	public void init() {
@@ -67,13 +70,25 @@ public class UserSessionBean implements Serializable {
 	
 	public AccessChurchEntity getChurchAccess(BigDecimal idChurch) {
 		if (churchAccess == null) {
-			churchAccess = new HashMap<BigDecimal, AccessChurchEntity>();
 			SearchCriteria<AccessChurchEntity> criteria = new SearchCriteria<>(new GenericFilterDefQueries<>(AccessChurchEntity.class));
 			criteria.andFilter(new FilterDefEquals(AccessChurchEntity.CONFIRM_A, true))
 					.andFilter(new FilterDefEquals(AccessChurchEntity.USER_A, principal))
 					.andFilter(new FilterDefEquals(EntityHelper.SIGN_A, EntityHelper.ACTUAL_SIGN));
-			genericService.find(criteria).forEach(item -> churchAccess.put(item.getChurch().getId(), item));
+			churchAccess = genericService.find(criteria)
+					.stream().collect(Collectors.toMap( item -> ((AccessChurchEntity) item).getChurch().getId(), Function.identity()));
 		}
 		return 	churchAccess.get(idChurch);
+	}
+	
+	public AccessGroupEntity getGroupAccess(BigDecimal idGroup) {
+		if (groupAccess == null) {
+			SearchCriteria<AccessGroupEntity> criteria = new SearchCriteria<>(new GenericFilterDefQueries<>(AccessGroupEntity.class));
+			criteria.andFilter(new FilterDefEquals(AccessGroupEntity.CONFIRM_A, true))
+					.andFilter(new FilterDefEquals(AccessGroupEntity.USER_A, principal))
+					.andFilter(new FilterDefEquals(EntityHelper.SIGN_A, EntityHelper.ACTUAL_SIGN));
+			groupAccess = genericService.find(criteria, AccessGroupEntity.ACCESS_GROUP_GRAPH)
+					.stream().collect(Collectors.toMap(item -> ((AccessGroupEntity) item).getGroup().getId(), Function.identity()));
+		}
+		return groupAccess.get(idGroup);
 	}
 }

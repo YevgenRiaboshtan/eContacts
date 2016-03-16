@@ -24,8 +24,8 @@
 						<p:commandButton icon="fa fa-plus" immediate="true"
 							actionListener="#{navigationHelper.navigate('/admin/church/new.jsf')}" />
 					</f:facet>
-					<p:commandButton id="editChurch" icon="ui-icon-pencil"
-						actionListener="#{navigationHelper.navigate('/admin/church/edit.jsf', churchItem.id)}"
+					<p:commandButton id="editChurch" icon="ui-icon-pencil" immediate="true" 
+						actionListener="#{navigationHelper.navigate('/admin/church/edit.jsf', churchItem.id)}" 
 						rendered="#{not empty userSessionBean.getChurchAccess(churchItem.id) and userSessionBean.getChurchAccess(churchItem.id).editPermit}"></p:commandButton>
 					<p:tooltip for="editChurch"
 						value="#{viewMsg['btn.edit.tooltip.text']}"></p:tooltip>
