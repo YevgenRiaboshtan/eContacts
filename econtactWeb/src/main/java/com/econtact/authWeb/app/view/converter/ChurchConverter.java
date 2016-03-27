@@ -5,7 +5,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import com.econtact.authWeb.app.beans.helper.CacheUtils;
+import com.econtact.authWeb.app.utils.CacheUtils;
 import com.econtact.dataModel.model.entity.church.ChurchEntity;
 
 @FacesConverter(value="churchConverter")

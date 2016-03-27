@@ -29,6 +29,11 @@ import com.econtact.dataModel.model.entity.AbstractEntity;
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 import com.econtact.dataModel.model.entity.church.GroupEntity;
 
+/**
+ * Class describes user {@link SessionUserEntity} permissions to the group {@link GroupEntity}.
+ * @author evgeniy
+ *
+ */
 @Entity
 @Table(name = "access_group", schema = EntityHelper.E_CONTACT_SCHEMA)
 @SQLDelete(sql = "UPDATE econtactschema.access_group set sign = id where id = ? and version = ?")
@@ -37,6 +42,9 @@ public class AccessGroupEntity extends AbstractEntity<BigDecimal> {
 	private static final long serialVersionUID = -7154728264123207296L;
 	private static final String SEQ_NAME = "accessGroupSeq";
 
+	/**
+	 * Named entity graph name - load access object with group.
+	 */
 	public static final String ACCESS_GROUP_GRAPH = "accessGroupGraph";
 
 	public static final String USER_A = "user";

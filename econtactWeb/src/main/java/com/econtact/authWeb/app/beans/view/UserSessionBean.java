@@ -18,6 +18,7 @@ import org.primefaces.model.menu.MenuModel;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.econtact.authWeb.app.beans.helper.MenuHelper;
+import com.econtact.authWeb.app.utils.CacheUtils;
 import com.econtact.dataModel.data.context.UserContext;
 import com.econtact.dataModel.data.filter.FilterDefEquals;
 import com.econtact.dataModel.data.query.GenericFilterDefQueries;
@@ -81,7 +82,8 @@ public class UserSessionBean implements Serializable {
 	}
 	
 	public AccessGroupEntity getGroupAccess(BigDecimal idGroup) {
-		if (groupAccess == null) {
+		if (groupAccess == null
+				|| CacheUtils.needClearGroupAccess(principal.getId())) {
 			SearchCriteria<AccessGroupEntity> criteria = new SearchCriteria<>(new GenericFilterDefQueries<>(AccessGroupEntity.class));
 			criteria.andFilter(new FilterDefEquals(AccessGroupEntity.CONFIRM_A, true))
 					.andFilter(new FilterDefEquals(AccessGroupEntity.USER_A, principal))

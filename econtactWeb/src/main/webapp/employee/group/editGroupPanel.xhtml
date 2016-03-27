@@ -12,8 +12,10 @@
 				<p:inputText value="#{groupCRUDBean.entity.name}" maxlength="255" required="true" label="#{viewMsg['groupList.page.name.label']}"></p:inputText>
 				
 				<p:outputLabel value="#{viewMsg['groupList.page.church.name.label']}"></p:outputLabel>
-				<p:selectOneMenu editable="false" value="#{groupCRUDBean.entity.church}" converter="churchConverter">
+				<p:selectOneMenu editable="false" value="#{groupCRUDBean.entity.church}" converter="churchConverter" 
+					required="true" label="#{viewMsg['groupList.page.church.name.label']}">
 					<f:selectItems value="#{groupCRUDBean.church}" var="item" itemLabel="#{item.nameChurch}" itemValue="#{item}"></f:selectItems>
+					<p:ajax process="groupAccess @this" update="groupAccess"/>
 				</p:selectOneMenu>
 				
 				<p:outputLabel value="#{viewMsg['groupList.page.description.label']}"></p:outputLabel>
@@ -25,6 +27,44 @@
 				<p:commandButton value="#{viewMsg['btn.cancel.label']}"
 					immediate="true" actionListener="#{groupCRUDBean.cancel()}" />
 			</h:panelGrid>
+			<p:panel rendered="#{groupCRUDBean.church.size() > 0}">
+				<p:outputLabel value="#{viewMsg['access.church.add.user.message']}" />
+				<p:autoComplete id="newUser" value="#{groupCRUDBean.accessUser}"
+					completeMethod="#{groupCRUDBean.accessUserComplete}"
+					converter="userAutocompleteConverter" var="user"
+					itemLabel="#{user.login}" itemValue="#{user}" queryDelay="700"
+					maxResults="10" />
+
+				<p:commandButton icon="fa fa-plus" id="addUserBtn"
+					action="#{groupCRUDBean.addAccessUser}" partialSubmit="true"
+					process="groupAccess, newUser, @this" update="newUser groupAccess" />
+				<p:tooltip for="addUserBtn"
+					value="#{viewMsg['btn.add.tooltip.text']}" />
+			</p:panel>
+			<p:panel>	
+				<p:dataTable value="#{groupCRUDBean.access}"
+					var="item" id="groupAccess">
+					<p:column>
+						<p:commandButton value="-" partialSubmit="true" ajax="true"
+							process="@this" update="groupAccess" actionListener="#{groupCRUDBean.entity.removeAccess(item)}"/>
+					</p:column>
+					<p:column headerText="#{viewMsg['admins.list.login.column.header']}">
+						<p:outputLabel value="#{item.user.login}"/>
+					</p:column>
+					<p:column headerText="#{viewMsg['access.group.confirm']}">
+						<p:selectBooleanCheckbox value="#{item.confirm}"/>
+					</p:column>
+					<p:column headerText="#{viewMsg['access.group.view.permit']}">
+						<p:selectBooleanCheckbox value="#{item.viewPermit}"/>
+					</p:column>
+					<p:column headerText="#{viewMsg['access.group.edit.permit']}">
+						<p:selectBooleanCheckbox value="#{item.editPermit}"/>
+					</p:column>
+					<p:column headerText="#{viewMsg['access.group.register.permit']}">
+						<p:selectBooleanCheckbox value="#{item.registerPermit}"/>
+					</p:column>
+				</p:dataTable>
+			</p:panel>
 		</h:form>
 	</p:panel>
 </ui:composition>

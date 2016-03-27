@@ -1,10 +1,11 @@
-package com.econtact.authWeb.app.beans.helper;
+package com.econtact.authWeb.app.utils;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
-import com.econtact.authWeb.app.utils.WebUtils;
 import com.econtact.dataModel.data.service.GenericService;
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 import com.econtact.dataModel.model.entity.church.ChurchEntity;
@@ -43,6 +44,25 @@ public final class CacheUtils {
 		}
 		return WebUtils.getBean(GenericService.class).findById(SessionUserEntity.class, id);
 	}
+
 	
-	private CacheUtils() {}
+	//FIXME костыль костыльный
+	private static volatile Map<BigDecimal, Boolean> clearGroupAccessCache = new ConcurrentHashMap<BigDecimal, Boolean>();
+	
+	public static synchronized boolean needClearGroupAccess(BigDecimal userId) {
+		if (!clearGroupAccessCache.containsKey(userId)) {
+			clearGroupAccessCache.put(userId, Boolean.FALSE);
+		}
+		Boolean result = clearGroupAccessCache.get(userId);
+		clearGroupAccessCache.put(userId, Boolean.FALSE);
+		return result;
+	}
+	
+	public static synchronized void clearGroupAccessCache() {
+		for (Entry<BigDecimal, Boolean> entry : clearGroupAccessCache.entrySet() ) {
+			entry.setValue(Boolean.TRUE);
+		}
+	}
+	
+ 	private CacheUtils() {}
 }

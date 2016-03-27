@@ -7,19 +7,23 @@
 			<path>/index.jsf</path>
 		</menuItem>
 		<subMenuItem>
-			<id>usersRootTopSubMenu</id>
-			<labelLocaleKey>topMenu.userItem.subMenu.label</labelLocaleKey>
-			<icon>fa fa-user</icon>
+			<id>structureTopSubMenu</id>
+			<labelLocaleKey>topMenu.structure.menu.label</labelLocaleKey>
 			<elements>
 				<menuItem>
-					<id>usersListMenuItem</id>
-					<labelLocaleKey>topMenu.userItem.subMenu.admin.list.menuItem.label</labelLocaleKey>
-					<path>/superAdmin/adminsList.jsf</path>
+					<id>churchMenuItem</id>
+					<labelLocaleKey>topMenu.churchItem.label</labelLocaleKey>
+					<path>/admin/church/list.jsf</path>
 				</menuItem>
 				<menuItem>
-					<id>connectLogMenuItem</id>
-					<labelLocaleKey>topMenu.userItem.subMenu.connect.log.list.menuItem.label</labelLocaleKey>
-					<path>/superAdmin/connectLog.jsf</path>
+					<id>employeeMenuItem</id>
+					<labelLocaleKey>topMenu.employee.menu.label</labelLocaleKey>
+					<path>/admin/employee/list.jsf</path>
+				</menuItem>
+				<menuItem>
+					<id>groupMenuItem</id>
+					<labelLocaleKey>groupList.page.capture</labelLocaleKey>
+					<path>/employee/group/list.jsf</path>
 				</menuItem>
 			</elements>
 		</subMenuItem>

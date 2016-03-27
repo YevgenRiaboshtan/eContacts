@@ -33,6 +33,7 @@ public class ChurchCRUDBean extends GeneralCRUDBean<ChurchEntity> {
 	private SessionUserEntity accessUser;
 	private String groupName;
 
+	//FIXME dublicate functionality GroupCRUDBean
 	public List<SessionUserEntity> accessUserComplete(String login) {
 		List<BigDecimal> existIds = new ArrayList<BigDecimal>();
 		entity.getAccess().forEach(access -> existIds.add(access.getUser().getId()));
@@ -47,12 +48,13 @@ public class ChurchCRUDBean extends GeneralCRUDBean<ChurchEntity> {
 	}
 
 	public void addAccessUser() {
-		if (accessUser != null) {
+		if (accessUser != null
+				&& entity.getAccess().stream().noneMatch(item -> item.getUser().equals(accessUser))) {
 			AccessChurchEntity access = new AccessChurchEntity();
 			access.setUser(accessUser);
 			entity.addAccess(access);
-			accessUser = null;
 		}
+		accessUser = null;
 	}
 
 	public void removeAccessUser(@NotNull AccessChurchEntity item) {
@@ -95,8 +97,8 @@ public class ChurchCRUDBean extends GeneralCRUDBean<ChurchEntity> {
 			groupCriteria.andFilter(new FilterDefEquals(GroupEntity.CHURCH_A, entity)).andFilter(
 					new FilterDefEquals(EntityHelper.SIGN_A, EntityHelper.ACTUAL_SIGN));
 			entity.setGroups(genericService.find(groupCriteria));
-			super.setEntity(entity);
-		}
+		} 
+		super.setEntity(entity);
 	}
 
 	@Override
