@@ -26,7 +26,7 @@ import com.econtact.dataModel.model.entity.AbstractEntity;
 import com.econtact.dataModel.model.entity.AuditSupport;
 
 @Entity
-@Table(name = "univer_dict", schema = EntityHelper.E_CONTACT_SCHEMA, uniqueConstraints = { @UniqueConstraint(name = UniverDictEntity.PARAM_DICT_ID_REC_DICT_SIGN_UNIQUE_CONSTRAINT, columnNames = {
+@Table(name = "univer_dict", schema = EntityHelper.E_CONTACT_SCHEMA, uniqueConstraints = { @UniqueConstraint(name = EntityHelper.UNIVER_DICT_PARAM_ID_REC_DICT_SIGN, columnNames = {
 		"sign", "param_dict", "id_rec_dict" }) })
 @NamedQuery(name = UniverDictEntity.FIND_ALL, query = "SELECT ude FROM UniverDictEntity ude WHERE ude.sign=:sign")
 @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
@@ -36,7 +36,6 @@ public class UniverDictEntity extends AbstractEntity<BigDecimal> implements Audi
 	private static final long serialVersionUID = 1330174188604544322L;
 	private static final String NOTE_PATTERN = "Довідник ID: '%s', Назва довідника в універсальному довіднику: '%s'";
 
-	public static final String PARAM_DICT_ID_REC_DICT_SIGN_UNIQUE_CONSTRAINT = "param_dict_id_rec_dict_sign_unique_constraint";
 	public static final String FIND_ALL = "UniverDictEntity.findAll";
 	public static final String PARAM_DICT_A = "paramDict";
 

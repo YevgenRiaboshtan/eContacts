@@ -39,7 +39,7 @@ import com.econtact.dataModel.model.entity.access.AccessChurchEntity;
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 
 @Entity
-@Table(name = "church", schema = EntityHelper.E_CONTACT_SCHEMA, uniqueConstraints = { @UniqueConstraint(name = ChurchEntity.CHURCH_NAME_SIGN_UNIQUE_CONSTRAINT, columnNames = {
+@Table(name = "church", schema = EntityHelper.E_CONTACT_SCHEMA, uniqueConstraints = { @UniqueConstraint(name = EntityHelper.CHURCH_NAME_SIGN, columnNames = {
 		"name_church", EntityHelper.SIGN_F }) })
 @Audited
 @AuditTable(value = "church_aud", schema = EntityHelper.E_CONTACT_SCHEMA)
@@ -69,7 +69,6 @@ public class ChurchEntity extends AbstractEntity<BigDecimal> implements AuditSup
 	 * "churchAccessGroupsGraph";
 	 */
 
-	public static final String CHURCH_NAME_SIGN_UNIQUE_CONSTRAINT = "church_name_sign_unique_constraint";
 	public static final String NAME_CHURCH_A = "nameChurch";
 	public static final String OWNER_A = "owner";
 	public static final String ACCESS_A = "access";

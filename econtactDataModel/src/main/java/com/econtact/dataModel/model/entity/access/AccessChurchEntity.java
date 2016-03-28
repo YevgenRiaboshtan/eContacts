@@ -37,7 +37,7 @@ import com.econtact.dataModel.model.entity.church.GroupEntity;
  *
  */
 @Entity
-@Table(name = "access_church", schema = EntityHelper.E_CONTACT_SCHEMA, uniqueConstraints = { @UniqueConstraint(name = "user_church_unique", columnNames = {
+@Table(name = "access_church", schema = EntityHelper.E_CONTACT_SCHEMA, uniqueConstraints = { @UniqueConstraint(name = EntityHelper.ACCESS_CHURCH_NAME_SIGN, columnNames = {
 		"id_user_fk", "id_church_fk", EntityHelper.SIGN_F }) })
 @SQLDelete(sql = "UPDATE econtactschema.access_church set sign = id where id = ? and version = ?")
 @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)

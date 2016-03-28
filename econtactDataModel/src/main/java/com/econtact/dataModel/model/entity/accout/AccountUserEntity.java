@@ -26,8 +26,8 @@ import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.entity.AuditSupport;
 
 @Entity
-@Table(name = "user_account", schema = EntityHelper.E_CONTACT_SCHEMA, uniqueConstraints = { @UniqueConstraint(name = AccountUserEntity.USER_LOGIN_SIGN_UNIQUE_CONSTRAINT, columnNames = {
-		AbstractUserEntity.LOGIN_A, EntityHelper.SIGN_F }) }, indexes = { @Index(name = "user_login_index", columnList = AccountUserEntity.LOGIN_A) })
+@Table(name = "user_account", schema = EntityHelper.E_CONTACT_SCHEMA, uniqueConstraints = { @UniqueConstraint(name = EntityHelper.ACCOUNT_USER_LOGIN_SIGN, columnNames = {
+		AbstractUserEntity.LOGIN_A, EntityHelper.SIGN_F }) }, indexes = { @Index(name = EntityHelper.ACCOUNT_USER_LOGIN_INDEX, columnList = AccountUserEntity.LOGIN_A) })
 @Audited
 @AuditTable(value = AccountUserAudView.TABLE_NAME, schema = EntityHelper.E_CONTACT_SCHEMA)
 @SQLDelete(sql = "UPDATE econtactschema.user_account set sign = id where id = ? and version = ?")
@@ -35,7 +35,6 @@ import com.econtact.dataModel.model.entity.AuditSupport;
 public class AccountUserEntity extends AbstractUserEntity implements AuditSupport {
 	private static final long serialVersionUID = -8588130700569489485L;
 	private static final String NOTE_PATTERN = "Пользователь ID: '%s'";
-	public static final String USER_LOGIN_SIGN_UNIQUE_CONSTRAINT = "user_login_sign_unique_constraint";
 
 	public static final String ACCOUNT_PARENT_GRAPH = "account.parentUser.graph";
 

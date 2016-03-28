@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.econtact.authWeb.app.constraint.ContraintViewRelation;
+import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.data.util.UniqueConstraintException;
 import com.econtact.dataModel.model.entity.accout.AccountUserEntity;
 import com.econtact.dataModel.model.entity.church.ChurchEntity;
@@ -45,10 +46,10 @@ public class UniqueConstraintHandleUtils {
 	private void loadConstraints() {
 		constraints = new HashMap<Class, Map<String, ContraintViewRelation>>();
 		Map<String, ContraintViewRelation> advancedUser = new HashMap<String, ContraintViewRelation>();
-		advancedUser.put(AccountUserEntity.USER_LOGIN_SIGN_UNIQUE_CONSTRAINT, new ContraintViewRelation(AccountUserEntity.USER_LOGIN_SIGN_UNIQUE_CONSTRAINT, "newUser.user.login.already.exist.error.message"));
+		advancedUser.put(EntityHelper.ACCOUNT_USER_LOGIN_SIGN, new ContraintViewRelation(EntityHelper.ACCOUNT_USER_LOGIN_SIGN, "newUser.user.login.already.exist.error.message"));
 		constraints.put(AccountUserEntity.class, advancedUser);
 		Map<String, ContraintViewRelation> church = new HashMap<String, ContraintViewRelation>();
-		church.put(ChurchEntity.CHURCH_NAME_SIGN_UNIQUE_CONSTRAINT, new ContraintViewRelation(ChurchEntity.CHURCH_NAME_SIGN_UNIQUE_CONSTRAINT, "church.name.sign.unique.constraint"));
+		church.put(EntityHelper.CHURCH_NAME_SIGN, new ContraintViewRelation(EntityHelper.CHURCH_NAME_SIGN, "church.name.sign.unique.constraint"));
 		constraints.put(ChurchEntity.class, church);
 	}
 
