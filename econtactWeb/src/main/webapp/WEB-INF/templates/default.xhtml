@@ -10,7 +10,7 @@
 			<h:form prependId="false" >
 				<p:menubar model="#{userSessionBean.topMenuModel}" style="margin:5px;">
 					<f:facet name="options">
-						<p:outputLabel value="#{userSessionBean.principal.login}  -  #{userSessionBean.principal.firstName}  -  #{userSessionBean.principal.lastName}"></p:outputLabel>
+						<p:outputLabel value="#{userSessionBean.principal.login}"></p:outputLabel>
 						<p:commandButton id="showUserProfileBtn" icon="fa fa-user" immediate="true" ajax="true" actionListener="#{navigationHelper.navigateToProfile(userSessionBean.principal.role)}"/>
 						<p:tooltip for="showUserProfileBtn" value="#{viewMsg['user.profile.show.tooltiptext.label']}"/>
 						<a href="/econtact/j_spring_security_logout"> 

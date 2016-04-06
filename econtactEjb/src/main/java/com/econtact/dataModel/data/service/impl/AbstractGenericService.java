@@ -35,6 +35,11 @@ import com.econtact.dataModel.model.entity.dictionary.UniverDictEntity;
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public abstract class AbstractGenericService implements EjbService {
 
+	/*--- event audit constants FIXME localization ----*/
+    public static final String EV_NAME_CREATE = "Создание";
+    public static final String EV_NAME_UPDATE = "Редактирование";
+    public static final String EV_NAME_REMOVE = "Удаление";
+    
 	@EJB
 	UniverDictService univerDictService;
 
@@ -58,7 +63,7 @@ public abstract class AbstractGenericService implements EjbService {
 		if (entity instanceof AuditSupport) {
 			final UniverDictEntity event = univerDictService.findByParamDictAndIdRecDict(NamesDictConstant.EVENT,
 					entity.getId() == null ? DictionaryConstant.EVENT_CREATE : DictionaryConstant.EVENT_UPDATE);
-			final String evName = entity.getId() == null ? EntityHelper.EV_NAME_CREATE : EntityHelper.EV_NAME_UPDATE;
+			final String evName = entity.getId() == null ? EV_NAME_CREATE : EV_NAME_UPDATE;
 			final String note = ((AuditSupport) entity).getEnversNote();
 			EJBContext.get().setEnversContext(EnversContext.create(event, evName, note));
 		} else {
@@ -87,7 +92,7 @@ public abstract class AbstractGenericService implements EjbService {
 			final UniverDictEntity event = univerDictService.findByParamDictAndIdRecDict(NamesDictConstant.EVENT,
 					DictionaryConstant.EVENT_REMOVE);
 			final String note = ((AuditSupport) entity).getEnversNote();
-			EJBContext.get().setEnversContext(EnversContext.create(event, EntityHelper.EV_NAME_REMOVE, note));
+			EJBContext.get().setEnversContext(EnversContext.create(event, EV_NAME_REMOVE, note));
 		} else {
 			EJBContext.get().setEnversContext(null);
 		}

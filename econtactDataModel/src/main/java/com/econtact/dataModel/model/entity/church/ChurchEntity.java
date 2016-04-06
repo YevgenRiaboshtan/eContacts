@@ -35,11 +35,12 @@ import com.econtact.dataModel.data.context.EJBContext;
 import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.entity.AbstractEntity;
 import com.econtact.dataModel.model.entity.AuditSupport;
+import com.econtact.dataModel.model.entity.ConstraintHelper;
 import com.econtact.dataModel.model.entity.access.AccessChurchEntity;
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 
 @Entity
-@Table(name = "church", schema = EntityHelper.E_CONTACT_SCHEMA, uniqueConstraints = { @UniqueConstraint(name = EntityHelper.CHURCH_NAME_SIGN, columnNames = {
+@Table(name = "church", schema = EntityHelper.E_CONTACT_SCHEMA, uniqueConstraints = { @UniqueConstraint(name = ConstraintHelper.CHURCH_NAME_SIGN, columnNames = {
 		"name_church", EntityHelper.SIGN_F }) })
 @Audited
 @AuditTable(value = "church_aud", schema = EntityHelper.E_CONTACT_SCHEMA)

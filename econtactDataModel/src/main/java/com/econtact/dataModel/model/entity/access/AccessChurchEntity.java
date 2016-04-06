@@ -26,6 +26,7 @@ import org.hibernate.annotations.SQLDelete;
 import com.econtact.dataModel.data.context.EJBContext;
 import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.entity.AbstractEntity;
+import com.econtact.dataModel.model.entity.ConstraintHelper;
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 import com.econtact.dataModel.model.entity.church.ChurchEntity;
 import com.econtact.dataModel.model.entity.church.GroupEntity;
@@ -37,7 +38,7 @@ import com.econtact.dataModel.model.entity.church.GroupEntity;
  *
  */
 @Entity
-@Table(name = "access_church", schema = EntityHelper.E_CONTACT_SCHEMA, uniqueConstraints = { @UniqueConstraint(name = EntityHelper.ACCESS_CHURCH_NAME_SIGN, columnNames = {
+@Table(name = "access_church", schema = EntityHelper.E_CONTACT_SCHEMA, uniqueConstraints = { @UniqueConstraint(name = ConstraintHelper.ACCESS_CHURCH_NAME_SIGN, columnNames = {
 		"id_user_fk", "id_church_fk", EntityHelper.SIGN_F }) })
 @SQLDelete(sql = "UPDATE econtactschema.access_church set sign = id where id = ? and version = ?")
 @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)

@@ -14,8 +14,8 @@ import com.econtact.dataModel.model.entity.church.ChurchEntity;
 public final class CacheUtils {
 		
 	//FIXME change to the sofr reference? maybe change to id only for cached entities
-	private final static Map<String, BigDecimal> churchCache = new HashMap<>();
-	private final static Map<String, BigDecimal> userCache = new HashMap<>();
+	private static volatile Map<String, BigDecimal> churchCache = new HashMap<>();
+	private static volatile Map<String, BigDecimal> userCache = new HashMap<>();
 	
 	public static void putChurch(ChurchEntity church) {
 		if (!churchCache.containsKey(church.getNameChurch())) {

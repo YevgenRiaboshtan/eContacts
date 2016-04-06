@@ -1,7 +1,6 @@
 package com.econtact.dataModel.model.entity.accout;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -38,48 +37,17 @@ public abstract class AbstractUserEntity extends AbstractEntity<BigDecimal> {
 	private BigDecimal id;
 
 	/**
-	 * Логин пользоваеля. Login of the User Entity.
+	 * Login
 	 */
 	@Column(name = "login", nullable = false, length = 100)
 	private String login;
-
+	
 	/**
-	 * Фамилия пользователя First name of the User Entity.
-	 */
-	@Column(name = "first_name", nullable = false, length = 100)
-	private String firstName;
-
-	/**
-	 * Имя пользователя. Last name of the User Entity.
-	 */
-	@Column(name = "last_name", nullable = false, length = 100)
-	private String lastName;
-
-	/**
-	 * Роль пользователя. Role of the User Entity.
+	 * Accounts Role - {@link RoleType}
 	 */
 	@Enumerated(EnumType.STRING)
 	@Column(name = "role", nullable = false)
 	private RoleType role;
-
-	/**
-	 * Автор последних изменений Last update author.
-	 */
-	@Column(name = EntityHelper.UPD_AUTHOR_F, nullable = false, length = 200)
-	private String updAuthor;
-
-	/**
-	 * Дата послдних изменений Last update date.
-	 */
-	@Column(name = EntityHelper.UPD_DATE_F, nullable = false)
-	private Date updDate;
-
-	/**
-	 * Поле указывающее актуальность записи. sign = 0 - запись актуальная, sign = id - запись удалена. Field for mark
-	 * row as deleted. If sign = 0 actual row, if sign = id - row is delete.
-	 */
-	@Column(name = EntityHelper.SIGN_F, nullable = false, precision = 38, scale = 0)
-	private BigDecimal sign;
 
 	public BigDecimal getId() {
 		return id;
@@ -97,26 +65,6 @@ public abstract class AbstractUserEntity extends AbstractEntity<BigDecimal> {
 		this.login = login;
 	}
 
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getFullName() {
-		return firstName + " " + lastName;
-	}
-
 	public RoleType getRole() {
 		return role;
 	}
@@ -124,29 +72,4 @@ public abstract class AbstractUserEntity extends AbstractEntity<BigDecimal> {
 	public void setRole(RoleType role) {
 		this.role = role;
 	}
-
-	public String getUpdAuthor() {
-		return updAuthor;
-	}
-
-	public void setUpdAuthor(String updAuthor) {
-		this.updAuthor = updAuthor;
-	}
-
-	public Date getUpdDate() {
-		return updDate;
-	}
-
-	public void setUpdDate(Date updDate) {
-		this.updDate = updDate;
-	}
-
-	public BigDecimal getSign() {
-		return sign;
-	}
-
-	public void setSign(BigDecimal sign) {
-		this.sign = sign;
-	}
-
 }

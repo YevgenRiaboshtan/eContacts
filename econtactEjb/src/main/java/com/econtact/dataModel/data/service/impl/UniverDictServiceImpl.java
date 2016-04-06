@@ -104,7 +104,7 @@ public class UniverDictServiceImpl implements UniverDictService {
 			EJBContext.get().setUserContext(userContext);
 			final UniverDictEntity event = findByParamDictAndIdRecDict(NamesDictConstant.EVENT, 
 					entity.getId() == null ? DictionaryConstant.EVENT_CREATE : DictionaryConstant.EVENT_UPDATE);
-			final String evName = entity.getId() == null ? EntityHelper.EV_NAME_CREATE : EntityHelper.EV_NAME_UPDATE; 
+			final String evName = entity.getId() == null ? AbstractGenericService.EV_NAME_CREATE : AbstractGenericService.EV_NAME_UPDATE; 
 			final String note = entity.getEnversNote();
 			EJBContext.get().setEnversContext(EnversContext.create(event, evName, note));
 			final UniverDictEntity result = em.merge(entity);
@@ -124,7 +124,7 @@ public class UniverDictServiceImpl implements UniverDictService {
 			EJBContext.get().setUserContext(userContext);
 			final UniverDictEntity event = findByParamDictAndIdRecDict(NamesDictConstant.EVENT, DictionaryConstant.EVENT_REMOVE);
 			final String note = entity.getEnversNote();
-			EJBContext.get().setEnversContext(EnversContext.create(event, EntityHelper.EV_NAME_REMOVE, note));
+			EJBContext.get().setEnversContext(EnversContext.create(event, AbstractGenericService.EV_NAME_REMOVE, note));
 			UniverDictEntity toRemove = findById(entity.getId());
 			em.remove(toRemove);
 		} finally {
