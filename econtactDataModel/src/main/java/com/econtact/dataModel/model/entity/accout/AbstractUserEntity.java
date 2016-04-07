@@ -49,6 +49,12 @@ public abstract class AbstractUserEntity extends AbstractEntity<BigDecimal> {
 	@Column(name = "role", nullable = false)
 	private RoleType role;
 
+	/**
+	 * Field for mark row is deleted. If sign = 0 actual row, if sign = id - row is deleted.
+	 */
+	@Column(name = EntityHelper.SIGN_F, nullable = false, precision = 38, scale = 0)
+	private BigDecimal sign;
+	
 	public BigDecimal getId() {
 		return id;
 	}
@@ -72,4 +78,21 @@ public abstract class AbstractUserEntity extends AbstractEntity<BigDecimal> {
 	public void setRole(RoleType role) {
 		this.role = role;
 	}
+	
+	/**
+	 * Method to return sign 
+	 * @return the sign
+	 */
+	public BigDecimal getSign() {
+		return sign;
+	}
+
+	/**
+	 * Method to set sign
+	 * @param sign the sign to set
+	 */
+	public void setSign(BigDecimal sign) {
+		this.sign = sign;
+	}
+
 }

@@ -26,6 +26,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
@@ -45,6 +46,7 @@ import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 @Audited
 @AuditTable(value = "church_aud", schema = EntityHelper.E_CONTACT_SCHEMA)
 @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
+@SQLDelete(sql = "UPDATE econtactschema.church set sign = id where id = ? and version = ?")
 // FIXME not work with cache. Load only root entity from cache without graph attribute.
 /*
  * @NamedEntityGraphs({

@@ -17,6 +17,9 @@
 		<class>com.econtact.dataModel.model.entity.church.GroupEntity</class>
 		<class>com.econtact.dataModel.model.entity.access.AccessGroupEntity</class>
 		<class>com.econtact.dataModel.model.entity.access.AccessChurchEntity</class>
+		<class>com.econtact.dataModel.model.entity.contact.PersonEntity</class>
+		<class>com.econtact.dataModel.model.entity.contact.ContactEntity</class>
+		<class>com.econtact.dataModel.model.entity.contact.AddressEntity</class>
 		<properties>
 			<!-- Properties for Hibernate -->
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>

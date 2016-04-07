@@ -1,6 +1,5 @@
 package com.econtact.dataModel.model.entity.accout;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -108,12 +107,6 @@ public class AccountUserEntity extends AbstractUserEntity implements AuditSuppor
 	 */
 	@Column(name = EntityHelper.UPD_DATE_F, nullable = false)
 	private Date updDate;
-
-	/**
-	 * Field for mark row is deleted. If sign = 0 actual row, if sign = id - row is deleted.
-	 */
-	@Column(name = EntityHelper.SIGN_F, nullable = false, precision = 38, scale = 0)
-	private BigDecimal sign;
 	
 	/**
 	 * Method to return firstName 
@@ -257,22 +250,6 @@ public class AccountUserEntity extends AbstractUserEntity implements AuditSuppor
 	 */
 	public void setUpdDate(Date updDate) {
 		this.updDate = updDate;
-	}
-
-	/**
-	 * Method to return sign 
-	 * @return the sign
-	 */
-	public BigDecimal getSign() {
-		return sign;
-	}
-
-	/**
-	 * Method to set sign
-	 * @param sign the sign to set
-	 */
-	public void setSign(BigDecimal sign) {
-		this.sign = sign;
 	}
 
 	/**

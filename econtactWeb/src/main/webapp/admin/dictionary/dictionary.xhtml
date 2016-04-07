@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<h:form>
+			<p:messages id="messages" closable="true" autoUpdate="true" />
+			<p:layout style="min-height:300px;">
+				<p:layoutUnit position="west" resizable="true" minSize="210">
+					<p:outputLabel value="#{viewMsg['dictionary.label']}"></p:outputLabel>
+					<p:selectOneMenu id="paramDictSelect"
+						value="#{dictionaryCRUDBean.selectedParamDict}">
+						<f:selectItems value="#{dictionaryCRUDBean.paramDicts}"></f:selectItems>
+						<p:ajax partialSubmit="true" process="@this"
+							update="univerDictTable"></p:ajax>
+					</p:selectOneMenu>
+				</p:layoutUnit>
+				<p:layoutUnit position="center">
+					<h:panelGrid id="addPanel" columns="5">
+						<p:outputLabel
+							value="#{viewMsg['dictionary.abrRecDict.column.name']}"></p:outputLabel>
+						<p:inputText maxlength="40"
+							value="#{dictionaryCRUDBean.abrRecDict}"></p:inputText>
+						<p:outputLabel
+							value="#{viewMsg['dictionary.nameRecDict.column.name']}"></p:outputLabel>
+						<p:inputText maxlength="200" required="true"
+							value="#{dictionaryCRUDBean.nameRecDict}"
+							label="#{viewMsg['dictionary.nameRecDict.column.name']}"></p:inputText>
+						<p:commandButton id="addBtn" value="#{viewMsg['btn.add.label']}"
+							partialSubmit="true" process="paramDictSelect addPanel"
+							update="addPanel univerDictTable messages"
+							actionListener="#{dictionaryCRUDBean.addUniverDict()}"></p:commandButton>
+					</h:panelGrid>
+					<p:dataTable id="univerDictTable"
+						value="#{dictionaryCRUDBean.univerDicts}" var="item"
+						editable="true"
+						emptyMessage="#{viewMsg['datatable.empty.message']}"
+						scrollable="true" sortBy="#{item.idRecDict}">
+						<p:ajax event="rowEdit" />
+						<p:ajax event="rowEditCancel" />
+
+						<p:column style="width:32px">
+							<p:rowEditor />
+						</p:column>
+						<p:column
+							headerText="#{viewMsg['dictionary.abrRecDict.column.name']}">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{item.abrRecDict}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{item.abrRecDict}" style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column
+							headerText="#{viewMsg['dictionary.nameRecDict.column.name']}">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{item.nameRecDict}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{item.nameRecDict}" style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column width="30">
+							<p:commandButton value="-"
+								actionListener="#{dictionaryCRUDBean.removeUniverDict(item)}"
+								partialSubmit="true" process="@this" update="univerDictTable"></p:commandButton>
+						</p:column>
+					</p:dataTable>
+				</p:layoutUnit>
+			</p:layout>
+		</h:form>
+	</ui:define>
+</ui:composition>

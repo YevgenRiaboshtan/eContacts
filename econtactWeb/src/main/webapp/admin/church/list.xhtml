@@ -51,9 +51,6 @@
 					<f:attribute name="filterField" value="owner.login" />
 					<p:outputLabel value="#{churchItem.owner.login}"></p:outputLabel>
 				</p:column>
-				<p:column headerText="#{viewMsg['church.owner.fullName.label']}">
-					<p:outputLabel value="#{churchItem.owner.fullName}"></p:outputLabel>
-				</p:column>
 				<p:column sortBy="#{churchItem.createDate}"
 					filterBy="#{churchItem.createDate}"
 					headerText="#{viewMsg['church.createDate.label']}">

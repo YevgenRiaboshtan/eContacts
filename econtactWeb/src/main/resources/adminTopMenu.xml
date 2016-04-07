@@ -27,5 +27,16 @@
 				</menuItem>
 			</elements>
 		</subMenuItem>
+		<subMenuItem>
+			<id>contactTopSubMenu</id>
+			<labelLocaleKey>topMenu.contact.menu.label</labelLocaleKey>
+			<elements>
+				<menuItem>
+					<id>contactUniverDictMenuItem</id>
+					<labelLocaleKey>topMenu.contact.univerDicts.label</labelLocaleKey>
+					<path>/admin/dictionary/dictionary.jsf</path>
+				</menuItem>
+			</elements>
+		</subMenuItem>
 	</elements>
 </topMenuBar>
