@@ -17,6 +17,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
 
@@ -33,6 +34,7 @@ import com.econtact.dataModel.model.entity.ConstraintHelper;
 @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 @Audited
 @AuditTable(value = "univer_dict_aud", schema = EntityHelper.E_CONTACT_SCHEMA)
+@SQLDelete(sql = "UPDATE econtactschema.univer_dict set sign = id where id = ? and version = ?")
 public class UniverDictEntity extends AbstractEntity<BigDecimal> implements AuditSupport {
 	private static final long serialVersionUID = 1330174188604544322L;
 	private static final String NOTE_PATTERN = "Довідник ID: '%s', Назва довідника в універсальному довіднику: '%s'";
