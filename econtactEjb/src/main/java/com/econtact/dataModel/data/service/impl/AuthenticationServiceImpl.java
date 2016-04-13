@@ -1,5 +1,6 @@
 package com.econtact.dataModel.data.service.impl;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -18,9 +19,6 @@ import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.entity.accout.AccountUserEntity;
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 import com.econtact.dataModel.model.entity.common.ConnectAuditEntity;
-import com.econtact.dataModel.model.entity.dictionary.DictionaryConstant;
-import com.econtact.dataModel.model.entity.dictionary.NamesDictConstant;
-import com.econtact.dataModel.model.entity.dictionary.UniverDictEntity;
 
 @Stateless
 @Local(AuthenticationService.class)
@@ -42,18 +40,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public void connectUser(String deviceName, String ipAddr, SessionUserEntity user) {
-        final UniverDictEntity dictionary = univerDictService
-                .findByParamDictAndIdRecDict(NamesDictConstant.ACTION, DictionaryConstant.ACTION_CONNECT);
-        final ConnectAuditEntity logEntry = ConnectAuditEntity.create(user, dictionary, deviceName, ipAddr);
+	public void connectUser(SessionUserEntity user, String sessionId, String ipAddress, String deviceName) {
+        final ConnectAuditEntity logEntry = ConnectAuditEntity.create(user, sessionId, ipAddress, deviceName);
         em.persist(logEntry);
     }
 
 	@Override
-	public void disconnectUser(String ipAddr, SessionUserEntity user) {
-        final UniverDictEntity dictionary = univerDictService
-                .findByParamDictAndIdRecDict(NamesDictConstant.ACTION, DictionaryConstant.ACTION_DISCONNECT);
-        final ConnectAuditEntity logEntry = ConnectAuditEntity.create(user, dictionary, null, ipAddr);
-        em.persist(logEntry);
+	public void disconnectUser(String sessionId) {
+       em.createQuery("Update ConnectAuditEntity entity set entity.endVisit=:date where entity.sessionId=:sessionId")
+       		.setParameter("date", Calendar.getInstance().getTime())
+       		.setParameter("sessionId", sessionId)
+       		.executeUpdate();
     }
 }

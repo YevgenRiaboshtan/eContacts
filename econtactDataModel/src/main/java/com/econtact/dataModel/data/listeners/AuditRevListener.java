@@ -23,7 +23,6 @@ public class AuditRevListener implements EntityTrackingRevisionListener {
 		final AuditRevEntity revEntity = (AuditRevEntity) revisionObj;
 		revEntity.setUser(EJBContext.get().getUser());
 		revEntity.setDateEv(new Date());
-		revEntity.setEvent(EJBContext.get().getEnversContext().getEvent());
 		revEntity.setNameEv(EJBContext.get().getEnversContext().getNameEv());
 		revEntity.setNote(EJBContext.get().getEnversContext().getNote());
 	}

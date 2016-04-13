@@ -9,8 +9,10 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -23,6 +25,7 @@ import com.econtact.dataModel.data.context.UserContext;
 import com.econtact.dataModel.data.filter.FilterDefEquals;
 import com.econtact.dataModel.data.query.GenericFilterDefQueries;
 import com.econtact.dataModel.data.query.SearchCriteria;
+import com.econtact.dataModel.data.service.AuthenticationService;
 import com.econtact.dataModel.data.service.GenericService;
 import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.entity.access.AccessChurchEntity;
@@ -35,6 +38,9 @@ public class UserSessionBean implements Serializable {
 	private static final long serialVersionUID = 5815150040159902787L;
 	
 	@EJB
+	private AuthenticationService authenticatedService;
+	
+	@EJB
 	private GenericService genericService;
 	
 	@Inject
@@ -42,6 +48,7 @@ public class UserSessionBean implements Serializable {
 	
 	private SessionUserEntity principal;
 	private UserContext userContext;
+	private String sessionId;
 	
 	private MenuModel topMenuModel;
 	
@@ -52,6 +59,12 @@ public class UserSessionBean implements Serializable {
 	public void init() {
 		principal = (SessionUserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		userContext = UserContext.create(getPrincipal(), TimeZone.getTimeZone("GMT+2"));
+		sessionId = FacesContext.getCurrentInstance().getExternalContext().getSessionId(false);
+	}
+	
+	@PreDestroy
+	public void disconnect() {
+		authenticatedService.disconnectUser(sessionId);
 	}
 	
 	public MenuModel getTopMenuModel() {

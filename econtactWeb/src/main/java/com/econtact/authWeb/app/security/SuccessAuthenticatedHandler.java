@@ -25,7 +25,11 @@ public class SuccessAuthenticatedHandler implements AuthenticationSuccessHandler
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		SessionUserEntity user = (SessionUserEntity) authentication.getPrincipal();
-		authenticationService.connectUser(request.getHeader("User-Agent"), request.getRemoteAddr(), user);
+		String ipAddress = request.getHeader("X-FORWARDED-FOR");  
+        if (ipAddress == null) {  
+     	   ipAddress = request.getRemoteAddr();  
+        }
+		authenticationService.connectUser(user, request.getSession().getId(), ipAddress, request.getHeader("User-Agent"));
 		if (authentication.getAuthorities().contains(new SimpleGrantedAuthority(RoleType.ROLE_SUPER_ADMIN.getName()))) {
 			response.sendRedirect(NavigationHelper.SUPER_ADMIN_PAGE.replaceFirst("/", ""));
 		} else {

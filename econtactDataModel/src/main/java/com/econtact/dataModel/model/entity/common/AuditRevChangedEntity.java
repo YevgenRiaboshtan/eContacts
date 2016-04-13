@@ -26,7 +26,7 @@ public class AuditRevChangedEntity implements AbstractView<BigDecimal> {
 
     public static final String AUDIT_REV_A = "auditRev";
 
-    @SequenceGenerator(name = SEQ_NAME, sequenceName = "s$audit_rev_chenged", schema = EntityHelper.E_CONTACT_SCHEMA,
+    @SequenceGenerator(name = SEQ_NAME, sequenceName = "seq_audit_rev_chenged", schema = EntityHelper.E_CONTACT_SCHEMA,
             allocationSize = 1)
 
     @Id

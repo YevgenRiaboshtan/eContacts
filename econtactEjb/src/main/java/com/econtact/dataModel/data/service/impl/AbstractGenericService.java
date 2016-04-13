@@ -23,14 +23,10 @@ import com.econtact.dataModel.data.context.UserContext;
 import com.econtact.dataModel.data.query.SearchCriteria;
 import com.econtact.dataModel.data.service.EjbService;
 import com.econtact.dataModel.data.service.UniverDictService;
-import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.data.util.UniqueConstraintException;
 import com.econtact.dataModel.model.AbstractView;
 import com.econtact.dataModel.model.entity.AbstractEntity;
 import com.econtact.dataModel.model.entity.AuditSupport;
-import com.econtact.dataModel.model.entity.dictionary.DictionaryConstant;
-import com.econtact.dataModel.model.entity.dictionary.NamesDictConstant;
-import com.econtact.dataModel.model.entity.dictionary.UniverDictEntity;
 
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public abstract class AbstractGenericService implements EjbService {
@@ -61,11 +57,9 @@ public abstract class AbstractGenericService implements EjbService {
 	public <T extends AbstractEntity> T saveOrUpdate(T entity, UserContext userContext) throws UniqueConstraintException {
 		EJBContext.get().setUserContext(userContext);
 		if (entity instanceof AuditSupport) {
-			final UniverDictEntity event = univerDictService.findByParamDictAndIdRecDict(NamesDictConstant.EVENT,
-					entity.getId() == null ? DictionaryConstant.EVENT_CREATE : DictionaryConstant.EVENT_UPDATE);
 			final String evName = entity.getId() == null ? EV_NAME_CREATE : EV_NAME_UPDATE;
 			final String note = ((AuditSupport) entity).getEnversNote();
-			EJBContext.get().setEnversContext(EnversContext.create(event, evName, note));
+			EJBContext.get().setEnversContext(EnversContext.create(evName, note));
 		} else {
 			EJBContext.get().setEnversContext(null);
 		}
@@ -89,10 +83,8 @@ public abstract class AbstractGenericService implements EjbService {
 	public void remove(AbstractEntity entity, UserContext userContext) {
 		EJBContext.get().setUserContext(userContext);
 		if (entity instanceof AuditSupport) {
-			final UniverDictEntity event = univerDictService.findByParamDictAndIdRecDict(NamesDictConstant.EVENT,
-					DictionaryConstant.EVENT_REMOVE);
 			final String note = ((AuditSupport) entity).getEnversNote();
-			EJBContext.get().setEnversContext(EnversContext.create(event, EV_NAME_REMOVE, note));
+			EJBContext.get().setEnversContext(EnversContext.create(EV_NAME_REMOVE, note));
 		} else {
 			EJBContext.get().setEnversContext(null);
 		}

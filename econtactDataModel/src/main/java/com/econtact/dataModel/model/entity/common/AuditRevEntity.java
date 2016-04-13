@@ -18,8 +18,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.envers.NotAudited;
 import org.hibernate.envers.RevisionEntity;
 import org.hibernate.envers.RevisionNumber;
@@ -29,7 +27,6 @@ import com.econtact.dataModel.data.listeners.AuditRevListener;
 import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.AbstractView;
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
-import com.econtact.dataModel.model.entity.dictionary.UniverDictEntity;
 
 /**
  * Описывает сущность ревизии аудита. see also
@@ -53,7 +50,7 @@ public class AuditRevEntity implements AbstractView<Long> {
 	/**
 	 * Идентификатор
 	 */
-	@SequenceGenerator(name = SEQ_NAME, sequenceName = "s$audit_rev", schema = EntityHelper.E_CONTACT_SCHEMA, allocationSize = 1)
+	@SequenceGenerator(name = SEQ_NAME, sequenceName = "seq_audit_rev", schema = EntityHelper.E_CONTACT_SCHEMA, allocationSize = 1)
 	@Id
 	@RevisionNumber
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
@@ -86,21 +83,18 @@ public class AuditRevEntity implements AbstractView<Long> {
 	private String note;
 
 	/**
-	 * Событие из универсального справочника {@link UniverDictEntity}
-	 * 
-	 */
-	@ManyToOne
-	@JoinColumn(name = "id_event_ud", nullable = false)
-	@Fetch(FetchMode.SELECT)
-	private UniverDictEntity event;
-
-	/**
 	 * Пользователь {@link SessionUserEntity} который изменяет сущность.
 	 */
 	@ManyToOne
 	@JoinColumn(name = "id_user_fk")
 	@NotAudited
 	private SessionUserEntity user;
+	
+	/**
+	 * Список зависимых изменяемых объектов.
+	 */
+	@OneToMany(mappedBy = AuditRevChangedEntity.AUDIT_REV_A, cascade = { CascadeType.PERSIST, CascadeType.REFRESH })
+	private List<AuditRevChangedEntity> changesEntities = new ArrayList<>();
 
 	/**
 	 * Получение пользователя {@link SessionUserEntity} производившего изменения
@@ -118,12 +112,7 @@ public class AuditRevEntity implements AbstractView<Long> {
 		this.user = user;
 	}
 
-	/**
-	 * Список зависимых изменяемых объектов.
-	 */
-	@OneToMany(mappedBy = AuditRevChangedEntity.AUDIT_REV_A, cascade = { CascadeType.PERSIST, CascadeType.REFRESH })
-	private List<AuditRevChangedEntity> changesEntities = new ArrayList<>();
-
+	
 	@Override
 	public Long getId() {
 		return id;
@@ -199,22 +188,6 @@ public class AuditRevEntity implements AbstractView<Long> {
 	 */
 	public void setNote(String note) {
 		this.note = note;
-	}
-
-	/**
-	 * Получение события 
-	 * @return - {@link UniverDictEntity} - событие
-	 */
-	public UniverDictEntity getEvent() {
-		return event;
-	}
-
-	/**
-	 * Установка события
-	 * @param event - {@link UniverDictEntity} - событие
-	 */
-	public void setEvent(UniverDictEntity event) {
-		this.event = event;
 	}
 
 	/**

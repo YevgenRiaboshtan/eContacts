@@ -13,7 +13,7 @@
 				value="#{superAdminConnectLogTableBean.connectLogModel}" widgetVar="connectLogDataTable"
 				paginator="true" rows="20"
 				scrollHeight="400" scrollable="true"
-				sortBy="#{connectItem.dateCon}"
+				sortBy="#{connectItem.id}"
 				sortOrder="DESCENDING"
 				paginatorPosition="bottom"
 				currentPageReportTemplate="#{viewMsg['datatable.rows.count.label']} {totalRecords}"
@@ -26,35 +26,43 @@
 					<f:attribute name="filterField" value="user.login" />
 					<p:outputLabel value="#{connectItem.user.login}"></p:outputLabel>
 				</p:column>
-				<p:column headerText="#{viewMsg['connectLog.list.connect.date.header']}"
-					sortBy="#{connectItem.dateCon}" filterBy="#{connectItem.dateCon}">
+				<p:column headerText="#{viewMsg['connectLog.list.connect.startVisit.header']}"
+					sortBy="#{connectItem.startVisit}" filterBy="#{connectItem.startVisit}">
 					<f:attribute name="filterDataType" value="DATE" />
-					<f:attribute name="filterField" value="dateCon" />
+					<f:attribute name="filterField" value="startVisit" />
 					<f:facet name="filter">
 						<p:inputText onkeypress="blurWithFilter(event, 'connectLogDataTable')">
 							<f:ajax event="blur" listener="#{filterHelper.dateAutocomplete}" render="@this"></f:ajax>
 						</p:inputText>
 					</f:facet>
-					<p:outputLabel value="#{connectItem.dateCon}" >
+					<p:outputLabel value="#{connectItem.startVisit}" >
 						<f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss" timeZone="#{userSessionBean.userContext.userTimeZone}"/>
 					</p:outputLabel>
 				</p:column>
-				<p:column headerText="#{viewMsg['connectLog.list.ip.header']}"
-					sortBy="#{connectItem.ipAddr}" filterBy="#{connectItem.ipAddr}">
-					<f:attribute name="filterDataType" value="TEXT" />
-					<f:attribute name="filterField" value="ipAddr" />
-					<p:outputLabel value="#{connectItem.ipAddr}" />
-				</p:column>
-				<p:column headerText="#{viewMsg['connectLog.list.action.header']}" 
-					sortBy="#{connectItem.idActionUd}" filterBy="#{connectItem.idActionUd}" >
-					<f:attribute name="filterDataType" value="DICTIONARY"/>
-					<f:attribute name="filterField" value="idActionUd" />
+				<p:column headerText="#{viewMsg['connectLog.list.connect.stoptVisit.header']}"
+					sortBy="#{connectItem.endVisit}" filterBy="#{connectItem.endVisit}">
+					<f:attribute name="filterDataType" value="DATE" />
+					<f:attribute name="filterField" value="endVisit" />
 					<f:facet name="filter">
-						<p:selectOneMenu onchange="PF('connectLogDataTable').filter()" converter="univerDictConvert" >
-							<f:selectItems value="#{filterHelper.getUniverDictSelectItems('ACTION')}"/>
-						</p:selectOneMenu>
+						<p:inputText onkeypress="blurWithFilter(event, 'connectLogDataTable')">
+							<f:ajax event="blur" listener="#{filterHelper.dateAutocomplete}" render="@this"></f:ajax>
+						</p:inputText>
 					</f:facet>
-					<p:outputLabel value="#{connectItem.idActionUd.nameRecDict}" ></p:outputLabel>
+					<p:outputLabel value="#{connectItem.endVisit}" >
+						<f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss" timeZone="#{userSessionBean.userContext.userTimeZone}"/>
+					</p:outputLabel>
+				</p:column>
+				<p:column headerText="#{viewMsg['connectLog.list.connect.deviceName.header']}"
+					sortBy="#{connectItem.deviceName}" filterBy="#{connectItem.deviceName}">
+					<f:attribute name="filterDataType" value="TEXT" />
+					<f:attribute name="filterField" value="deviceName" />
+					<p:outputLabel value="#{connectItem.deviceName}" />
+				</p:column>
+				<p:column headerText="#{viewMsg['connectLog.list.ip.header']}"
+					sortBy="#{connectItem.ipAddress}" filterBy="#{connectItem.ipAddress}">
+					<f:attribute name="filterDataType" value="TEXT" />
+					<f:attribute name="filterField" value="ipAddress" />
+					<p:outputLabel value="#{connectItem.ipAddress}" />
 				</p:column>
 			</p:dataTable>
 		</h:form>

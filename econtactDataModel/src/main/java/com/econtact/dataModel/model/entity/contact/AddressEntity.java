@@ -24,12 +24,12 @@ import com.econtact.dataModel.model.entity.AbstractEntity;
 @SQLDelete(sql = "UPDATE econtactschema.address set sign = id where id = ? and version = ?")
 public class AddressEntity extends AbstractEntity<BigDecimal> {
 	private static final long serialVersionUID = -6441206697904776733L;
-	private static final String SEQ_NAME = "contactSeq";
+	private static final String SEQ_NAME = "addressSeq";
 	/**
 	 * Person address id.
 	 */
 	@Id
-	@SequenceGenerator(name = SEQ_NAME, sequenceName = "seq_contact_id", schema = EntityHelper.E_CONTACT_SCHEMA, allocationSize = 1)
+	@SequenceGenerator(name = SEQ_NAME, sequenceName = "seq_address_id", schema = EntityHelper.E_CONTACT_SCHEMA, allocationSize = 1)
 	@GeneratedValue(generator = SEQ_NAME, strategy = GenerationType.SEQUENCE)
 	@Column(name = EntityHelper.ID_F, precision = 38, scale = 0, unique = true, nullable = false)
 	private BigDecimal id;

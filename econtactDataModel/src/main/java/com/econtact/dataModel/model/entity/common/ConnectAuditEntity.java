@@ -8,10 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -23,17 +21,15 @@ import org.hibernate.annotations.FetchMode;
 import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.AbstractView;
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
-import com.econtact.dataModel.model.entity.dictionary.UniverDictEntity;
 
 @Entity
-@Table(name = "connect_audit", schema = EntityHelper.E_CONTACT_SCHEMA, indexes = { @Index(name = "id_index_pk", columnList = EntityHelper.ID_A) })
+@Table(name = "connect_audit", schema = EntityHelper.E_CONTACT_SCHEMA)
 @Cache(usage = CacheConcurrencyStrategy.NONE)
 public class ConnectAuditEntity implements AbstractView<BigDecimal> {
 	private static final long serialVersionUID = 3098825264209644798L;
-	private static final String EMPTY_VALUE = "--";
 	private static final String SEQ_NAME = "connectAuditSeq";
-	public static final String DATE_CON_A = "dateCon";
-	public static final String USER_A = "user";
+	public static final String END_VISIT_A = "endVisit";
+	public static final String SESSION_ID_A = "sessionId";
 
 	@Id
 	@SequenceGenerator(name = SEQ_NAME, sequenceName = "seq_connect_audit_id", schema = EntityHelper.E_CONTACT_SCHEMA, allocationSize = 1)
@@ -41,122 +37,167 @@ public class ConnectAuditEntity implements AbstractView<BigDecimal> {
 	@Column(name = EntityHelper.ID_F, unique = true, nullable = false, precision = 38, scale = 0)
 	private BigDecimal id;
 
-	@Column(name = "name_os", nullable = true, length = 100)
-	private String nameOs;
+	@Column(name = "sessionId", nullable = false, length = 100)
+	private String sessionId;
 
-	@Column(name = "name_comp", nullable = false, length = 100)
-	private String nameComp;
+	@Column(name = "startVisit", nullable = false)
+	private Date startVisit;
 
-	@Column(name = "date_con", nullable = false)
-	private Date dateCon;
+	@Column(name = "endVisit")
+	private Date endVisit;
 
-	@Column(name = "prog", nullable = true, length = 500)
-	private String prog;
+	@Column(name = "ipAddress", nullable = false, length = 100)
+	private String ipAddress;
 
-	@Column(name = "ip_addr", nullable = false, length = 41)
-	private String ipAddr;
-
-	@ManyToOne
-	@JoinColumn(name = "id_action_ud", nullable = false)
-	@Fetch(FetchMode.SELECT)
-	@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
-	private UniverDictEntity idActionUd;
+	@Column(name = "deviceName", nullable = false, length =500)
+	private String deviceName;
 
 	@ManyToOne
 	@JoinColumn(name = "id_user_fk", nullable = false)
 	@Fetch(FetchMode.SELECT)
 	private SessionUserEntity user;
 
-	@Override
+	/**
+	 * Method to return id
+	 * 
+	 * @return the id
+	 */
 	public BigDecimal getId() {
 		return id;
 	}
 
+	/**
+	 * Method to set id
+	 * 
+	 * @param id
+	 *            the id to set
+	 */
 	public void setId(BigDecimal id) {
 		this.id = id;
 	}
 
-	public String getNameOs() {
-		return nameOs;
+	/**
+	 * Method to return sessionId
+	 * 
+	 * @return the sessionId
+	 */
+	public String getSessionId() {
+		return sessionId;
 	}
 
-	public void setNameOs(String nameOs) {
-		this.nameOs = nameOs;
+	/**
+	 * Method to set sessionId
+	 * 
+	 * @param sessionId
+	 *            the sessionId to set
+	 */
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
 	}
 
-	public String getNameComp() {
-		return nameComp;
+	/**
+	 * Method to return startVisit
+	 * 
+	 * @return the startVisit
+	 */
+	public Date getStartVisit() {
+		return startVisit;
 	}
 
-	public void setNameComp(String nameComp) {
-		this.nameComp = nameComp;
+	/**
+	 * Method to set startVisit
+	 * 
+	 * @param startVisit
+	 *            the startVisit to set
+	 */
+	public void setStartVisit(Date startVisit) {
+		this.startVisit = startVisit;
 	}
 
-	public Date getDateCon() {
-		return dateCon;
+	/**
+	 * Method to return endVisit
+	 * 
+	 * @return the endVisit
+	 */
+	public Date getEndVisit() {
+		return endVisit;
 	}
 
-	public void setDateCon(Date dateCon) {
-		this.dateCon = dateCon;
+	/**
+	 * Method to set endVisit
+	 * 
+	 * @param endVisit
+	 *            the endVisit to set
+	 */
+	public void setEndVisit(Date endVisit) {
+		this.endVisit = endVisit;
 	}
 
-	public String getProg() {
-		return prog;
+	/**
+	 * Method to return ipAddress
+	 * 
+	 * @return the ipAddress
+	 */
+	public String getIpAddress() {
+		return ipAddress;
 	}
 
-	public void setProg(String prog) {
-		this.prog = prog;
+	/**
+	 * Method to set ipAddress
+	 * 
+	 * @param ipAddress
+	 *            the ipAddress to set
+	 */
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
 	}
 
-	public String getIpAddr() {
-		return ipAddr;
+	/**
+	 * Method to return deviceName
+	 * 
+	 * @return the deviceName
+	 */
+	public String getDeviceName() {
+		return deviceName;
 	}
 
-	public void setIpAddr(String ipAddr) {
-		this.ipAddr = ipAddr;
+	/**
+	 * Method to set deviceName
+	 * 
+	 * @param deviceName
+	 *            the deviceName to set
+	 */
+	public void setDeviceName(String deviceName) {
+		this.deviceName = deviceName;
 	}
 
-	public UniverDictEntity getIdActionUd() {
-		return idActionUd;
-	}
-
-	public void setIdActionUd(UniverDictEntity idActionUd) {
-		this.idActionUd = idActionUd;
-	}
-
+	/**
+	 * Method to return user
+	 * 
+	 * @return the user
+	 */
 	public SessionUserEntity getUser() {
 		return user;
 	}
 
+	/**
+	 * Method to set user
+	 * 
+	 * @param user
+	 *            the user to set
+	 */
 	public void setUser(SessionUserEntity user) {
 		this.user = user;
 	}
 
-	public static ConnectAuditEntity create(final SessionUserEntity user, final UniverDictEntity idActionUd,
-			final String prog, final String ipAddr) {
+	public static ConnectAuditEntity create(final SessionUserEntity user, final String sessionId,
+			final String ipAddress, final String deviceName) {
 		final ConnectAuditEntity result = new ConnectAuditEntity();
+		result.setSessionId(sessionId);
+		result.setStartVisit(new Date());
 		result.setUser(user);
-		result.setIdActionUd(idActionUd);
-		result.setProg(prog);
-		result.setIpAddr(ipAddr);
+		result.setIpAddress(ipAddress);
+		result.setDeviceName(deviceName);
 		return result;
-	}
-
-	@PrePersist
-	public void prePersist() {
-		id = BigDecimal.ZERO;
-		dateCon = new Date();
-		if (nameComp == null) {
-			nameComp = EMPTY_VALUE;
-		}
-		if (nameOs == null) {
-			nameOs = EMPTY_VALUE;
-		}
-		if (prog == null) {
-			prog = EMPTY_VALUE;
-		}
-		if (ipAddr == null) {
-			ipAddr = "Session expired";
-		}
 	}
 }
