@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -17,6 +19,8 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
@@ -26,10 +30,11 @@ import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.entity.AbstractEntity;
 import com.econtact.dataModel.model.entity.AuditSupport;
 import com.econtact.dataModel.model.entity.ConstraintHelper;
+import com.econtact.dataModel.model.entity.church.ChurchEntity;
 
 @Entity
-@Table(name = "univer_dict", schema = EntityHelper.E_CONTACT_SCHEMA, uniqueConstraints = { @UniqueConstraint(name = ConstraintHelper.UNIVER_DICT_PARAM_ID_REC_DICT_SIGN, columnNames = {
-		"sign", "param_dict", "id_rec_dict" }) })
+@Table(name = "univer_dict", schema = EntityHelper.E_CONTACT_SCHEMA, uniqueConstraints = { @UniqueConstraint(name = ConstraintHelper.UNIVER_DICT_PARAM_ID_REC_DICT_SIGN_CHURCH, columnNames = {
+		"sign", "param_dict", "id_rec_dict", "id_church_fk" }) })
 @NamedQuery(name = UniverDictEntity.FIND_ALL, query = "SELECT ude FROM UniverDictEntity ude WHERE ude.sign=:sign")
 @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 @Audited
@@ -96,69 +101,153 @@ public class UniverDictEntity extends AbstractEntity<BigDecimal> implements Audi
 	@Column(name = EntityHelper.SIGN_F, nullable = false, precision = 38, scale = 0)
 	private BigDecimal sign;
 
-	@Override
+	@ManyToOne
+	@JoinColumn(name = "id_church_fk")
+	@Fetch(FetchMode.SELECT)
+	private ChurchEntity church;
+
+	/**
+	 * Method to return id 
+	 * @return the id
+	 */
 	public BigDecimal getId() {
 		return id;
 	}
 
+	/**
+	 * Method to set id
+	 * @param id the id to set
+	 */
 	public void setId(BigDecimal id) {
 		this.id = id;
 	}
 
+	/**
+	 * Method to return paramDict 
+	 * @return the paramDict
+	 */
 	public String getParamDict() {
 		return paramDict;
 	}
 
+	/**
+	 * Method to set paramDict
+	 * @param paramDict the paramDict to set
+	 */
 	public void setParamDict(String paramDict) {
 		this.paramDict = paramDict;
 	}
 
+	/**
+	 * Method to return idRecDict 
+	 * @return the idRecDict
+	 */
 	public Integer getIdRecDict() {
 		return idRecDict;
 	}
 
+	/**
+	 * Method to set idRecDict
+	 * @param idRecDict the idRecDict to set
+	 */
 	public void setIdRecDict(Integer idRecDict) {
 		this.idRecDict = idRecDict;
 	}
 
+	/**
+	 * Method to return abrRecDict 
+	 * @return the abrRecDict
+	 */
 	public String getAbrRecDict() {
 		return abrRecDict;
 	}
 
+	/**
+	 * Method to set abrRecDict
+	 * @param abrRecDict the abrRecDict to set
+	 */
 	public void setAbrRecDict(String abrRecDict) {
 		this.abrRecDict = abrRecDict;
 	}
 
+	/**
+	 * Method to return nameRecDict 
+	 * @return the nameRecDict
+	 */
 	public String getNameRecDict() {
 		return nameRecDict;
 	}
 
+	/**
+	 * Method to set nameRecDict
+	 * @param nameRecDict the nameRecDict to set
+	 */
 	public void setNameRecDict(String nameRecDict) {
 		this.nameRecDict = nameRecDict;
 	}
 
+	/**
+	 * Method to return updAuthor 
+	 * @return the updAuthor
+	 */
 	public String getUpdAuthor() {
 		return updAuthor;
 	}
 
+	/**
+	 * Method to set updAuthor
+	 * @param updAuthor the updAuthor to set
+	 */
 	public void setUpdAuthor(String updAuthor) {
 		this.updAuthor = updAuthor;
 	}
 
+	/**
+	 * Method to return updDate 
+	 * @return the updDate
+	 */
 	public Date getUpdDate() {
 		return updDate;
 	}
 
+	/**
+	 * Method to set updDate
+	 * @param updDate the updDate to set
+	 */
 	public void setUpdDate(Date updDate) {
 		this.updDate = updDate;
 	}
 
+	/**
+	 * Method to return sign 
+	 * @return the sign
+	 */
 	public BigDecimal getSign() {
 		return sign;
 	}
 
+	/**
+	 * Method to set sign
+	 * @param sign the sign to set
+	 */
 	public void setSign(BigDecimal sign) {
 		this.sign = sign;
+	}
+
+	/**
+	 * Method to return church 
+	 * @return the church
+	 */
+	public ChurchEntity getChurch() {
+		return church;
+	}
+
+	/**
+	 * Method to set church
+	 * @param church the church to set
+	 */
+	public void setChurch(ChurchEntity church) {
+		this.church = church;
 	}
 
 	@PrePersist

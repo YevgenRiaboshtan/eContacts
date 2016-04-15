@@ -29,22 +29,21 @@ public class DataBaseAuthenticationProvider implements AuthenticationProvider {
 	@Autowired
 	private GenericService genericService;
 	
-	
-
 	@Override
 	public Authentication authenticate(Authentication authentication)
 			throws AuthenticationException {
 		String login = authentication.getName();
 		String password = authentication.getCredentials().toString();
-		AccountUserEntity user = authenticationService.getUserByLogin(login);
-		if (user != null) {
-			if (PasswordUtils.machPassword(user.getPassword(), password, user.getSalt())) {
-				SessionUserEntity result = genericService.findById(SessionUserEntity.class, user.getId());
+		AccountUserEntity accountUser = authenticationService.getUserByLogin(login);
+		if (accountUser != null) {
+			if (PasswordUtils.machPassword(accountUser.getPassword(), password, accountUser.getSalt())) {
+				SessionUserEntity sessionUser = genericService.findById(SessionUserEntity.class, accountUser.getId());
 				List<GrantedAuthority> grants = new ArrayList<>();
-				if (UserStatusEnum.ENABLE.equals(user.getEnabledUser())
-						&& ConfirmStatusEnum.CONFIRMED.equals(user.getRoleConfirm())) {
-							grants.add(new SimpleGrantedAuthority(user.getRole().getName()));
-					return new UsernamePasswordAuthenticationToken(result, password, grants);
+				if (UserStatusEnum.ENABLE.equals(accountUser.getEnabledUser())
+						&& ConfirmStatusEnum.CONFIRMED.equals(accountUser.getRoleConfirm())) {
+							grants.add(new SimpleGrantedAuthority(accountUser.getRole().getName()));
+						
+						return new UsernamePasswordAuthenticationToken(new EcontactPrincipal(sessionUser, authenticationService.getAvailableChurchs(sessionUser)), password, grants);
 				} else {
 					throw new DisabledException("user is disabled.");
 				}

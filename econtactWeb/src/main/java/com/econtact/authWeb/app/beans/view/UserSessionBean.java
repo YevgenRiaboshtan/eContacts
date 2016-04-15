@@ -15,11 +15,13 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
 import org.primefaces.model.menu.MenuModel;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.econtact.authWeb.app.beans.helper.MenuHelper;
+import com.econtact.authWeb.app.security.EcontactPrincipal;
 import com.econtact.authWeb.app.utils.CacheUtils;
 import com.econtact.dataModel.data.context.UserContext;
 import com.econtact.dataModel.data.filter.FilterDefEquals;
@@ -46,7 +48,7 @@ public class UserSessionBean implements Serializable {
 	@Inject
 	private MenuHelper menuUtils;
 	
-	private SessionUserEntity principal;
+	private EcontactPrincipal principal;
 	private UserContext userContext;
 	private String sessionId;
 	
@@ -57,7 +59,7 @@ public class UserSessionBean implements Serializable {
 	
 	@PostConstruct
 	public void init() {
-		principal = (SessionUserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		principal = (EcontactPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		userContext = UserContext.create(getPrincipal(), TimeZone.getTimeZone("GMT+2"));
 		sessionId = FacesContext.getCurrentInstance().getExternalContext().getSessionId(false);
 	}
@@ -75,7 +77,7 @@ public class UserSessionBean implements Serializable {
 	}
 
 	public SessionUserEntity getPrincipal() {
-		return principal;
+		return principal.getUserAccount();
 	}
 	
 	public UserContext getUserContext() {
@@ -86,7 +88,7 @@ public class UserSessionBean implements Serializable {
 		if (churchAccess == null) {
 			SearchCriteria<AccessChurchEntity> criteria = new SearchCriteria<>(new GenericFilterDefQueries<>(AccessChurchEntity.class));
 			criteria.andFilter(new FilterDefEquals(AccessChurchEntity.CONFIRM_A, true))
-					.andFilter(new FilterDefEquals(AccessChurchEntity.USER_A, principal))
+					.andFilter(new FilterDefEquals(AccessChurchEntity.USER_A, getPrincipal()))
 					.andFilter(new FilterDefEquals(EntityHelper.SIGN_A, EntityHelper.ACTUAL_SIGN));
 			churchAccess = genericService.find(criteria)
 					.stream().collect(Collectors.toMap( item -> ((AccessChurchEntity) item).getChurch().getId(), Function.identity()));
@@ -96,10 +98,10 @@ public class UserSessionBean implements Serializable {
 	
 	public AccessGroupEntity getGroupAccess(BigDecimal idGroup) {
 		if (groupAccess == null
-				|| CacheUtils.needClearGroupAccess(principal.getId())) {
+				|| CacheUtils.needClearGroupAccess(principal.getUserAccount().getId())) {
 			SearchCriteria<AccessGroupEntity> criteria = new SearchCriteria<>(new GenericFilterDefQueries<>(AccessGroupEntity.class));
 			criteria.andFilter(new FilterDefEquals(AccessGroupEntity.CONFIRM_A, true))
-					.andFilter(new FilterDefEquals(AccessGroupEntity.USER_A, principal))
+					.andFilter(new FilterDefEquals(AccessGroupEntity.USER_A, getPrincipal()))
 					.andFilter(new FilterDefEquals(EntityHelper.SIGN_A, EntityHelper.ACTUAL_SIGN));
 			groupAccess = genericService.find(criteria, AccessGroupEntity.ACCESS_GROUP_GRAPH)
 					.stream().collect(Collectors.toMap(item -> ((AccessGroupEntity) item).getGroup().getId(), Function.identity()));

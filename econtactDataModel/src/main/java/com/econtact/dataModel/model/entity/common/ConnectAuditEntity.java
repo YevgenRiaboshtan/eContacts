@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
@@ -23,7 +24,7 @@ import com.econtact.dataModel.model.AbstractView;
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 
 @Entity
-@Table(name = "connect_audit", schema = EntityHelper.E_CONTACT_SCHEMA)
+@Table(name = "connect_audit", schema = EntityHelper.E_CONTACT_SCHEMA, indexes = { @Index(columnList = "sessionId")})
 @Cache(usage = CacheConcurrencyStrategy.NONE)
 public class ConnectAuditEntity implements AbstractView<BigDecimal> {
 	private static final long serialVersionUID = 3098825264209644798L;
@@ -49,7 +50,7 @@ public class ConnectAuditEntity implements AbstractView<BigDecimal> {
 	@Column(name = "ipAddress", nullable = false, length = 100)
 	private String ipAddress;
 
-	@Column(name = "deviceName", nullable = false, length =500)
+	@Column(name = "deviceName", nullable = false, length = 500)
 	private String deviceName;
 
 	@ManyToOne

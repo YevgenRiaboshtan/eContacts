@@ -27,7 +27,7 @@ import com.econtact.dataModel.data.context.EnversContext;
 import com.econtact.dataModel.data.context.UserContext;
 import com.econtact.dataModel.data.service.UniverDictService;
 import com.econtact.dataModel.data.util.EntityHelper;
-import com.econtact.dataModel.model.entity.dictionary.UniverDictCheckEntity;
+import com.econtact.dataModel.model.entity.church.ChurchEntity;
 import com.econtact.dataModel.model.entity.dictionary.UniverDictEntity;
 
 @Startup
@@ -37,19 +37,19 @@ import com.econtact.dataModel.model.entity.dictionary.UniverDictEntity;
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class UniverDictServiceImpl implements UniverDictService {
 
-	@PersistenceContext(unitName=EntityHelper.E_CONTACT_PU)
+	@PersistenceContext(unitName = EntityHelper.E_CONTACT_PU)
 	private EntityManager em;
-	
+
 	private final Lock lock = new ReentrantLock();
-	
+
 	private Reference<Map<String, Map<Integer, BigDecimal>>> univerDictLinksRef;
-	
+
 	@PostConstruct
 	public void postConstruct() {
 		final Map<String, Map<Integer, BigDecimal>> univerDictLinks = getUniverDictLinks();
 		univerDictLinksRef = new SoftReference<>(univerDictLinks);
 	}
-	
+
 	@Override
 	public UniverDictEntity findById(BigDecimal id) {
 		lock.lock();
@@ -65,42 +65,58 @@ public class UniverDictServiceImpl implements UniverDictService {
 	}
 
 	@Override
-	public List<UniverDictEntity> findUniverDictByParamDict(String paramDict) {
+	public List<UniverDictEntity> findUniverDictByParamDict(String paramDict, ChurchEntity church) {
 		lock.lock();
 		try {
 			final Map<String, Map<Integer, BigDecimal>> univerDictLinks = getUniverDictLinks();
 			final Map<Integer, BigDecimal> idRecLinks = univerDictLinks.get(paramDict);
 			final List<UniverDictEntity> result = new ArrayList<>();
-			if (idRecLinks == null
-					|| idRecLinks.isEmpty()) {
+			if (idRecLinks == null || idRecLinks.isEmpty()) {
 				return result;
 			}
-			idRecLinks.values().stream().forEach(id -> result.add(em.find(UniverDictEntity.class, id)));
+			idRecLinks.values().stream().forEach(id -> {
+				UniverDictEntity entity = em.find(UniverDictEntity.class, id);
+				if (church == null) {
+					result.add(entity);
+				} else {
+					if (church.getId().equals(entity.getChurch())) {
+						result.add(entity);
+					}
+				}
+			});
 			return result;
 		} finally {
 			lock.unlock();
 		}
 	}
-
+	
 	@Override
-	public UniverDictEntity findByParamDictAndIdRecDict(String paramDict, Integer idRecDict) {
+	public List<UniverDictEntity> findUniverDictByParamDict(String paramDict) {
+		return findUniverDictByParamDict(paramDict, null);
+	}
+	
+	@Override
+	public UniverDictEntity findByParamDictAndIdRecDict(String paramDict, Integer idRecDict, ChurchEntity church) {
 		lock.lock();
 		try {
-			final BigDecimal id = getUniverDictLinks().get(paramDict).get(idRecDict);
-			final UniverDictEntity result = em.find(UniverDictEntity.class, id);
-			return result;
+			return findUniverDictByParamDict(paramDict, church).stream().filter(entity -> idRecDict.compareTo(entity.getIdRecDict()) == 0).findFirst().orElse(null);
 		} finally {
 			lock.unlock();
 		}
 	}
+	
+	@Override
+	public UniverDictEntity findByParamDictAndIdRecDict(String paramDict, Integer idRecDict) {
+		return findByParamDictAndIdRecDict(paramDict, idRecDict, null);
+	}
 
 	@Override
-	public UniverDictEntity saveOrUpdate(UniverDictEntity entity,
-			UserContext userContext) {
+	public UniverDictEntity saveOrUpdate(UniverDictEntity entity, UserContext userContext) {
 		lock.lock();
 		try {
 			EJBContext.get().setUserContext(userContext);
-			final String evName = entity.getId() == null ? AbstractGenericService.EV_NAME_CREATE : AbstractGenericService.EV_NAME_UPDATE; 
+			final String evName = entity.getId() == null ? AbstractGenericService.EV_NAME_CREATE
+					: AbstractGenericService.EV_NAME_UPDATE;
 			final String note = entity.getEnversNote();
 			EJBContext.get().setEnversContext(EnversContext.create(evName, note));
 			final UniverDictEntity result = em.merge(entity);
@@ -128,38 +144,24 @@ public class UniverDictServiceImpl implements UniverDictService {
 		}
 	}
 
-	 private Map<String, Map<Integer, BigDecimal>> getUniverDictLinks() {
-	        Map<String, Map<Integer, BigDecimal>> result = univerDictLinksRef == null ? null : univerDictLinksRef.get();
-	        if (result == null) {
-	            //Logger.info(UniverDictServiceImpl.class, "Caching UniverDictEntity by paramDict and idRecDict");
-	            result = new HashMap<>();
-	            univerDictLinksRef = new SoftReference<>(result);
-	            final Query query = em.createNamedQuery(UniverDictEntity.FIND_ALL, UniverDictEntity.class);
-	            query.setParameter(EntityHelper.SIGN_A, EntityHelper.ACTUAL_SIGN);
-	            final List<UniverDictEntity> entities = query.getResultList();
-	            for (UniverDictEntity entity : entities) {
-	                Map<Integer, BigDecimal> idRecLinks = result.get(entity.getParamDict());
-	                if (idRecLinks == null) {
-	                    idRecLinks = new HashMap<>();
-	                    result.put(entity.getParamDict(), idRecLinks);
-	                }
-	                idRecLinks.put(entity.getIdRecDict(), entity.getId());
-	            }
-	        }
-	        return result;
-	    }
-
-	@Override
-	public UniverDictCheckEntity saveOrUpdate(UniverDictCheckEntity entity) {
-		lock.lock();
-		try {
-			final UniverDictCheckEntity result = em.merge(entity);
-			return result;
-		} finally {
-			if (entity.getId() == null) {
-				univerDictLinksRef = null;
+	private Map<String, Map<Integer, BigDecimal>> getUniverDictLinks() {
+		Map<String, Map<Integer, BigDecimal>> result = univerDictLinksRef == null ? null : univerDictLinksRef.get();
+		if (result == null) {
+			// Logger.info(UniverDictServiceImpl.class, "Caching UniverDictEntity by paramDict and idRecDict");
+			result = new HashMap<>();
+			univerDictLinksRef = new SoftReference<>(result);
+			final Query query = em.createNamedQuery(UniverDictEntity.FIND_ALL, UniverDictEntity.class);
+			query.setParameter(EntityHelper.SIGN_A, EntityHelper.ACTUAL_SIGN);
+			final List<UniverDictEntity> entities = query.getResultList();
+			for (UniverDictEntity entity : entities) {
+				Map<Integer, BigDecimal> idRecLinks = result.get(entity.getParamDict());
+				if (idRecLinks == null) {
+					idRecLinks = new HashMap<>();
+					result.put(entity.getParamDict(), idRecLinks);
+				}
+				idRecLinks.put(entity.getIdRecDict(), entity.getId());
 			}
-			lock.unlock();
 		}
+		return result;
 	}
 }

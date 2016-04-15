@@ -37,9 +37,9 @@ public final class ConstraintHelper {
 	
 	//UniverDictEntity Section
 	/**
-	 * {@link UniverDictEntity} paramDict, idRecDict, Sign unique
+	 * {@link UniverDictEntity} paramDict, idRecDict, Sign, church unique
 	 */
-	public static final String UNIVER_DICT_PARAM_ID_REC_DICT_SIGN ="UNIVER_DICT_1";
+	public static final String UNIVER_DICT_PARAM_ID_REC_DICT_SIGN_CHURCH ="UNIVER_DICT_1";
 	
 	
 	

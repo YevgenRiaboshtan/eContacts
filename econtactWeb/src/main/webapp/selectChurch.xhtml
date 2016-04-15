@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/baseTemplate.xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="contentWrapper">
+	<div class="centerWrapper">
+		<h:form prependId="false" acceptcharset="UTF-8">
+		<p:dataTable>
+			
+		</p:dataTable>
+			<p:commandButton type="submit" actionListener="#{selectChurchBean.selectChurch}"
+				value="#{viewMsg['loginPanel.login.btn.label']}" ajax="false" />
+
+		</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

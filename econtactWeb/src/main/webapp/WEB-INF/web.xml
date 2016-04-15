@@ -64,14 +64,7 @@
 	</filter-mapping>
 	<!--Form content submit encoding filter end -->
 
-	<filter>
-		<filter-name>loginPageFilter</filter-name>
-		<filter-class>com.econtact.authWeb.app.filter.LoginPageFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>loginPageFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+
 
 	<!-- spring security filter -->
 	<filter>
@@ -80,6 +73,15 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>churchSelectFilter</filter-name>
+		<filter-class>com.econtact.authWeb.app.filter.ChurchFilterChain</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>churchSelectFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<!-- spring security filter end -->

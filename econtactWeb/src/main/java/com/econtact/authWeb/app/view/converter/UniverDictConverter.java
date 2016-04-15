@@ -19,6 +19,7 @@ public class UniverDictConverter implements Converter {
 		if (value == null) {
 			return null;
 		}
+		//FIXME use autowire or inject or EJB annotation
 		return WebUtils.getBean(UniverDictService.class).findById(new BigDecimal(value));
 	}
 

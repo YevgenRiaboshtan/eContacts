@@ -21,6 +21,7 @@ import com.econtact.dataModel.data.query.GenericFilterDefQueries;
 import com.econtact.dataModel.data.query.SearchCriteria;
 import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.entity.access.AccessChurchEntity;
+import com.econtact.dataModel.model.entity.access.AccessGroupEntity;
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 import com.econtact.dataModel.model.entity.church.ChurchEntity;
 import com.econtact.dataModel.model.entity.church.GroupEntity;
@@ -65,6 +66,22 @@ public class ChurchCRUDBean extends GeneralCRUDBean<ChurchEntity> {
 		if (StringUtils.isNotBlank(groupName)) {
 			GroupEntity group = new GroupEntity();
 			group.setName(groupName);
+			AccessGroupEntity groupAccess = new AccessGroupEntity();
+			groupAccess.setUser(userSessionBean.getPrincipal());
+			groupAccess.setConfirm(true);
+			groupAccess.setEditPermit(true);
+			groupAccess.setRegisterPermit(true);
+			groupAccess.setViewPermit(true);
+			group.addAccess(groupAccess);
+			if (!entity.getOwner().equals(userSessionBean.getPrincipal())) {
+				AccessGroupEntity ownerAccess = new AccessGroupEntity();
+				ownerAccess.setUser(entity.getOwner());
+				ownerAccess.setConfirm(true);
+				ownerAccess.setEditPermit(true);
+				ownerAccess.setRegisterPermit(true);
+				ownerAccess.setViewPermit(true);
+				group.addAccess(ownerAccess);
+			}
 			entity.addGroup(group);
 			groupName = "";
 		}
@@ -87,13 +104,11 @@ public class ChurchCRUDBean extends GeneralCRUDBean<ChurchEntity> {
 	@Override
 	public void setEntity(ChurchEntity entity) {
 		if (entity.getId() != null) {
-			SearchCriteria<AccessChurchEntity> accessCriteria = new SearchCriteria<>(new GenericFilterDefQueries<>(
-					AccessChurchEntity.class));
+			SearchCriteria<AccessChurchEntity> accessCriteria = new SearchCriteria<>(new GenericFilterDefQueries<>(AccessChurchEntity.class));
 			accessCriteria.andFilter(new FilterDefEquals(AccessChurchEntity.CHURCH_A, entity)).andFilter(
 					new FilterDefEquals(EntityHelper.SIGN_A, EntityHelper.ACTUAL_SIGN));
 			entity.setAccess(genericService.find(accessCriteria));
-			SearchCriteria<GroupEntity> groupCriteria = new SearchCriteria<>(new GenericFilterDefQueries<>(
-					GroupEntity.class));
+			SearchCriteria<GroupEntity> groupCriteria = new SearchCriteria<>(new GenericFilterDefQueries<>(GroupEntity.class));
 			groupCriteria.andFilter(new FilterDefEquals(GroupEntity.CHURCH_A, entity)).andFilter(
 					new FilterDefEquals(EntityHelper.SIGN_A, EntityHelper.ACTUAL_SIGN));
 			entity.setGroups(genericService.find(groupCriteria));
