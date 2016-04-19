@@ -11,7 +11,7 @@
 			<h:form prependId="false" acceptcharset="UTF-8">
 				<p:dataTable value="#{selectChurchBean.availableChurch}" var="item" selectionMode="single" rowKey="#{item.id}" >
 					<p:ajax event="rowSelect" listener="#{selectChurchBean.onRowSelect}" immediate="true"/>
-					<p:column>
+					<p:column headerText="#{viewMsg['selectChurch.select.mode']}">
 						<h:outputText value="#{item.text}"/>
 					</p:column>
 				</p:dataTable>

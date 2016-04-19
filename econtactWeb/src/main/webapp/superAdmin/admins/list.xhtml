@@ -10,7 +10,7 @@
 	<ui:define name="content">
 		<p:outputLabel value="#{viewMsg['admins.list.capture.label']}"></p:outputLabel>
 		<h:form id="adminTableForm">
-			<p:dataTable id="adminDataTable" var="adminItem" lazy="true"
+			<p:dataTable id="adminDataTable" var="adminItem" lazy="true" binding="#{superAdminAdminsTableBean.dataTable}"
 				value="#{superAdminAdminsTableBean.adminsModel}" widgetVar="adminDataTable"
 				paginator="true" rows="10" rowsPerPageTemplate="10,15,20"
 				scrollHeight="425" scrollable="true"

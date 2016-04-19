@@ -7,27 +7,35 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 	<h:form prependId="false">
 		<p:menubar style="margin:5px;">
-			<p:menuitem icon="fa fa-home" url="/index.jsf"/>
-			
-			<p:submenu label="#{viewMsg['topMenu.userItem.subMenu.label']}"
-				rendered="#{userSessionBean.principal.role.name.equals('ROLE_SUPER_ADMIN')}">
-				<p:menuitem value="#{viewMsg['topMenu.userItem.subMenu.admin.list.menuItem.label']}" url="/superAdmin/admins/list.jsf"/>
-				<p:menuitem value="#{viewMsg['topMenu.userItem.subMenu.connect.log.list.menuItem.label']}" url="/superAdmin/connectLog.jsf"/>
-			</p:submenu>
-			
-			<p:submenu label="#{viewMsg['topMenu.structure.menu.label']}"
-				rendered="#{userSessionBean.principal.role.name.equals('ROLE_ADMIN')}">
-				<p:menuitem value="#{viewMsg['topMenu.churchItem.label']}" url="/admin/church/list.jsf"/>
-				<p:menuitem value="#{viewMsg['topMenu.employee.menu.label']}" url="/admin/employee/list.jsf"/>
-				<p:menuitem value="#{viewMsg['groupList.page.capture']}" url="/employee/group/list.jsf"/>
-			</p:submenu>
-			<p:submenu label="#{viewMsg['topMenu.contact.menu.label']}"
-				rendered="#{userSessionBean.principal.role.name.equals('ROLE_ADMIN')}">
-				<p:menuitem value="#{viewMsg['topMenu.contact.univerDicts.label']}" url="/admin/dictionary/dictionary.jsf"/>
-			</p:submenu>
-			
-			
-			
+			<p:menuitem icon="fa fa-home" url="/index.jsf" />
+
+			<c:if
+				test="#{userSessionBean.sysAdminMode and userSessionBean.principal.role.name.equals('ROLE_SUPER_ADMIN')}">
+				<p:submenu label="#{viewMsg['topMenu.userItem.subMenu.label']}">
+					<p:menuitem
+						value="#{viewMsg['topMenu.userItem.subMenu.admin.list.menuItem.label']}"
+						url="/superAdmin/admins/list.jsf" />
+					<p:menuitem
+						value="#{viewMsg['topMenu.userItem.subMenu.connect.log.list.menuItem.label']}"
+						url="/superAdmin/connectLog.jsf" />
+				</p:submenu>
+			</c:if>
+			<c:if
+				test="#{userSessionBean.adminMode and userSessionBean.principal.role.name.equals('ROLE_ADMIN')}">
+				<p:submenu label="#{viewMsg['topMenu.structure.menu.label']}">
+					<p:menuitem value="#{viewMsg['topMenu.churchItem.label']}"
+						url="/admin/church/list.jsf" />
+					<p:menuitem value="#{viewMsg['topMenu.employee.menu.label']}"
+						url="/admin/employee/list.jsf" />
+					<p:menuitem value="#{viewMsg['groupList.page.capture']}"
+						url="/employee/group/list.jsf" />
+				</p:submenu>
+				<p:submenu label="#{viewMsg['topMenu.contact.menu.label']}">
+					<p:menuitem value="#{viewMsg['topMenu.contact.univerDicts.label']}"
+						url="/admin/dictionary/dictionary.jsf" />
+				</p:submenu>
+			</c:if>
+
 			<f:facet name="options">
 				<p:outputLabel value="#{userSessionBean.principal.login}"></p:outputLabel>
 				<p:commandButton id="showUserProfileBtn" icon="fa fa-user"

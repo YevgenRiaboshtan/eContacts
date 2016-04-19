@@ -13,7 +13,6 @@ import com.econtact.dataModel.model.entity.accout.RoleType;
 @Named(value = "navigationHelper")
 @ApplicationScoped
 public class NavigationHelper {
-	public static final String SUPER_ADMIN_PAGE = "/superAdmin/admins/list.jsf";
 	public static final String MODIFY_NOT_ALLOWED_PAGE = "/modifyNotAllowed.jsf";
 	public static final String INDEX_PAGE = "index.jsf";
 	public static final String LOGIN_PAGE = "/loginPage.jsf";

@@ -7,7 +7,7 @@
 	template="/WEB-INF/templates/default.xhtml">
 	<ui:define name="content">
 		<f:event listener="#{groupCRUDBean.isAllowEdit}" type="preRenderView" />
-		<p:outputLabel value="#{viewMsg['church.edit.label']}"></p:outputLabel>
+		<p:outputLabel value="#{viewMsg['group.edit.cature']}"></p:outputLabel>
 		<ui:include src="/employee/group/editGroupPanel.xhtml"/>
 	</ui:define>
 </ui:composition>

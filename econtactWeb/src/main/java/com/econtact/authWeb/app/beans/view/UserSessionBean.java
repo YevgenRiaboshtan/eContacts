@@ -29,6 +29,7 @@ import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.entity.access.AccessChurchEntity;
 import com.econtact.dataModel.model.entity.access.AccessGroupEntity;
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
+import com.econtact.dataModel.model.entity.church.ChurchEntity;
 
 @Named
 @SessionScoped
@@ -62,6 +63,18 @@ public class UserSessionBean implements Serializable {
 	
 	public SessionUserEntity getPrincipal() {
 		return principal.getUserAccount();
+	}
+	
+	public boolean isAdminMode() {
+		return principal.isAdminMode();
+	}
+	
+	public boolean isSysAdminMode() {
+		return principal.isSysAdminMode();
+	}
+	
+	public ChurchEntity getCurrentChurch() {
+		return principal.getSelectedChurch();
 	}
 	
 	public UserContext getUserContext() {

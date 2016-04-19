@@ -9,8 +9,12 @@
 		<p:outputLabel value="#{viewMsg['newUser.create.form.title']}"></p:outputLabel>
 		<h:form id="userEditForm">
 			<p:messages id="messages" autoUpdate="true" closable="true" />
-			<p:commandButton id="refreshBtn" value="#{viewMsg['btn.refresh.label']}" rendered="#{bean.optimistickLockException}" ajax="true" actionListener="#{bean.refresh()}"/>
-			<p:tooltip for="refreshBtn" value="#{viewMsg['btn.refresh.tooltip.text']}"/>
+			<p:commandButton id="refreshBtn"
+				value="#{viewMsg['btn.refresh.label']}"
+				rendered="#{bean.optimistickLockException}" ajax="true"
+				actionListener="#{bean.refresh()}" />
+			<p:tooltip for="refreshBtn"
+				value="#{viewMsg['btn.refresh.tooltip.text']}" />
 			<h:panelGrid columns="2">
 				<p:outputLabel value="${viewMsg['newUser.login.input.label']}"
 					for="userLogin" />
@@ -50,7 +54,14 @@
 					<f:selectItems
 						value="#{filterHelper.getEnumSelectItems('com.econtact.dataModel.model.entity.accout.UserStatusEnum', false)}" />
 				</p:selectOneMenu>
-
+				<c:if
+					test="#{userSessionBean.principal.role.name.equals('ROLE_ADMIN')}">
+					<p:outputLabel value="role" />
+					<p:selectOneMenu editable="false" value="#{bean.entity.role}">
+						<f:selectItems
+							value="#{filterHelper.getEnumSelectItems('com.econtact.dataModel.model.entity.accout.RoleType', false)}"></f:selectItems>
+					</p:selectOneMenu>
+				</c:if>
 				<p:commandButton value="#{viewMsg['btn.save.label']}" ajax="true"
 					actionListener="#{bean.save()}">
 				</p:commandButton>

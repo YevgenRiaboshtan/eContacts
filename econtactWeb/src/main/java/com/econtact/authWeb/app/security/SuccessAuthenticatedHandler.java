@@ -30,10 +30,7 @@ public class SuccessAuthenticatedHandler implements AuthenticationSuccessHandler
 		authenticationService.connectUser(principal.getUserAccount(), request.getSession().getId(), ipAddress, request.getHeader("User-Agent"));
 		if (principal.getUserAccount().getRole().equals(RoleType.ROLE_SUPER_ADMIN)) {
 			principal.setSysAdminMode(true);
-			response.sendRedirect(NavigationHelper.SUPER_ADMIN_PAGE.replaceFirst("/", ""));
-		} else {
-			response.sendRedirect(NavigationHelper.INDEX_PAGE);
-		}
+		} 
+		response.sendRedirect(NavigationHelper.INDEX_PAGE);
 	}
-
 }

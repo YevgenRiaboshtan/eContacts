@@ -64,6 +64,9 @@ public class SuperAdminCRUDBean extends GeneralCRUDBean<AccountUserEntity> {
 	}
 	
 	protected boolean canModifyEntity(AccountUserEntity entity){
+		if (userSessionBean.getPrincipal().getId().equals(entity.getId())) {
+			return false;
+		}
 		return true;
 	}
 }
