@@ -13,14 +13,10 @@ import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
 
-import org.primefaces.model.menu.MenuModel;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.econtact.authWeb.app.beans.helper.MenuHelper;
 import com.econtact.authWeb.app.security.EcontactPrincipal;
 import com.econtact.authWeb.app.utils.CacheUtils;
 import com.econtact.dataModel.data.context.UserContext;
@@ -45,14 +41,9 @@ public class UserSessionBean implements Serializable {
 	@EJB
 	private GenericService genericService;
 	
-	@Inject
-	private MenuHelper menuUtils;
-	
 	private EcontactPrincipal principal;
 	private UserContext userContext;
 	private String sessionId;
-	
-	private MenuModel topMenuModel;
 	
 	private Map<BigDecimal, AccessChurchEntity> churchAccess;
 	private Map<BigDecimal, AccessGroupEntity> groupAccess;
@@ -69,13 +60,6 @@ public class UserSessionBean implements Serializable {
 		authenticatedService.disconnectUser(sessionId);
 	}
 	
-	public MenuModel getTopMenuModel() {
-		if (topMenuModel == null) {
-			topMenuModel = menuUtils.buildTopMenu(getPrincipal().getRole());
-		}
-		return topMenuModel;
-	}
-
 	public SessionUserEntity getPrincipal() {
 		return principal.getUserAccount();
 	}

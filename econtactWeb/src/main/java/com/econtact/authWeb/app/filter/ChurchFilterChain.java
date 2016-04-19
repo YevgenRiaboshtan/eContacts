@@ -29,10 +29,13 @@ public class ChurchFilterChain implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
 			ServletException {
-		if (((HttpServletRequest) request).getUserPrincipal() != null
+		//FIXME fix resource not found
+		if (!((HttpServletRequest) request).getRequestURI().startsWith("/econtact/javax.faces.resource")
+				&& ((HttpServletRequest) request).getUserPrincipal() != null
 				&& ((HttpServletRequest) request).getUserPrincipal() instanceof Authentication) {
 			EcontactPrincipal principal = (EcontactPrincipal) ((Authentication) ((HttpServletRequest) request).getUserPrincipal()).getPrincipal();
 			if (principal.isSysAdminMode()
+					|| principal.isAdminMode()
 					|| principal.getSelectedChurch() != null) {
 				chain.doFilter(request, response);	
 			} else if (principal.getSelectedChurch() == null) {

@@ -5,22 +5,13 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	template="/WEB-INF/templates/baseTemplate.xhtml"
 	xmlns:p="http://primefaces.org/ui">
+	<h:outputScript name="js/dataTable.js"/>
+	
 	<ui:define name="contentWrapper">
 		<div id="topMenuBlock"> 
-			<h:form prependId="false" >
-				<p:menubar model="#{userSessionBean.topMenuModel}" style="margin:5px;">
-					<f:facet name="options">
-						<p:outputLabel value="#{userSessionBean.principal.login}"></p:outputLabel>
-						<p:commandButton id="showUserProfileBtn" icon="fa fa-user" immediate="true" ajax="true" actionListener="#{navigationHelper.navigateToProfile(userSessionBean.principal.role)}"/>
-						<p:tooltip for="showUserProfileBtn" value="#{viewMsg['user.profile.show.tooltiptext.label']}"/>
-						<a href="/econtact/j_spring_security_logout"> 
-							<h:outputLabel value="#{viewMsg['loginPanel.logout.btn.label']}" />
-						</a> 
-						
-						<a target="_blank" href="/econtact/help" class="fa fa-fw fa-question-circle" style="text-decoration: none;" />					
-					</f:facet>
-				</p:menubar>
-			</h:form>
+			<ui:include src="/topMenu.xhtml" />
+		
+
 		</div>
 		<div id="contentBlock">
 			<ui:insert name="content"></ui:insert>

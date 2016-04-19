@@ -17,6 +17,7 @@
 		<security:intercept-url pattern="/panel/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/modifyNotAllowed*" access="isAuthenticated()" />
 		<security:intercept-url pattern="/selectChurch*" access="isAuthenticated()" />
+		<security:intercept-url pattern="/topMenu*" access="isAuthenticated()" />
 		<security:form-login login-page="/loginPage.xhtml" default-target-url="/index.xhtml"
 			authentication-failure-handler-ref="failureAuthHandler" authentication-success-handler-ref="successAuthHandler"
 			login-processing-url="/j_spring_security_check" />

@@ -6,16 +6,36 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import com.econtact.dataModel.model.entity.accout.RoleType;
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 import com.econtact.dataModel.model.entity.church.ChurchEntity;
-
+/**
+ * Principal system object.
+ * @author Yevgen Riaboshtan
+ *
+ */
 public class EcontactPrincipal implements Principal, Serializable{
 	private static final long serialVersionUID = -323490545353222491L;
-
+	/**
+	 * Logined user {@link SessionUserEntity}.
+	 */
 	private final SessionUserEntity userAccount;
+	/**
+	 * Available churchs {@link ChurchEntity} for work in.
+	 */
 	private final List<ChurchEntity> availableChurchs;
+	/**
+	 * Selected church {@link ChurchEntity} for current work.
+	 */
 	private ChurchEntity selectedChurch;
+	/**
+	 * If user work in SysAdmin mode.
+	 */
 	private boolean sysAdminMode;
+	/**
+	 * If user {@link SessionUserEntity} has {@link RoleType#ROLE_ADMIN} role and choose work as admin.
+	 */
+	private boolean adminMode;
 	
 	public EcontactPrincipal(@NotNull SessionUserEntity user, @NotNull List<ChurchEntity> availableChurchs) {
 		this.userAccount = user;
@@ -73,6 +93,22 @@ public class EcontactPrincipal implements Principal, Serializable{
 	 */
 	public void setSysAdminMode(boolean sysAdminMode) {
 		this.sysAdminMode = sysAdminMode;
+	}
+
+	/**
+	 * Method to return adminMode 
+	 * @return the adminMode
+	 */
+	public boolean isAdminMode() {
+		return adminMode;
+	}
+
+	/**
+	 * Method to set adminMode
+	 * @param adminMode the adminMode to set
+	 */
+	public void setAdminMode(boolean adminMode) {
+		this.adminMode = adminMode;
 	}
 
 }

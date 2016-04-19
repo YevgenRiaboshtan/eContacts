@@ -10,7 +10,7 @@
 		<p:outputLabel value="#{viewMsg['churchListPage.cature']}"></p:outputLabel>
 		<h:form id="churchTableForm">
 			<p:dataTable id="churchDataTable" lazy="true"
-				widgetVar="churchDataTable"
+				widgetVar="churchDataTable" binding="#{churchTableBean.churchDataTable}"
 				value="#{churchTableBean.churchsDataTabelModel}" var="churchItem"
 				paginator="true" paginatorPosition="bottom" rows="10"
 				rowsPerPageTemplate="10,15,20"
@@ -21,10 +21,10 @@
 				sortBy="#{churchItem.id}">
 				<p:column width="70">
 					<f:facet name="header">
-						<p:commandButton icon="fa fa-plus" immediate="true"
+						<p:commandButton icon="fa fa-plus" immediate="true" process="@this"
 							actionListener="#{navigationHelper.navigate('/admin/church/new.jsf')}" />
 					</f:facet>
-					<p:commandButton id="editChurch" icon="ui-icon-pencil" immediate="true" 
+					<p:commandButton id="editChurch" icon="ui-icon-pencil" immediate="true" process="@this"
 						actionListener="#{navigationHelper.navigate('/admin/church/edit.jsf', churchItem.id)}" 
 						rendered="#{not empty userSessionBean.getChurchAccess(churchItem.id) and userSessionBean.getChurchAccess(churchItem.id).editPermit}"></p:commandButton>
 					<p:tooltip for="editChurch"
