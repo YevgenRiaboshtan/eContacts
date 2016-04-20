@@ -44,6 +44,9 @@ public class ChurchFilterChain implements Filter {
 					((HttpServletRequest) request).getSession().invalidate();
 			    	((HttpServletRequest) request).logout();
 			    	((HttpServletResponse) response).sendRedirect("emptyChurch.xhtml");
+				} else if (principal.getAvailableChurchs().size() == 1) {
+					principal.setSelectedChurch(principal.getAvailableChurchs().get(0));
+					chain.doFilter(request, response);
 				} else {
 					request.getRequestDispatcher("selectChurch.xhtml").forward(request, response);
 				}

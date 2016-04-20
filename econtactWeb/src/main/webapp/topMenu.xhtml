@@ -21,7 +21,11 @@
 				</p:submenu>
 			</c:if>
 			<c:if
-				test="#{userSessionBean.adminMode and userSessionBean.principal.role.name.equals('ROLE_ADMIN')}">
+				test="#{userSessionBean.principal.role.name.equals('ROLE_ADMIN')}">
+				<p:submenu rendered="#{userSessionBean.adminMode}">
+				
+				</p:submenu>
+				
 				<p:submenu label="#{viewMsg['topMenu.structure.menu.label']}">
 					<p:menuitem value="#{viewMsg['topMenu.churchItem.label']}"
 						url="/admin/church/list.jsf" />
@@ -36,6 +40,9 @@
 				</p:submenu>
 			</c:if>
 
+			<c:if test="#{userSessionBean.principal.role.name.equals('ROLE_REGISTER')}">
+				<p:menuitem value="#{viewMsg['topMenu.register.menuItem.label']}" url="/employee/addContact.jsf"/>
+			</c:if>
 			<f:facet name="options">
 				<p:outputLabel value="#{userSessionBean.principal.login}"></p:outputLabel>
 				<p:commandButton id="showUserProfileBtn" icon="fa fa-user"

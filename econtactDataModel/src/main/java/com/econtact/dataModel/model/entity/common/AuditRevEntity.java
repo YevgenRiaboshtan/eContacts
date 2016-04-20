@@ -18,6 +18,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.envers.NotAudited;
 import org.hibernate.envers.RevisionEntity;
 import org.hibernate.envers.RevisionNumber;
@@ -88,6 +90,7 @@ public class AuditRevEntity implements AbstractView<Long> {
 	@ManyToOne
 	@JoinColumn(name = "id_user_fk")
 	@NotAudited
+	@Fetch(FetchMode.SELECT)
 	private SessionUserEntity user;
 	
 	/**

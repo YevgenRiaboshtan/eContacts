@@ -25,6 +25,7 @@ public abstract class AbstractUserEntity extends AbstractEntity<BigDecimal> {
 	private static final String SEQ_NAME = "userSeq";
 
 	public final static String LOGIN_A = "login";
+	public final static String ROLE_A = "role";
 
 	/**
 	 * Identifier of the User Entity.

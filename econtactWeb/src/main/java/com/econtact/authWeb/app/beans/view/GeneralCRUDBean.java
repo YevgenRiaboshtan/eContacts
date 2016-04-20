@@ -125,8 +125,15 @@ public abstract class GeneralCRUDBean<T extends AbstractEntity> extends Abstract
 	abstract protected T createDefaultEntity();	
 	
 	private Class<?> getParameterClass(int pos, Class<?> target) {
-		return (Class<?>) ((ParameterizedType) target.getGenericSuperclass())
-				.getActualTypeArguments()[pos];
+		Class current = target;
+		while (current.getSuperclass() != null) {
+			if (current.getGenericSuperclass() instanceof ParameterizedType) {
+				return (Class<?>) ((ParameterizedType) current.getGenericSuperclass())
+						.getActualTypeArguments()[pos];
+			}
+			current = current.getSuperclass();
+		}
+		throw new IllegalArgumentException("Unknown parameter type");
 	}
 	
 	public void isAllowEdit(ComponentSystemEvent event) throws IOException{

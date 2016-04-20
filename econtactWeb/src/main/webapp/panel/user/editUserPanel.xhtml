@@ -6,64 +6,55 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 	<p:panel>
-		<p:outputLabel value="#{viewMsg['newUser.create.form.title']}"></p:outputLabel>
+	
+		<p:outputLabel value="#{viewMsg['newUser.edit.form.title']}"></p:outputLabel>
 		<h:form id="userEditForm">
 			<p:messages id="messages" autoUpdate="true" closable="true" />
-			<p:commandButton id="refreshBtn"
-				value="#{viewMsg['btn.refresh.label']}"
-				rendered="#{bean.optimistickLockException}" ajax="true"
-				actionListener="#{bean.refresh()}" />
-			<p:tooltip for="refreshBtn"
-				value="#{viewMsg['btn.refresh.tooltip.text']}" />
+			<p:commandButton value="refresh" rendered="#{bean.optimistickLockException}" ajax="true" actionListener="#{bean.refresh()}" update="userEditForm"/>
 			<h:panelGrid columns="2">
 				<p:outputLabel value="${viewMsg['newUser.login.input.label']}"
 					for="userLogin" />
 				<p:inputText id="userLogin" value="#{bean.entity.login}"
-					required="true" maxlength="100">
+					required="true" disabled="true"
+					maxlength="100">
 				</p:inputText>
 
-				<p:outputLabel value="#{viewMsg['newUser.password.input.label']}"
+				<p:outputLabel
+					value="#{viewMsg['newUser.new.password.input.label']}"
 					for="userPassword" />
-				<p:password id="userPassword" maxlength="100"
-					value="#{bean.entity.password}" required="true" feedback="true"
+				<p:password id="userPassword" value="#{bean.newPassword}"
+					feedback="true"
 					weakLabel="#{viewMsg['newUser.password.input.feedback.weak']}"
 					goodLabel="#{viewMsg['newUser.password.input.feedback.good']}"
 					strongLabel="#{viewMsg['newUser.password.input.feedback.strong']}"
 					promptLabel="#{viewMsg['newUser.password.input.required.message']}"
-					match="userPassrowdRepeat">
-				</p:password>
+					match="userPassrowdRepeat" />
 
 				<p:outputLabel
 					value="#{viewMsg['newUser.password.repeat.input.label']}"
 					for="userPassrowdRepeat" />
-				<p:password id="userPassrowdRepeat" maxlength="100"
-					value="#{bean.entity.password}" required="true" />
+				<p:password id="userPassrowdRepeat" value="#{bean.newPassword}" />
 
 				<p:outputLabel value="#{viewMsg['newUser.first.name.input.label']}"
 					for="userFirstName" />
 				<p:inputText id="userFirstName" value="#{bean.entity.firstName}"
 					required="true" maxlength="100" />
+
 				<p:outputLabel value="#{viewMsg['newUser.last.name.input.label']}"
 					for="userLastName" maxlength="100" />
 				<p:inputText id="userLastName" value="#{bean.entity.lastName}"
 					required="true" />
+
 				<p:outputLabel value="#{viewMsg['newUser.user.status.label']}"
 					for="userStatus" />
 				<p:selectOneMenu id="userStatus" editable="false"
-					value="#{bean.entity.enabledUser}" rendered="true">
+					value="#{bean.entity.enabledUser}">
 					<f:selectItems
 						value="#{filterHelper.getEnumSelectItems('com.econtact.dataModel.model.entity.accout.UserStatusEnum', false)}" />
 				</p:selectOneMenu>
-				<c:if
-					test="#{userSessionBean.principal.role.name.equals('ROLE_ADMIN')}">
-					<p:outputLabel value="role" />
-					<p:selectOneMenu editable="false" value="#{bean.entity.role}">
-						<f:selectItems
-							value="#{filterHelper.getEnumSelectItems('com.econtact.dataModel.model.entity.accout.RoleType', false)}"></f:selectItems>
-					</p:selectOneMenu>
-				</c:if>
+
 				<p:commandButton value="#{viewMsg['btn.save.label']}" ajax="true"
-					actionListener="#{bean.save()}">
+					actionListener="#{bean.save()}" >
 				</p:commandButton>
 				<p:commandButton value="#{viewMsg['btn.cancel.label']}"
 					immediate="true" actionListener="#{bean.cancel()}" />

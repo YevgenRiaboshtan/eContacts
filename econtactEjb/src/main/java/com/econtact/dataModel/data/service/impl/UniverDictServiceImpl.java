@@ -79,7 +79,7 @@ public class UniverDictServiceImpl implements UniverDictService {
 				if (church == null) {
 					result.add(entity);
 				} else {
-					if (church.getId().equals(entity.getChurch())) {
+					if (church.getId().equals(entity.getChurch().getId())) {
 						result.add(entity);
 					}
 				}

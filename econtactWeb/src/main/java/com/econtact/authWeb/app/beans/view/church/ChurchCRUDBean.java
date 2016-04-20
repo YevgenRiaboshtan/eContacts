@@ -14,14 +14,17 @@ import javax.validation.constraints.NotNull;
 import org.apache.commons.lang.StringUtils;
 
 import com.econtact.authWeb.app.beans.view.GeneralCRUDBean;
+import com.econtact.authWeb.app.utils.CacheUtils;
 import com.econtact.dataModel.data.filter.FilterDefEquals;
 import com.econtact.dataModel.data.filter.FilterDefNotInList;
+import com.econtact.dataModel.data.filter.FilterDefOr;
 import com.econtact.dataModel.data.filter.FilterDefStartsWith;
 import com.econtact.dataModel.data.query.GenericFilterDefQueries;
 import com.econtact.dataModel.data.query.SearchCriteria;
 import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.entity.access.AccessChurchEntity;
 import com.econtact.dataModel.model.entity.access.AccessGroupEntity;
+import com.econtact.dataModel.model.entity.accout.RoleType;
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 import com.econtact.dataModel.model.entity.church.ChurchEntity;
 import com.econtact.dataModel.model.entity.church.GroupEntity;
@@ -44,6 +47,9 @@ public class ChurchCRUDBean extends GeneralCRUDBean<ChurchEntity> {
 				SessionUserEntity.class));
 		criteria.andFilter(new FilterDefStartsWith(SessionUserEntity.LOGIN_A, login))
 				.andFilter(new FilterDefEquals(EntityHelper.SIGN_A, EntityHelper.ACTUAL_SIGN))
+				.andFilter(new FilterDefOr(
+						new FilterDefEquals(SessionUserEntity.ROLE_A, RoleType.ROLE_ADMIN),
+						new FilterDefEquals(SessionUserEntity.ROLE_A, RoleType.ROLE_EMPLOYEE)))
 				.andFilter(new FilterDefNotInList(EntityHelper.ID_A, existIds));
 		return genericService.find(criteria, 0, 10);
 	}
@@ -137,6 +143,7 @@ public class ChurchCRUDBean extends GeneralCRUDBean<ChurchEntity> {
 
 	@Override
 	protected void afterSaveNavigate() throws IOException {
+		CacheUtils.clearChurchAccessCache();
 		navigationHelper.navigate("/admin/church/list.jsf");
 	}
 

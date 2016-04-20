@@ -1,7 +1,5 @@
 package com.econtact.authWeb.app.beans.view.superAdmin;
 
-import java.io.IOException;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -28,16 +26,6 @@ public class SuperAdminCRUDBean extends GeneralCRUDBean<AccountUserEntity> {
 
 	public void setNewPassword(String newPassword) {
 		this.newPassword = newPassword;
-	}
-	
-	@Override
-	protected void afterSaveNavigate() throws IOException {
-		navigationHelper.navigate("/superAdmin/admins/list.jsf");
-	}
-	
-	@Override
-	protected void cancelNavigate() throws IOException {
-		navigationHelper.navigate("/superAdmin/admins/list.jsf");
 	}
 	
 	@Override

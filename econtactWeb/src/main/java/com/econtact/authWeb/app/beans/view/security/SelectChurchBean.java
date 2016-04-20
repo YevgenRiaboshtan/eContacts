@@ -39,7 +39,7 @@ public class SelectChurchBean extends AbstractViewBean{
 	public void init() {
 		EcontactPrincipal principal =(EcontactPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if (RoleType.ROLE_ADMIN.equals(principal.getUserAccount().getRole())) {
-			availableChurch.add(new ChurchWrapper(true, null));
+			//availableChurch.add(new ChurchWrapper(true, null));
 		}
 		principal.getAvailableChurchs().forEach(item -> availableChurch.add(new ChurchWrapper(false, item)));
 	}

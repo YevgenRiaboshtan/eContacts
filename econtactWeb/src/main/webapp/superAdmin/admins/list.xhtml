@@ -22,14 +22,11 @@
 				style="text-align: center;" filterEvent="enter">
 				<p:column width="70">
 					<f:facet name="header">
-						<p:commandButton icon="fa fa-plus" immediate="true" actionListener="#{navigationHelper.navigate('/superAdmin/admins/new.jsf')}" />
+						<p:commandButton icon="fa fa-plus" immediate="true" process="@this" actionListener="#{navigationHelper.navigate('/superAdmin/admins/new.jsf')}" />
 					</f:facet>
-					<p:commandButton id="editUser" icon="ui-icon-pencil" immediate="true" 
+					<p:commandButton id="editUser" icon="ui-icon-pencil" immediate="true" process="@this"
 					rendered="#{adminItem.sign == 0}" actionListener="#{navigationHelper.navigate('/superAdmin/admins/edit.jsf', adminItem.id)}" />
             		<p:tooltip value="#{viewMsg['btn.edit.tooltip.text']}" for="editUser" />
-            		<p:commandButton id="removeUser" icon="ui-icon-close" update=":adminTableForm:adminDataTable" 
-            		rendered="#{adminItem.sign == 0}" actionListener="#{superAdminAdminsTableBean.adminsModel.removeEntity(adminItem)}"/>
-            		<p:tooltip value="#{viewMsg['btn.remove.tooltip.text']}" for="removeUser"/>
 				</p:column>
 				<p:column headerText="#{viewMsg['admins.list.id.header']}" sortBy="#{adminItem.id}" filterBy="#{adminItem.id}">
 					<f:attribute name="filterDataType" value="NUMBER" />
@@ -53,6 +50,17 @@
 					<f:attribute name="filterDataType" value="TEXT" />
 					<f:attribute name="filterField" value="lastName" />
 					<p:outputLabel value="#{adminItem.lastName}"></p:outputLabel>
+				</p:column>
+				<p:column headerText="#{viewMsg['admins.list.user.role.column.header']}"
+					sortBy="#{adminItem.role}" filterBy="#{adminItem.role}">
+					<f:attribute name="filterDataType" value="ENUM"/>
+					<f:attribute name="filterField" value="role" />
+					<f:facet name="filter">
+						<p:selectOneMenu onchange="PF('adminDataTable').filter()" converter="roleTypeConverter">
+							<f:selectItems value="#{filterHelper.getEnumSelectItems('com.econtact.dataModel.model.entity.accout.RoleType', true)}"/>
+						</p:selectOneMenu>
+					</f:facet>
+					<p:outputLabel value="#{labelsHelper.getLocalizedMessage(adminItem.role.labelKey)}"/>
 				</p:column>
 				<p:column headerText="#{viewMsg['admins.list.user.status.column.header']}" 
 					sortBy="#{adminItem.enabledUser}" filterBy="#{adminItem.enabledUser}" >

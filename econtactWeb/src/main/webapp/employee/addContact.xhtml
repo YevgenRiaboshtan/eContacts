@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+	Add new contact
+	<p:panel>
+			<h:form>
+			<h:panelGrid columns="5">
+				<p:outputLabel value="#{viewMsg['addContact.first.name.label']}"></p:outputLabel>
+				<p:outputLabel value="#{viewMsg['addContact.middle.name.label']}"></p:outputLabel>
+				<p:outputLabel value="#{viewMsg['addContact.last.name.label']}"></p:outputLabel>
+				<p:outputLabel value="#{viewMsg['addContact.sex.label']}"></p:outputLabel>
+				<p:outputLabel value="#{viewMsg['addContact.status.label']}"></p:outputLabel>
+				
+				<p:inputText value="#{addContactBean.entity.firstName}"></p:inputText>
+				<p:inputText value="#{addContactBean.entity.middleName}"></p:inputText>
+				<p:inputText value="#{addContactBean.entity.lastName}"></p:inputText>
+				<p:selectOneMenu value="#{addContactBean.entity.sex}">
+					<f:selectItems value="#{filterHelper.getUniverDictSelectItems('PERSON_SEX')}"></f:selectItems>
+				</p:selectOneMenu>
+				<p:selectOneMenu value="#{addContactBean.entity.statusUd}">
+					<f:selectItems value="#{filterHelper.getUniverDictSelectItems('PERSON_STATUS')}"></f:selectItems>
+				</p:selectOneMenu>
+			</h:panelGrid>
+				<p:messages id="messages" closable="true" autoUpdate="true" />
+				<p:commandButton
+					value="#{viewMsg['addContact.saveAndCreate.btn.label']}"
+					ajax="true" actionListener="#{addContactBean.saveAndCreate}"></p:commandButton>
+				<p:commandButton
+					value="#{viewMsg['addContact.saveAndExit.btn.label']}" ajax="true"
+					actionListener="#{addContactBean.saveAndExit}"></p:commandButton>
+				<p:commandButton value="#{viewMsg['btn.cancel.label']}"
+					immediate="true" process="@this"
+					actionListener="#{addContactBean.cancel}"></p:commandButton>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>

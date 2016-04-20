@@ -1,13 +1,15 @@
 package com.econtact.authWeb.app.beans.view.admin;
 
-import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.model.SelectItem;
+import javax.inject.Inject;
 
-import org.apache.commons.lang.StringUtils;
-
-import com.econtact.authWeb.app.beans.view.GeneralCRUDBean;
+import com.econtact.authWeb.app.beans.helper.FilterHelper;
+import com.econtact.authWeb.app.beans.view.superAdmin.SuperAdminCRUDBean;
 import com.econtact.authWeb.app.security.PasswordUtils;
 import com.econtact.dataModel.model.entity.accout.AccountUserEntity;
 import com.econtact.dataModel.model.entity.accout.ConfirmStatusEnum;
@@ -16,14 +18,15 @@ import com.econtact.dataModel.model.entity.accout.UserStatusEnum;
 
 @ManagedBean(name = "adminCRUDBean")
 @ViewScoped
-public class AdminCRUDBean extends GeneralCRUDBean<AccountUserEntity> {
+public class AdminCRUDBean extends SuperAdminCRUDBean {
 	private static final long serialVersionUID = 290852894943784355L;
 
-	private String newPassword;
+	@Inject
+	private FilterHelper filterHelper;
 	
 	@Override
 	protected boolean canModifyEntity(AccountUserEntity entity) {
-		return userSessionBean.getPrincipal().equals(entity.getParentUser());
+		return userSessionBean.getPrincipal().equals(entity.getParentUser()) && super.canModifyEntity(entity);
 	}
 
 	@Override
@@ -36,36 +39,13 @@ public class AdminCRUDBean extends GeneralCRUDBean<AccountUserEntity> {
 		entity.setEnabledUser(UserStatusEnum.ENABLE);
 		return entity;
 	}
-
-	@Override
-	protected void preSave() {
-		super.preSave();
-		if (entity.getId() == null) {
-			entity.setPassword(PasswordUtils.convertPassword(entity.getPassword(), entity.getSalt()));
-		}
-		if (StringUtils.isNotBlank(newPassword)) {
-			entity.setPassword(PasswordUtils.convertPassword(newPassword, entity.getSalt()));
-		}
-		entity.setLogin(entity.getLogin().toLowerCase());
-	}
 	
-	protected String getDefaultEntityGraph() {
-		return AccountUserEntity.ACCOUNT_PARENT_GRAPH;
-	}
-	
-	public String getNewPassword() {
-		return newPassword;
-	}
-
-	public void setNewPassword(String newPassword) {
-		this.newPassword = newPassword;
-	}
-	
-	protected void afterSaveNavigate() throws IOException {
-		navigationHelper.navigate("/admin/employee/list.jsf");
-	}
-	
-	protected void cancelNavigate() throws IOException {
-		navigationHelper.navigate("/admin/employee/list.jsf");
+	public List<SelectItem> getRoleTypes() throws ClassNotFoundException {
+		return filterHelper.getEnumSelectItems(RoleType.class.getName(), false).stream().filter(item -> {
+			return (RoleType.ROLE_EMPLOYEE.equals(item.getValue())
+					|| RoleType.ROLE_REGISTER.equals(item.getValue()))
+					? true
+					: false;
+		}).collect(Collectors.toList());
 	}
 }

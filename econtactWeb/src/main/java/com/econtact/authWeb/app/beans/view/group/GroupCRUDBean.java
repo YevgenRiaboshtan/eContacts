@@ -12,6 +12,7 @@ import javax.faces.bean.ViewScoped;
 import com.econtact.authWeb.app.beans.view.GeneralCRUDBean;
 import com.econtact.authWeb.app.utils.CacheUtils;
 import com.econtact.dataModel.data.filter.FilterDefEquals;
+import com.econtact.dataModel.data.filter.FilterDefNotEquals;
 import com.econtact.dataModel.data.filter.FilterDefNotInList;
 import com.econtact.dataModel.data.filter.FilterDefStartsWith;
 import com.econtact.dataModel.data.query.GenericFilterDefQueries;
@@ -19,6 +20,7 @@ import com.econtact.dataModel.data.query.SearchCriteria;
 import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.entity.access.AccessChurchEntity;
 import com.econtact.dataModel.model.entity.access.AccessGroupEntity;
+import com.econtact.dataModel.model.entity.accout.RoleType;
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 import com.econtact.dataModel.model.entity.church.ChurchEntity;
 import com.econtact.dataModel.model.entity.church.GroupEntity;
@@ -111,6 +113,7 @@ public class GroupCRUDBean extends GeneralCRUDBean<GroupEntity> {
 		SearchCriteria<SessionUserEntity> criteria = new SearchCriteria<>(new GenericFilterDefQueries<>(SessionUserEntity.class));
 		criteria.andFilter(new FilterDefStartsWith(SessionUserEntity.LOGIN_A, login))
 				.andFilter(new FilterDefEquals(EntityHelper.SIGN_A, EntityHelper.ACTUAL_SIGN))
+				.andFilter(new FilterDefNotEquals(SessionUserEntity.ROLE_A, RoleType.ROLE_SUPER_ADMIN))
 				.andFilter(new FilterDefNotInList(EntityHelper.ID_A, existIds));
 		return genericService.find(criteria, 0, 10);
 	}

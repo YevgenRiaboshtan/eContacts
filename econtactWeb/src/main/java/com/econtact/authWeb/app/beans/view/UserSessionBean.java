@@ -82,7 +82,8 @@ public class UserSessionBean implements Serializable {
 	}
 	
 	public AccessChurchEntity getChurchAccess(BigDecimal idChurch) {
-		if (churchAccess == null) {
+		if (churchAccess == null
+				|| CacheUtils.needClearChurchAccess(getPrincipal().getId())) {
 			SearchCriteria<AccessChurchEntity> criteria = new SearchCriteria<>(new GenericFilterDefQueries<>(AccessChurchEntity.class));
 			criteria.andFilter(new FilterDefEquals(AccessChurchEntity.CONFIRM_A, true))
 					.andFilter(new FilterDefEquals(AccessChurchEntity.USER_A, getPrincipal()))
@@ -95,7 +96,7 @@ public class UserSessionBean implements Serializable {
 	
 	public AccessGroupEntity getGroupAccess(BigDecimal idGroup) {
 		if (groupAccess == null
-				|| CacheUtils.needClearGroupAccess(principal.getUserAccount().getId())) {
+				|| CacheUtils.needClearGroupAccess(getPrincipal().getId())) {
 			SearchCriteria<AccessGroupEntity> criteria = new SearchCriteria<>(new GenericFilterDefQueries<>(AccessGroupEntity.class));
 			criteria.andFilter(new FilterDefEquals(AccessGroupEntity.CONFIRM_A, true))
 					.andFilter(new FilterDefEquals(AccessGroupEntity.USER_A, getPrincipal()))

@@ -48,6 +48,7 @@ public final class CacheUtils {
 	
 	//FIXME костыль костыльный
 	private static volatile Map<BigDecimal, Boolean> clearGroupAccessCache = new ConcurrentHashMap<BigDecimal, Boolean>();
+	private static volatile Map<BigDecimal, Boolean> clearChurchAccessCache = new ConcurrentHashMap<BigDecimal, Boolean>();
 	
 	public static synchronized boolean needClearGroupAccess(BigDecimal userId) {
 		if (!clearGroupAccessCache.containsKey(userId)) {
@@ -60,6 +61,21 @@ public final class CacheUtils {
 	
 	public static synchronized void clearGroupAccessCache() {
 		for (Entry<BigDecimal, Boolean> entry : clearGroupAccessCache.entrySet() ) {
+			entry.setValue(Boolean.TRUE);
+		}
+	}
+	
+	public static synchronized boolean needClearChurchAccess(BigDecimal userId) {
+		if (!clearChurchAccessCache.containsKey(userId)) {
+			clearChurchAccessCache.put(userId, Boolean.FALSE);
+		}
+		Boolean result = clearChurchAccessCache.get(userId);
+		clearChurchAccessCache.put(userId, Boolean.FALSE);
+		return result;
+	}
+	
+	public static synchronized void clearChurchAccessCache() {
+		for (Entry<BigDecimal, Boolean> entry : clearChurchAccessCache.entrySet()) {
 			entry.setValue(Boolean.TRUE);
 		}
 	}

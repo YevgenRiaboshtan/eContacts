@@ -13,4 +13,8 @@ public final class NamesDictConstant {
 	 * Person status
 	 */
 	public static final String PERSON_STATUS = "PERSON_STATUS";
+	/**
+	 * Person sex
+	 */
+	public static final String PERSON_SEX = "PERSON_SEX";
 }

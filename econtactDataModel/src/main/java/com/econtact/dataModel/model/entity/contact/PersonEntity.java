@@ -29,6 +29,7 @@ import org.hibernate.annotations.SQLDelete;
 import com.econtact.dataModel.data.context.EJBContext;
 import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.entity.AbstractEntity;
+import com.econtact.dataModel.model.entity.church.ChurchEntity;
 import com.econtact.dataModel.model.entity.dictionary.UniverDictEntity;
 
 @Entity
@@ -72,6 +73,14 @@ public class PersonEntity extends AbstractEntity<BigDecimal> {
 	private Date birthday;
 
 	/**
+	 * Person sex
+	 */
+	@ManyToOne
+	@JoinColumn(name = "id_sex_uf_fk")
+	@Fetch(FetchMode.SELECT)
+	private UniverDictEntity sex;
+	
+	/**
 	 * Person age range.
 	 */
 	@ManyToOne
@@ -94,6 +103,14 @@ public class PersonEntity extends AbstractEntity<BigDecimal> {
 	@JoinColumn(name = "id_address_fk")
 	private AddressEntity address;
 
+	/**
+	 * Person church
+	 */
+	@ManyToOne
+	@JoinColumn(name = "id_church_fk", nullable = false)
+	@Fetch(FetchMode.SELECT)
+	private ChurchEntity church;
+	
 	/**
 	 * Person contacts
 	 */
@@ -214,6 +231,22 @@ public class PersonEntity extends AbstractEntity<BigDecimal> {
 	}
 
 	/**
+	 * Method to return sex 
+	 * @return the sex
+	 */
+	public UniverDictEntity getSex() {
+		return sex;
+	}
+
+	/**
+	 * Method to set sex
+	 * @param sex the sex to set
+	 */
+	public void setSex(UniverDictEntity sex) {
+		this.sex = sex;
+	}
+
+	/**
 	 * Method to return ageRangeUd
 	 * 
 	 * @return the ageRangeUd
@@ -314,6 +347,22 @@ public class PersonEntity extends AbstractEntity<BigDecimal> {
 			return this.contacts.remove(contact);
 		}
 		return false;
+	}
+
+	/**
+	 * Method to return church 
+	 * @return the church
+	 */
+	public ChurchEntity getChurch() {
+		return church;
+	}
+
+	/**
+	 * Method to set church
+	 * @param church the church to set
+	 */
+	public void setChurch(ChurchEntity church) {
+		this.church = church;
 	}
 
 	/**

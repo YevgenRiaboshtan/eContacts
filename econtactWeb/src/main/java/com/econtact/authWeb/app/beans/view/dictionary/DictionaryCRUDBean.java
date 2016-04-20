@@ -50,6 +50,8 @@ public class DictionaryCRUDBean extends AbstractViewBean {
 					.getLocalizedMessage(LocaleLabels.PERSON_AGE_RANGE_UD_PARAM_DICT_LABEL)));
 			paramDicts.add(new SelectItem(NamesDictConstant.PERSON_STATUS, labelsHelper
 					.getLocalizedMessage(LocaleLabels.PERSON_STATUS_UD_PARAM_DICT_LABEL)));
+			paramDicts.add(new SelectItem(NamesDictConstant.PERSON_SEX, labelsHelper
+					.getLocalizedMessage(LocaleLabels.PERSON_SEX_UD_PARAM_DICT_LABEL)));
 		}
 		return paramDicts;
 	}
@@ -58,7 +60,7 @@ public class DictionaryCRUDBean extends AbstractViewBean {
 		if (univerDictModel == null) {
 			univerDictModel = new CollectionDataModel<UniverDictEntity>(
 					StringUtils.isBlank(selectedParamDict) ? Collections.<UniverDictEntity> emptyList()
-							: univerDictService.findUniverDictByParamDict(selectedParamDict));
+							: univerDictService.findUniverDictByParamDict(selectedParamDict, userSessionBean.getCurrentChurch()));
 		}
 		return univerDictModel;
 	}
@@ -66,6 +68,7 @@ public class DictionaryCRUDBean extends AbstractViewBean {
 	public void addUniverDict() {
 		if (StringUtils.isNotBlank(selectedParamDict) && StringUtils.isNotBlank(nameRecDict)) {
 			UniverDictEntity entity = new UniverDictEntity();
+			entity.setChurch(userSessionBean.getCurrentChurch());
 			entity.setAbrRecDict(abrRecDict);
 			entity.setNameRecDict(nameRecDict);
 			entity.setParamDict(selectedParamDict);

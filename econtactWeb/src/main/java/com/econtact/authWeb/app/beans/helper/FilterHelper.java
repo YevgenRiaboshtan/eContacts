@@ -16,6 +16,7 @@ import javax.inject.Named;
 import org.apache.commons.lang.StringUtils;
 import org.primefaces.component.inputtext.InputText;
 
+import com.econtact.authWeb.app.beans.view.UserSessionBean;
 import com.econtact.authWeb.app.utils.FilterUtils;
 import com.econtact.authWeb.app.utils.WebUtils;
 import com.econtact.dataModel.data.service.UniverDictService;
@@ -31,6 +32,9 @@ public class FilterHelper implements Serializable{
 	UniverDictService univerDictService;
 	
 	@Inject
+	UserSessionBean userSessionBean;
+	
+	@Inject
 	LabelsHelper labelsHelper;
 	
 	/**
@@ -43,7 +47,7 @@ public class FilterHelper implements Serializable{
 		SelectItem allItem = new SelectItem(null, "");
 		allItem.setNoSelectionOption(true);
 		items.add(allItem);
-		univerDictService.findUniverDictByParamDict(dictionaryName)
+		univerDictService.findUniverDictByParamDict(dictionaryName, userSessionBean.getCurrentChurch())
 			.stream().forEach(item -> items.add(new SelectItem(item, item.getNameRecDict())));
 		return items;
 	}

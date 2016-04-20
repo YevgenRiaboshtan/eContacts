@@ -5,17 +5,16 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedAttributeNode;
-import javax.persistence.NamedEntityGraph;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
@@ -32,12 +31,9 @@ import com.econtact.dataModel.model.entity.ConstraintHelper;
 @Audited
 @AuditTable(value = "user_account_aud", schema = EntityHelper.E_CONTACT_SCHEMA)
 @SQLDelete(sql = "UPDATE econtactschema.user_account set sign = id where id = ? and version = ?")
-@NamedEntityGraph(name = AccountUserEntity.ACCOUNT_PARENT_GRAPH, attributeNodes = @NamedAttributeNode(AccountUserEntity.PARENT_USER_A))
 public class AccountUserEntity extends AbstractUserEntity implements AuditSupport {
 	private static final long serialVersionUID = -8588130700569489485L;
 	private static final String NOTE_PATTERN = "Пользователь ID: '%s'";
-
-	public static final String ACCOUNT_PARENT_GRAPH = "account.parentUser.graph";
 
 	public static final String ROLE_A = "role";
 	public static final String PARENT_USER_A = "parentUser";
@@ -91,9 +87,10 @@ public class AccountUserEntity extends AbstractUserEntity implements AuditSuppor
 	/**
 	 * Вышестоящий пользователь. Parent User. {@link SessionUserEntity}
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "id_parent_user_fk")
 	@NotAudited
+	@Fetch(FetchMode.SELECT)
 	private SessionUserEntity parentUser;
 
 	/**
