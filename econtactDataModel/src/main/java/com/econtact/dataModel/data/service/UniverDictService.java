@@ -41,7 +41,7 @@ public interface UniverDictService {
 	 * @param idRecDict - idRecDict value
 	 * @return - {@link UniverDictEntity} entity.
 	 */
-	UniverDictEntity findByParamDictAndIdRecDict(String paramDict, Integer idRecDict);
+	//UniverDictEntity findByParamDictAndIdRecDict(String paramDict, Integer idRecDict);
 
 	/**
 	 * Find {@link UniverDictEntity} entity by paramDict and idRecDict in church

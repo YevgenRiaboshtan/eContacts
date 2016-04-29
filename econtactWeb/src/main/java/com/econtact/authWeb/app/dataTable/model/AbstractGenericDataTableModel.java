@@ -1,6 +1,7 @@
 package com.econtact.authWeb.app.dataTable.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,8 @@ public abstract class AbstractGenericDataTableModel<T extends AbstractView> exte
 	
 	private Map<String, T> cache = new HashMap<String, T>();
 	private Map<String, FilterDataTypeEnum> filterDataTypes = new HashMap<>();
+	
+	protected List<T> emptyResult = Collections.<T>emptyList();
 	
 	public AbstractGenericDataTableModel(DataTable table, UserContext userContext) {
 		super();
@@ -86,7 +89,13 @@ public abstract class AbstractGenericDataTableModel<T extends AbstractView> exte
 	
 	private List<T> find(int first, int pageSize, List<SortingInfo> orders, Map<String, Object> filters) {
 		SearchCriteria<T> criteria = createQueries();
-		criteria.andFilter(makeFilters(filters));
+		try {
+			criteria.andFilter(makeFilters(filters));
+			//FIXME need handle correct exception
+		} catch (Exception e) {
+			this.setRowCount(0);
+			return emptyResult;
+		}
 		for (SortingInfo item : orders) {
 			criteria.addSortingInfo(item.getColumnName(), item.isAscending());
 		}

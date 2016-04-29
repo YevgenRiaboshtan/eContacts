@@ -13,108 +13,49 @@ import javax.faces.bean.ViewScoped;
 public class TestBean implements Serializable {
 	private static final long serialVersionUID = -292856430946906320L;
 
-	public void test() {
-		System.out.println("blank");
-		Map<String, String> res = decode("");
-		if (res != null) {
-			for(Entry<String, String> entry : res.entrySet()) {
-				System.out.println(entry.getKey() + " " + entry.getValue());
-			}
-		}
-		System.out.println("null");
-		res = decode(null);
-		if (res != null) {
-			for(Entry<String, String> entry : res.entrySet()) {
-				System.out.println(entry.getKey() + " " + entry.getValue());
-			}
-		}
-		System.out.println("one=1&two=");
-		res = decode("one=1&two=");
-		if (res != null) {
-			for(Entry<String, String> entry : res.entrySet()) {
-				System.out.println(entry.getKey() + " " + entry.getValue());
-			}
-		}
-		System.out.println("one=1&=2");
-		res = decode("one=1&=2");
-		if (res != null) {
-			for(Entry<String, String> entry : res.entrySet()) {
-				System.out.println(entry.getKey() + " " + entry.getValue());
-			}
-		}
-		System.out.println("one=1&two2");
-		try{
-			res = decode("one=1&two=2=1");
-			if (res != null) {
-				for(Entry<String, String> entry : res.entrySet()) {
-					System.out.println(entry.getKey() + " " + entry.getValue());
-				}
-			}
-		} catch (IllegalArgumentException e) {
-			System.out.println("Exception");
-		}
+	private String i1;
+	private String i2;
+	
+	
+	public void add() {
 		
-		/*System.out.println(findArray(new int[] {}, new int[] {}));
-		System.out.println(findArray(new int[] { 1 }, new int[] {}));
-		System.out.println(findArray(new int[] {}, new int[] { 1 }));
-		System.out.println(findArray(new int[] { 4, 9, 3, 7, 8 }, new int[] { 3, 7 }));
-		System.out.println(findArray(new int[] { 1, 3, 5 }, new int[] { 1 }));
-		System.out.println(findArray(new int[] { 7, 8, 9 }, new int[] { 8, 9, 10 }));
-		System.out.println(findArray(new int[] { 4, 9, 3, 7, 8, 3, 7, 1 }, new int[] { 3, 7 }));
-		System.out.println(findArray(new int[] { 11, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 1,
-				3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 1, 3,
-				3, 3, 1, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 1, 3, 3, 3, 3, 3, 31, 3, 3, 3,
-				1, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 1, 3, 3, 3, 3, 3, 31, 3, 3, 3, 1, 3, 3, 3, 3, 3, 31, 3, 3, 3, 1, 3, 3,
-				3, 3, 3, 31, 3, 3, 3, 1, 3, 3, 3, 3, 3, 31, 3, 3, 3, 1, 3, 3, 3, 3, 3, 31, 3, 3, 3, 1, 3, 3, 3, 3, 3,
-				31, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3 }, new int[] { 11, 3 }));*/
 	}
-
-	public int findArray(int[] array, int[] subArray) {
-		if (array.length < subArray.length || array.length == 0 || subArray.length == 0) {
-			return -1;
-		}
-
-		int subArrayCheckInxed = subArray.length - 1;
-
-		for (int i = array.length - 1; i >= 0; i--) {
-			if (array[i] == subArray[subArrayCheckInxed]) {
-				if (subArrayCheckInxed == 0) {
-					return i;
-				} else {
-					subArrayCheckInxed--;
-				}
-			} else {
-				i += subArray.length - subArrayCheckInxed - 1;
-				subArrayCheckInxed = subArray.length - 1;
-			}
-		}
-		return -1;
-	}
-
-	public Map<String, String> decode(String s) {
-		if (s == null) {
-			return null;
-		}
-		String[] pair;
-		Map<String, String> result = new HashMap<String, String>();
-		if (s.trim().isEmpty()) {
-			return result;
-		}
-		for (String pairItem : s.split("&")) {
-			pair = pairItem.split("=");
-			if (!pairItem.contains("=")
-					|| pair.length > 2) {
-				throw new IllegalArgumentException();
-			}
-			if (pair.length == 2) {
-				result.put(pair[0], pair[1]);
-			} else if (pairItem.startsWith("=")){
-				result.put("", pair[0]);
-			} else {
-				result.put(pair[0], "");
-			}
-		}
+	
+	public void submit() {
 		
-		return result;
 	}
+	
+	/**
+	 * Method to return i1 
+	 * @return the i1
+	 */
+	public String getI1() {
+		return i1;
+	}
+
+	/**
+	 * Method to set i1
+	 * @param i1 the i1 to set
+	 */
+	public void setI1(String i1) {
+		this.i1 = i1;
+	}
+
+	/**
+	 * Method to return i2 
+	 * @return the i2
+	 */
+	public String getI2() {
+		return i2;
+	}
+
+	/**
+	 * Method to set i2
+	 * @param i2 the i2 to set
+	 */
+	public void setI2(String i2) {
+		this.i2 = i2;
+	}
+
+	
 }

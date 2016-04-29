@@ -36,8 +36,7 @@ public class DictionaryCRUDBean extends AbstractViewBean {
 	private CollectionDataModel<UniverDictEntity> univerDictModel;
 	private List<SelectItem> paramDicts;
 	private String selectedParamDict;
-	private String abrRecDict;
-	private String nameRecDict;
+	private UniverDictEntity entity = new UniverDictEntity();
 
 	public List<SelectItem> getParamDicts() {
 		if (paramDicts == null) {
@@ -60,26 +59,37 @@ public class DictionaryCRUDBean extends AbstractViewBean {
 		if (univerDictModel == null) {
 			univerDictModel = new CollectionDataModel<UniverDictEntity>(
 					StringUtils.isBlank(selectedParamDict) ? Collections.<UniverDictEntity> emptyList()
-							: univerDictService.findUniverDictByParamDict(selectedParamDict, userSessionBean.getCurrentChurch()));
+							: univerDictService.findUniverDictByParamDict(selectedParamDict));
 		}
 		return univerDictModel;
 	}
 
 	public void addUniverDict() {
-		if (StringUtils.isNotBlank(selectedParamDict) && StringUtils.isNotBlank(nameRecDict)) {
-			UniverDictEntity entity = new UniverDictEntity();
-			entity.setChurch(userSessionBean.getCurrentChurch());
-			entity.setAbrRecDict(abrRecDict);
-			entity.setNameRecDict(nameRecDict);
+		if (StringUtils.isNotBlank(selectedParamDict)) {
 			entity.setParamDict(selectedParamDict);
-			entity.setIdRecDict(((Collection<UniverDictEntity>) univerDictModel.getWrappedData()).isEmpty() ? 1
-					: ((Collection<UniverDictEntity>) univerDictModel.getWrappedData()).stream()
+			if (!((Collection<UniverDictEntity>) univerDictModel.getWrappedData()).isEmpty()) {
+				if (((Collection<UniverDictEntity>) univerDictModel.getWrappedData()).stream().filter(item -> {return item.getChurch().equals(entity.getChurch());}).count() > 0) {
+					entity.setIdRecDict(((Collection<UniverDictEntity>) univerDictModel.getWrappedData()).stream().filter(item -> {return item.getChurch().equals(entity.getChurch());})
 							.max((i1, i2) -> i1.getIdRecDict().compareTo(i2.getIdRecDict())).get().getIdRecDict() + 1);
+				} else {
+					entity.setIdRecDict(1);
+				}
+			} else {
+				entity.setIdRecDict(1);
+			}		
+			
 			univerDictService.saveOrUpdate(entity, userSessionBean.getUserContext());
 			univerDictModel = null;
+			entity = new UniverDictEntity();
 		}
-		abrRecDict = "";
-		nameRecDict = "";
+	}
+
+	public List<SelectItem> getChurchs() {
+		List<SelectItem> result = new ArrayList<SelectItem>();
+		userSessionBean.getAvailableChurchs().stream().filter(item -> {
+			return item.getOwner().equals(userSessionBean.getPrincipal());
+		}).forEach(item -> result.add(new SelectItem(item, item.getNameChurch())));
+		return result;
 	}
 
 	public void removeUniverDict(UniverDictEntity entity) {
@@ -113,40 +123,21 @@ public class DictionaryCRUDBean extends AbstractViewBean {
 	}
 
 	/**
-	 * Method to return abrRecDict
+	 * Method to return entity
 	 * 
-	 * @return the abrRecDict
+	 * @return the entity
 	 */
-	public String getAbrRecDict() {
-		return abrRecDict;
+	public UniverDictEntity getEntity() {
+		return entity;
 	}
 
 	/**
-	 * Method to set abrRecDict
+	 * Method to set entity
 	 * 
-	 * @param abrRecDict
-	 *            the abrRecDict to set
+	 * @param entity
+	 *            the entity to set
 	 */
-	public void setAbrRecDict(String abrRecDict) {
-		this.abrRecDict = abrRecDict;
-	}
-
-	/**
-	 * Method to return nameRecDict
-	 * 
-	 * @return the nameRecDict
-	 */
-	public String getNameRecDict() {
-		return nameRecDict;
-	}
-
-	/**
-	 * Method to set nameRecDict
-	 * 
-	 * @param nameRecDict
-	 *            the nameRecDict to set
-	 */
-	public void setNameRecDict(String nameRecDict) {
-		this.nameRecDict = nameRecDict;
+	public void setEntity(UniverDictEntity entity) {
+		this.entity = entity;
 	}
 }

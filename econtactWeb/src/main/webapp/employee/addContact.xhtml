@@ -7,30 +7,145 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	template="/WEB-INF/templates/default.xhtml">
 	<ui:define name="content">
+		<script type="text/javascript">
+		$(document).ready(function() {
+		    
+		    $('#mainForm').validate({
+		        rules: {
+		            field1: {
+		                require_from_group: [1, '.mygroup']
+		            },
+		            field2: {
+		                require_from_group: [1, '.mygroup']
+		            }
+		        },
+		        groups: {
+		            mygroup: "field1 field2"
+		        },
+		        submitHandler: function(form) { // for demo
+		            alert('valid form');
+		            return false;
+		        }
+		    });
+		    
+		});
+		</script>
 	Add new contact
 	<p:panel>
-			<h:form>
-			<h:panelGrid columns="5">
-				<p:outputLabel value="#{viewMsg['addContact.first.name.label']}"></p:outputLabel>
-				<p:outputLabel value="#{viewMsg['addContact.middle.name.label']}"></p:outputLabel>
-				<p:outputLabel value="#{viewMsg['addContact.last.name.label']}"></p:outputLabel>
-				<p:outputLabel value="#{viewMsg['addContact.sex.label']}"></p:outputLabel>
-				<p:outputLabel value="#{viewMsg['addContact.status.label']}"></p:outputLabel>
-				
-				<p:inputText value="#{addContactBean.entity.firstName}"></p:inputText>
-				<p:inputText value="#{addContactBean.entity.middleName}"></p:inputText>
-				<p:inputText value="#{addContactBean.entity.lastName}"></p:inputText>
-				<p:selectOneMenu value="#{addContactBean.entity.sex}">
-					<f:selectItems value="#{filterHelper.getUniverDictSelectItems('PERSON_SEX')}"></f:selectItems>
-				</p:selectOneMenu>
-				<p:selectOneMenu value="#{addContactBean.entity.statusUd}">
-					<f:selectItems value="#{filterHelper.getUniverDictSelectItems('PERSON_STATUS')}"></f:selectItems>
-				</p:selectOneMenu>
-			</h:panelGrid>
+			<h:form id="mainForm" prependId="false">
 				<p:messages id="messages" closable="true" autoUpdate="true" />
+				<h:panelGrid id="personPanel" columns="6">
+					<p:outputLabel value="#{viewMsg['addContact.first.name.label']}"
+						name="field1" styleClass="mygroup"></p:outputLabel>
+					<p:outputLabel value="#{viewMsg['addContact.middle.name.label']}"
+						name="field2" styleClass="mygroup"></p:outputLabel>
+					<p:outputLabel value="#{viewMsg['addContact.last.name.label']}"></p:outputLabel>
+					<p:outputLabel value="#{viewMsg['addContact.sex.label']}"></p:outputLabel>
+					<p:outputLabel value="#{viewMsg['addContact.status.label']}"></p:outputLabel>
+					<p:outputLabel value="#{viewMsg['addContact.ageRande.label']}"></p:outputLabel>
+
+					<p:inputText value="#{addContactBean.entity.firstName}"></p:inputText>
+					<p:inputText value="#{addContactBean.entity.middleName}"></p:inputText>
+					<p:inputText value="#{addContactBean.entity.lastName}"></p:inputText>
+					<p:selectOneMenu value="#{addContactBean.entity.sex}"
+						converter="univerDictConvert">
+						<f:selectItems
+							value="#{filterHelper.getUniverDictSelectItems('PERSON_SEX', true)}"></f:selectItems>
+					</p:selectOneMenu>
+					<p:selectOneMenu value="#{addContactBean.entity.statusUd}"
+						converter="univerDictConvert">
+						<f:selectItems
+							value="#{filterHelper.getUniverDictSelectItems('PERSON_STATUS', true)}"></f:selectItems>
+					</p:selectOneMenu>
+					<p:selectOneMenu value="#{addContactBean.entity.ageRangeUd}"
+						converter="univerDictConvert">
+						<f:selectItems
+							value="#{filterHelper.getUniverDictSelectItems('PERSON_AGE_RANGE', true)}"></f:selectItems>
+					</p:selectOneMenu>
+				</h:panelGrid>
+
+				<h:panelGrid id="addressPanel" columns="4">
+					<p:outputLabel value="#{viewMsg['addContact.address.city.label']}"></p:outputLabel>
+					<p:outputLabel
+						value="#{viewMsg['addContact.address.street.label']}"></p:outputLabel>
+					<p:outputLabel
+						value="#{viewMsg['addContact.address.number.label']}"></p:outputLabel>
+					<p:outputLabel value="#{viewMsg['addContact.address.flat.label']}"></p:outputLabel>
+
+					<p:inputText value="#{addContactBean.entity.address.city}"></p:inputText>
+					<p:inputText value="#{addContactBean.entity.address.street}"></p:inputText>
+					<p:inputText value="#{addContactBean.entity.address.number}"></p:inputText>
+					<p:inputText value="#{addContactBean.entity.address.flat}"></p:inputText>
+
+					<p:outputLabel value="#{viewMsg['addContact.address.zip.label']}"></p:outputLabel>
+					<p:outputLabel
+						value="#{viewMsg['addContact.address.country.label']}"></p:outputLabel>
+					<p:outputLabel value="#{viewMsg['addContact.address.state.label']}"></p:outputLabel>
+					<p:outputLabel
+						value="#{viewMsg['addContact.address.region.label']}"></p:outputLabel>
+
+					<p:inputText value="#{addContactBean.entity.address.zip}"></p:inputText>
+					<p:inputText value="#{addContactBean.entity.address.country}"></p:inputText>
+					<p:inputText value="#{addContactBean.entity.address.state}"></p:inputText>
+					<p:inputText value="#{addContactBean.entity.address.region}"></p:inputText>
+				</h:panelGrid>
+
+				<table>
+					<tr>
+						<td><p:outputLabel
+								value="#{viewMsg['addContact.contact.type.label']}"></p:outputLabel>
+						</td>
+						<td><p:outputLabel
+								value="#{viewMsg['addContact.contact.value.label']}"
+								for="addContactValue"></p:outputLabel></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><p:selectOneMenu id="addContactType"
+								value="#{addContactBean.addingContact.typeUd}" required="true"
+								converter="univerDictConvert">
+								<f:selectItems
+									value="#{filterHelper.getUniverDictSelectItems('CONTACT_TYPE', false)}"></f:selectItems>
+							</p:selectOneMenu></td>
+						<td><p:inputText id="addContactValue" styleClass="notr"
+								value="#{addContactBean.addingContact.value}" required="true"></p:inputText>
+						</td>
+						<td><p:commandButton value="+" ajax="true"
+								actionListener="#{addContactBean.addContact()}"
+								partialSubmit="true" process="addContactType addContactValue"
+								update="contactsTable addContactType addContactValue"></p:commandButton></td>
+					</tr>
+				</table>
+
+				<p:dataTable id="contactsTable"
+					value="#{addContactBean.entity.contacts}" var="contact"
+					emptyMessage="#{viewMsg['datatable.empty.message']}">
+					<p:column>
+						<p:rowEditor></p:rowEditor>
+					</p:column>
+					<p:column>
+						<p:cellEditor>
+							<f:facet name="output">
+								<p:outputLabel value="#{contact.typeUd.nameRecDict}"></p:outputLabel>
+							</f:facet>
+							<f:facet name="input">
+								<p:selectOneMenu value="#{contact.typeUd}"
+									converter="univerDictConvert">
+									<f:selectItems
+										value="#{filterHelper.getUniverDictSelectItems('CONTACT_TYPE', false)}"></f:selectItems>
+								</p:selectOneMenu>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column>
+						<p:outputLabel value="#{contact.value}"></p:outputLabel>
+					</p:column>
+				</p:dataTable>
+
 				<p:commandButton
 					value="#{viewMsg['addContact.saveAndCreate.btn.label']}"
-					ajax="true" actionListener="#{addContactBean.saveAndCreate}"></p:commandButton>
+					ajax="true" actionListener="#{addContactBean.saveAndCreate}"
+					process="@(form :not(.notr))"></p:commandButton>
 				<p:commandButton
 					value="#{viewMsg['addContact.saveAndExit.btn.label']}" ajax="true"
 					actionListener="#{addContactBean.saveAndExit}"></p:commandButton>

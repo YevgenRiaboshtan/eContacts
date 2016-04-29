@@ -20,7 +20,7 @@ public class UniverDictConverter implements Converter {
 			return null;
 		}
 		//FIXME use autowire or inject or EJB annotation
-		return WebUtils.getBean(UniverDictService.class).findById(new BigDecimal(value));
+		return WebUtils.getBean(UniverDictService.class).findById(BigDecimal.valueOf(Long.valueOf(value)));
 	}
 
 	@Override

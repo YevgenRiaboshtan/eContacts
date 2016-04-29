@@ -69,6 +69,12 @@ public class LocaleLabels {
 	 */
 	public static final String SELECT_NORMAL_MODE = "selectChurch.normal.mode";
 
+	/**
+	 * Укажите Фамилию Имя или Отчество
+	 * First, middle or last name must be write
+	 */
+	public static final String ADD_CONTACT_FIO_VALIDATION_MESSAGE = "addContact.fio.validate.message";
+	
 	private LocaleLabels() {
 	};
 }

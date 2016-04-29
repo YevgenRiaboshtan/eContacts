@@ -3,6 +3,7 @@ package com.econtact.authWeb.app.beans.view;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.function.Function;
@@ -63,6 +64,10 @@ public class UserSessionBean implements Serializable {
 	
 	public SessionUserEntity getPrincipal() {
 		return principal.getUserAccount();
+	}
+	
+	public List<ChurchEntity> getAvailableChurchs() {
+		return principal.getAvailableChurchs();
 	}
 	
 	public boolean isAdminMode() {

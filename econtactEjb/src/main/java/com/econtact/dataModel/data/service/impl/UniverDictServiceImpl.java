@@ -42,11 +42,11 @@ public class UniverDictServiceImpl implements UniverDictService {
 
 	private final Lock lock = new ReentrantLock();
 
-	private Reference<Map<String, Map<Integer, BigDecimal>>> univerDictLinksRef;
+	private Reference<Map<BigDecimal, Map<String, Map<Integer, BigDecimal>>>> univerDictLinksRef;
 
 	@PostConstruct
 	public void postConstruct() {
-		final Map<String, Map<Integer, BigDecimal>> univerDictLinks = getUniverDictLinks();
+		final Map<BigDecimal, Map<String, Map<Integer, BigDecimal>>> univerDictLinks = getUniverDictLinks();
 		univerDictLinksRef = new SoftReference<>(univerDictLinks);
 	}
 
@@ -68,20 +68,18 @@ public class UniverDictServiceImpl implements UniverDictService {
 	public List<UniverDictEntity> findUniverDictByParamDict(String paramDict, ChurchEntity church) {
 		lock.lock();
 		try {
-			final Map<String, Map<Integer, BigDecimal>> univerDictLinks = getUniverDictLinks();
-			final Map<Integer, BigDecimal> idRecLinks = univerDictLinks.get(paramDict);
+			final Map<BigDecimal, Map<String, Map<Integer, BigDecimal>>> univerDictLinks = getUniverDictLinks();
+			final Map<String, Map<Integer, BigDecimal>> churchUniverDictLinks = univerDictLinks.get(church.getId());
+			final Map<Integer, BigDecimal> idRecLinks = churchUniverDictLinks.get(paramDict);
 			final List<UniverDictEntity> result = new ArrayList<>();
 			if (idRecLinks == null || idRecLinks.isEmpty()) {
 				return result;
 			}
-			idRecLinks.values().stream().forEach(id -> {
+			idRecLinks.values().forEach(id -> {
 				UniverDictEntity entity = em.find(UniverDictEntity.class, id);
-				if (church == null) {
+				if (church == null
+						|| church.getId().equals(entity.getChurch().getId())) {
 					result.add(entity);
-				} else {
-					if (church.getId().equals(entity.getChurch().getId())) {
-						result.add(entity);
-					}
 				}
 			});
 			return result;
@@ -92,7 +90,21 @@ public class UniverDictServiceImpl implements UniverDictService {
 	
 	@Override
 	public List<UniverDictEntity> findUniverDictByParamDict(String paramDict) {
-		return findUniverDictByParamDict(paramDict, null);
+		lock.lock();
+		try {
+			final Map<BigDecimal, Map<String, Map<Integer, BigDecimal>>> univerDictLinks = getUniverDictLinks();
+			final List<UniverDictEntity> result = new ArrayList<UniverDictEntity>();
+			for (Map<String, Map<Integer, BigDecimal>> churchUd : univerDictLinks.values()) {
+				if (churchUd.containsKey(paramDict)) {
+					churchUd.get(paramDict).values().forEach(id -> {
+						result.add(em.find(UniverDictEntity.class, id));
+					});
+				}
+			}
+			return result;
+		} finally {
+			lock.unlock();
+		}
 	}
 	
 	@Override
@@ -105,10 +117,10 @@ public class UniverDictServiceImpl implements UniverDictService {
 		}
 	}
 	
-	@Override
+	/*@Override
 	public UniverDictEntity findByParamDictAndIdRecDict(String paramDict, Integer idRecDict) {
 		return findByParamDictAndIdRecDict(paramDict, idRecDict, null);
-	}
+	}*/
 
 	@Override
 	public UniverDictEntity saveOrUpdate(UniverDictEntity entity, UserContext userContext) {
@@ -144,20 +156,25 @@ public class UniverDictServiceImpl implements UniverDictService {
 		}
 	}
 
-	private Map<String, Map<Integer, BigDecimal>> getUniverDictLinks() {
-		Map<String, Map<Integer, BigDecimal>> result = univerDictLinksRef == null ? null : univerDictLinksRef.get();
+	private Map<BigDecimal, Map<String, Map<Integer, BigDecimal>>> getUniverDictLinks() {
+		Map<BigDecimal, Map<String, Map<Integer, BigDecimal>>> result = univerDictLinksRef == null ? null : univerDictLinksRef.get();
 		if (result == null) {
-			// Logger.info(UniverDictServiceImpl.class, "Caching UniverDictEntity by paramDict and idRecDict");
 			result = new HashMap<>();
 			univerDictLinksRef = new SoftReference<>(result);
 			final Query query = em.createNamedQuery(UniverDictEntity.FIND_ALL, UniverDictEntity.class);
 			query.setParameter(EntityHelper.SIGN_A, EntityHelper.ACTUAL_SIGN);
 			final List<UniverDictEntity> entities = query.getResultList();
 			for (UniverDictEntity entity : entities) {
-				Map<Integer, BigDecimal> idRecLinks = result.get(entity.getParamDict());
+				Map<String, Map<Integer, BigDecimal>> churchUdLinks = result.get(entity.getChurch().getId());
+			
+				if (churchUdLinks == null) {
+					churchUdLinks = new HashMap<String, Map<Integer,BigDecimal>>();
+					result.put(entity.getChurch().getId(), churchUdLinks);
+				}
+				Map<Integer, BigDecimal> idRecLinks = churchUdLinks.get(entity.getParamDict());
 				if (idRecLinks == null) {
 					idRecLinks = new HashMap<>();
-					result.put(entity.getParamDict(), idRecLinks);
+					churchUdLinks.put(entity.getParamDict(), idRecLinks);
 				}
 				idRecLinks.put(entity.getIdRecDict(), entity.getId());
 			}

@@ -43,11 +43,12 @@ import com.econtact.dataModel.model.entity.church.ChurchEntity;
 public class UniverDictEntity extends AbstractEntity<BigDecimal> implements AuditSupport {
 	private static final long serialVersionUID = 1330174188604544322L;
 	private static final String NOTE_PATTERN = "Довідник ID: '%s', Назва довідника в універсальному довіднику: '%s'";
-
+	private static final String SEQ_NAME = "univerDictSeq";
+	
 	public static final String FIND_ALL = "UniverDictEntity.findAll";
 	public static final String PARAM_DICT_A = "paramDict";
-
-	private static final String SEQ_NAME = "univerDictSeq";
+	public static final String CHURCH_A = "church";
+	
 
 	/**
 	 * Идентификатор универсального справочника. Identifier of the Univerdict Entity.
@@ -102,7 +103,7 @@ public class UniverDictEntity extends AbstractEntity<BigDecimal> implements Audi
 	private BigDecimal sign;
 
 	@ManyToOne
-	@JoinColumn(name = "id_church_fk")
+	@JoinColumn(name = "id_church_fk", nullable = false)
 	@Fetch(FetchMode.SELECT)
 	private ChurchEntity church;
 

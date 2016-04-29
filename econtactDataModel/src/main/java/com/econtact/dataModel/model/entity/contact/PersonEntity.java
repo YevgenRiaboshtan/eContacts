@@ -30,6 +30,7 @@ import com.econtact.dataModel.data.context.EJBContext;
 import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.entity.AbstractEntity;
 import com.econtact.dataModel.model.entity.church.ChurchEntity;
+import com.econtact.dataModel.model.entity.dictionary.NamesDictConstant;
 import com.econtact.dataModel.model.entity.dictionary.UniverDictEntity;
 
 @Entity
@@ -73,15 +74,17 @@ public class PersonEntity extends AbstractEntity<BigDecimal> {
 	private Date birthday;
 
 	/**
-	 * Person sex
+	 * Person sex. {@link UniverDictEntity} entity with {@link UniverDictEntity#getParamDict()} =
+	 * {@link NamesDictConstant#PERSON_SEX}
 	 */
 	@ManyToOne
 	@JoinColumn(name = "id_sex_uf_fk")
 	@Fetch(FetchMode.SELECT)
 	private UniverDictEntity sex;
-	
+
 	/**
-	 * Person age range.
+	 * Person age range. {@link UniverDictEntity} entity with {@link UniverDictEntity#getParamDict()} =
+	 * {@link NamesDictConstant#PERSON_AGE_RANGE}.
 	 */
 	@ManyToOne
 	@JoinColumn(name = "id_age_range_ud_fk")
@@ -89,7 +92,8 @@ public class PersonEntity extends AbstractEntity<BigDecimal> {
 	private UniverDictEntity ageRangeUd;
 
 	/**
-	 * Person status.
+	 * Person status. {@link UniverDictEntity} entity with {@link UniverDictEntity#getParamDict()} =
+	 * {@link NamesDictConstant#PERSON_STATUS}
 	 */
 	@ManyToOne
 	@JoinColumn(name = "id_status_ud_fk")
@@ -97,20 +101,20 @@ public class PersonEntity extends AbstractEntity<BigDecimal> {
 	private UniverDictEntity statusUd;
 
 	/**
-	 * Peson address
+	 * Peson address {@link AddressEntity}
 	 */
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_address_fk")
 	private AddressEntity address;
 
 	/**
-	 * Person church
+	 * Person church {@link ChurchEntity}
 	 */
 	@ManyToOne
 	@JoinColumn(name = "id_church_fk", nullable = false)
 	@Fetch(FetchMode.SELECT)
 	private ChurchEntity church;
-	
+
 	/**
 	 * Person contacts
 	 */
@@ -231,7 +235,8 @@ public class PersonEntity extends AbstractEntity<BigDecimal> {
 	}
 
 	/**
-	 * Method to return sex 
+	 * Method to return sex
+	 * 
 	 * @return the sex
 	 */
 	public UniverDictEntity getSex() {
@@ -240,7 +245,9 @@ public class PersonEntity extends AbstractEntity<BigDecimal> {
 
 	/**
 	 * Method to set sex
-	 * @param sex the sex to set
+	 * 
+	 * @param sex
+	 *            the sex to set
 	 */
 	public void setSex(UniverDictEntity sex) {
 		this.sex = sex;
@@ -285,7 +292,8 @@ public class PersonEntity extends AbstractEntity<BigDecimal> {
 	}
 
 	/**
-	 * Method to return address 
+	 * Method to return address
+	 * 
 	 * @return the address
 	 */
 	public AddressEntity getAddress() {
@@ -294,7 +302,9 @@ public class PersonEntity extends AbstractEntity<BigDecimal> {
 
 	/**
 	 * Method to set address
-	 * @param address the address to set
+	 * 
+	 * @param address
+	 *            the address to set
 	 */
 	public void setAddress(AddressEntity address) {
 		this.address = address;
@@ -350,7 +360,8 @@ public class PersonEntity extends AbstractEntity<BigDecimal> {
 	}
 
 	/**
-	 * Method to return church 
+	 * Method to return church
+	 * 
 	 * @return the church
 	 */
 	public ChurchEntity getChurch() {
@@ -359,7 +370,9 @@ public class PersonEntity extends AbstractEntity<BigDecimal> {
 
 	/**
 	 * Method to set church
-	 * @param church the church to set
+	 * 
+	 * @param church
+	 *            the church to set
 	 */
 	public void setChurch(ChurchEntity church) {
 		this.church = church;

@@ -13,6 +13,7 @@ import javax.persistence.PreUpdate;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.SQLDelete;
 
 import com.econtact.dataModel.data.context.EJBContext;
@@ -290,6 +291,24 @@ public class AddressEntity extends AbstractEntity<BigDecimal> {
 	 */
 	public void setSign(BigDecimal sign) {
 		this.sign = sign;
+	}
+	
+	/**
+	 * Method check is entity fields are empty.
+	 * @return true - if entity fields are empty.
+	 */
+	public boolean isEmpty() {
+		boolean empty = true;
+		empty &= id == null;
+		empty &= StringUtils.isBlank(country);
+		empty &= StringUtils.isBlank(state);
+		empty &= StringUtils.isBlank(city);
+		empty &= StringUtils.isBlank(region);
+		empty &= StringUtils.isBlank(street);
+		empty &= StringUtils.isBlank(number);
+		empty &= StringUtils.isBlank(flat);
+		empty &= StringUtils.isBlank(zip);
+		return empty;
 	}
 	
 	@PrePersist

@@ -6,6 +6,7 @@ package com.econtact.dataModel.model.entity;
  * @author evgeniy
  *
  */
+@FunctionalInterface
 public interface AuditSupport {
 	
 	/**

@@ -9,6 +9,7 @@ import java.io.Serializable;
  *
  * @param <PK> - тип идентификтаора записи. Id`s type.
  */
+@FunctionalInterface
 public interface AbstractView<PK extends Serializable> extends Serializable {
 	
 	/**

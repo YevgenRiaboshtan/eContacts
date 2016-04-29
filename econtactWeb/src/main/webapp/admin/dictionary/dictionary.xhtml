@@ -20,16 +20,25 @@
 					</p:selectOneMenu>
 				</p:layoutUnit>
 				<p:layoutUnit position="center">
-					<h:panelGrid id="addPanel" columns="5">
+					<h:panelGrid id="addPanel" columns="4">
+						
+						
 						<p:outputLabel
 							value="#{viewMsg['dictionary.abrRecDict.column.name']}"></p:outputLabel>
-						<p:inputText maxlength="40"
-							value="#{dictionaryCRUDBean.abrRecDict}"></p:inputText>
 						<p:outputLabel
 							value="#{viewMsg['dictionary.nameRecDict.column.name']}"></p:outputLabel>
+						<p:outputLabel
+							value="#{viewMsg['dictionary.church.column.name']}"></p:outputLabel>
+						<div></div>
+						
+						<p:inputText maxlength="40"
+							value="#{dictionaryCRUDBean.entity.abrRecDict}"></p:inputText>
 						<p:inputText maxlength="200" required="true"
-							value="#{dictionaryCRUDBean.nameRecDict}"
+							value="#{dictionaryCRUDBean.entity.nameRecDict}"
 							label="#{viewMsg['dictionary.nameRecDict.column.name']}"></p:inputText>
+						<p:selectOneMenu value="#{dictionaryCRUDBean.entity.church}" converter="churchConverter" required="true">
+							<f:selectItems value="#{dictionaryCRUDBean.churchs}"></f:selectItems>
+						</p:selectOneMenu>
 						<p:commandButton id="addBtn" value="#{viewMsg['btn.add.label']}"
 							partialSubmit="true" process="addPanel"
 							update="addPanel univerDictTable messages"
@@ -40,7 +49,7 @@
 						emptyMessage="#{viewMsg['datatable.empty.message']}"
 						scrollable="true" editable="true" scrollHeight="181">
 						<p:ajax event="rowEdit" listener="#{dictionaryCRUDBean.onRowEdit}" />
-						<p:column>
+						<p:column width="50">
 							<p:rowEditor />
 						</p:column>
 						<p:column headerText="#{viewMsg['dictionary.idRecDic.colunm.name']}">
@@ -53,7 +62,7 @@
 									<h:outputText value="#{item.abrRecDict}" />
 								</f:facet>
 								<f:facet name="input">
-									<p:inputText value="#{item.abrRecDict}" style="width:97%" />
+									<p:inputText value="#{item.abrRecDict}" style="width:95%" />
 								</f:facet>
 							</p:cellEditor>
 						</p:column>
@@ -64,9 +73,12 @@
 									<h:outputText value="#{item.nameRecDict}" />
 								</f:facet>
 								<f:facet name="input">
-									<p:inputText value="#{item.nameRecDict}" style="width:97%" required="true" label="#{viewMsg['dictionary.nameRecDict.column.name']}"/>
+									<p:inputText value="#{item.nameRecDict}" style="width:95%" required="true" label="#{viewMsg['dictionary.nameRecDict.column.name']}"/>
 								</f:facet>
 							</p:cellEditor>
+						</p:column>
+						<p:column headerText="#{viewMsg['dictionary.church.column.name']}">
+							<p:outputLabel value="#{item.church.nameChurch}"/>
 						</p:column>
 						<p:column width="30">
 							<p:commandButton value="-"

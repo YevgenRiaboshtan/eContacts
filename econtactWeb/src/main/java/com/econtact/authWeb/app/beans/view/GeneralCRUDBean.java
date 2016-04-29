@@ -33,7 +33,7 @@ public abstract class GeneralCRUDBean<T extends AbstractEntity> extends Abstract
 	protected NavigationHelper navigationHelper;
 	
 	@Inject
-	LabelsHelper labelsHelper;
+	protected LabelsHelper labelsHelper;
 	
 	@EJB
 	protected GenericService genericService;
@@ -43,7 +43,7 @@ public abstract class GeneralCRUDBean<T extends AbstractEntity> extends Abstract
 	private boolean optimistickLockException = false;
 	
 	@PostConstruct
-	public void init() throws IOException {
+	public void init() {
 		String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get(NavigationHelper.ID_PARAM);
 		if (StringUtils.isNotBlank(id)) {
 			entityClass = (Class<T>) getParameterClass( 0, getClass());
@@ -51,7 +51,11 @@ public abstract class GeneralCRUDBean<T extends AbstractEntity> extends Abstract
 			if (entity != null) {
 				setEntity(entity);
 			} else {
-				cancelNavigate();
+				try {
+					cancelNavigate();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		} else {
 			setEntity(createDefaultEntity());
@@ -72,6 +76,9 @@ public abstract class GeneralCRUDBean<T extends AbstractEntity> extends Abstract
 
 	public void save() throws IOException {
 		try {
+			if (!validate()) {
+				return;
+			}
 			preSave();
 			entity = saveorUpdate(entity, userSessionBean.getUserContext());
 			afterSaveNavigate();
@@ -114,6 +121,10 @@ public abstract class GeneralCRUDBean<T extends AbstractEntity> extends Abstract
 	}
 	
 	protected void preSave() {
+	}
+	
+	protected boolean validate() {
+		return true;
 	}
 	
 	protected String getDefaultEntityGraph() {

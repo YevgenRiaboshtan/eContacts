@@ -40,15 +40,18 @@ public class FilterHelper implements Serializable{
 	/**
 	 * Возвращает список елементов комбобокса для фильтра
 	 * @param dictionaryName - название справочника
-	 * @return
+	 * @param optional - Добавлять ли пустой элемент комбобокса
+	 * @return - Список элементов {@link SelectItem}
 	 */
-	public List<SelectItem> getUniverDictSelectItems(String dictionaryName) {
+	public List<SelectItem> getUniverDictSelectItems(String dictionaryName, boolean optional) {
 		List<SelectItem> items = new ArrayList<>();
-		SelectItem allItem = new SelectItem(null, "");
-		allItem.setNoSelectionOption(true);
-		items.add(allItem);
+		if (optional) {
+			SelectItem allItem = new SelectItem(null, "");
+			allItem.setNoSelectionOption(true);
+			items.add(allItem);
+		}
 		univerDictService.findUniverDictByParamDict(dictionaryName, userSessionBean.getCurrentChurch())
-			.stream().forEach(item -> items.add(new SelectItem(item, item.getNameRecDict())));
+			.forEach(item -> items.add(new SelectItem(item, item.getNameRecDict())));
 		return items;
 	}
 	

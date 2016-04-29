@@ -47,7 +47,7 @@ public class NavigationHelper {
 	}
 	
 	public String getIndexPage() {
-		return new StringBuffer(getRootPath()).append("/").append(INDEX_PAGE).toString();
+		return new StringBuffer().append("/").append(INDEX_PAGE).toString();
 	}
 	
 	private String getRootPath() {

@@ -107,35 +107,35 @@ public final class FilterUtils {
 					field,
 					isLong 
 						? Long.valueOf(searchLine.substring("<>".length()).trim())
-						: new BigDecimal(searchLine.substring("<>".length()).trim()));
+						: BigDecimal.valueOf(Long.valueOf(searchLine.substring("<>".length()).trim())));
 		}
 		if (searchLine.startsWith("<=")) {
 			return new FilterDefLessEq(
 					field,
 					isLong
 						? Long.valueOf(searchLine.substring("<=".length()).trim())
-						: new BigDecimal(searchLine.substring("<=".length()).trim()));
+						: BigDecimal.valueOf(Long.valueOf(searchLine.substring("<=".length()).trim())));
 		}
 		if (searchLine.startsWith("<")) {
 			return new FilterDefLess(
 					field,
 					isLong 
 						? Long.valueOf(searchLine.substring("<".length()).trim())
-						: new BigDecimal(searchLine.substring("<".length()).trim()));
+						: BigDecimal.valueOf(Long.valueOf(searchLine.substring("<".length()).trim())));
 		}
 		if (searchLine.startsWith(">=")){
 			return new FilterDefGreaterEq(
 					field,
 					isLong
 						? Long.valueOf(searchLine.substring(">=".length()).trim())
-						: new BigDecimal(searchLine.substring(">=".length()).trim()));
+						: BigDecimal.valueOf(Long.valueOf(searchLine.substring(">=".length()).trim())));
 		}
 		if (searchLine.startsWith(">")) {
 			return new FilterDefGreater(
 					field,
 					isLong
 						? Long.valueOf(searchLine.substring(">".length()).trim())
-						: new BigDecimal(searchLine.substring(">".length()).trim()));
+						: BigDecimal.valueOf(Long.valueOf(searchLine.substring(">".length()).trim())));
 		}
 		if ("@".equals(searchLine)) {
 			return new FilterDefIsNull(field);
@@ -150,7 +150,7 @@ public final class FilterUtils {
 					field,
 					isLong 
 						? Long.valueOf(searchLine)
-						: new BigDecimal(searchLine));
+						: BigDecimal.valueOf(Long.valueOf(searchLine)));
 	}
 	
 	private static AbstractFieldFilterDef makeDateFilter(String field, String value) {
@@ -311,9 +311,9 @@ public final class FilterUtils {
 		date.set(Calendar.MILLISECOND, 0);
 		if (year != null) {
 			if (year.length() <= 4 && Integer.parseInt(year) > 0) {
-				// Если вводят только 3 последние цифры года то добавлять 1 чтобы было 1...
+				// Если вводят только 3 последние цифры года то добавлять 2 чтобы было 2...
 				if (year.length() == 3) {
-					year = "1" + year;
+					year = "2" + year;
 				}
 				// Если вводят только 2 последние цифры года то добавлять 20 чтобы было 20..
 				if (year.length() == 2) {
