@@ -3,6 +3,7 @@ package com.econtact.authWeb.app.beans.helper;
 import java.io.IOException;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
@@ -10,18 +11,48 @@ import org.apache.commons.lang.StringUtils;
 
 import com.econtact.dataModel.model.entity.accout.RoleType;
 
+/**
+ * Navigation bean.
+ * Has methods for navigate to another page. Use in JSF pages and other beans.
+ * @author Yevgen Riaboshtan
+ *
+ */
 @Named(value = "navigationHelper")
 @ApplicationScoped
 public class NavigationHelper {
+	/**
+	 * Target page for redirection user that does not has permission for edition some entities.
+	 * \/modifyNotAllowed.xhtml page.
+	 */
 	public static final String MODIFY_NOT_ALLOWED_PAGE = "/modifyNotAllowed.jsf";
+	/**
+	 * System index page - index.xhtml
+	 */
 	public static final String INDEX_PAGE = "index.jsf";
+	/**
+	 * System login page - /loginPage.xhtml
+	 */
 	public static final String LOGIN_PAGE = "/loginPage.jsf";
+	/**
+	 * Parameter`s name, describe id of the editing entities.
+	 */
 	public static final String ID_PARAM = "id";
 
+	/**
+	 * Navigate to the page.
+	 * @param page - target page.
+	 * @throws IOException - for details @see {@link ExternalContext#redirect(String)} 
+	 */
 	public void navigate(String page) throws IOException {
 		navigate(page, null);
 	}
 	
+	/**
+	 * Navigate to the edit page and add id parameter with value to GET request.
+	 * @param page - target page.
+	 * @param id - entity id
+	 * @throws IOException - for details @see {@link ExternalContext#redirect(String)}
+	 */
 	public void navigate(String page, String id) throws IOException {
 		if (StringUtils.isNotBlank(id)) {
 			FacesContext.getCurrentInstance().getExternalContext().redirect(getRootPath() + page + "?" + ID_PARAM + "=" + id);
@@ -30,6 +61,13 @@ public class NavigationHelper {
 		}
 	}
 	
+	//FIXME add navigation to the xhtml menu configuration
+	/**
+	 * Redirect to the user edit profile page.
+	 * @param role - curent users Role {@link RoleType}
+	 * @throws IOException - for details @see {@link ExternalContext#redirect(String)}
+	 */
+	@Deprecated
 	public void navigateToProfile(RoleType role) throws IOException {
 		StringBuffer page = new StringBuffer();
 		switch (role) {
@@ -46,11 +84,20 @@ public class NavigationHelper {
 		navigate(page.toString());
 	}
 	
+	/**
+	 * Method return index page of the system.
+	 * {@link NavigationHelper#INDEX_PAGE}
+	 * @return index page of the system
+	 */
 	public String getIndexPage() {
 		return new StringBuffer().append("/").append(INDEX_PAGE).toString();
 	}
 	
+	/**
+	 * Method return root path of the system. 
+	 * @return - root path
+	 */
 	private String getRootPath() {
 		return FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
-	}
+	} 
 }

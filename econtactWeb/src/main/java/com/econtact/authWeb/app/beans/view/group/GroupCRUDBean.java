@@ -71,7 +71,7 @@ public class GroupCRUDBean extends GeneralCRUDBean<GroupEntity> {
 			entity.setChurch(getChurch().get(0));
 		}
 		final AccessGroupEntity access = new AccessGroupEntity();
-		access.setUser(userSessionBean.getPrincipal());
+		access.setUser(userSessionBean.getSessionUser());
 		access.setConfirm(true);
 		access.setEditPermit(true);
 		access.setViewPermit(true);
@@ -98,7 +98,7 @@ public class GroupCRUDBean extends GeneralCRUDBean<GroupEntity> {
 					.andFilter(new FilterDefEquals(ChurchEntity.ACCESS_A + EntityHelper.POINT + EntityHelper.SIGN_A, EntityHelper.ACTUAL_SIGN))
 					.andFilter(new FilterDefEquals(ChurchEntity.ACCESS_A + EntityHelper.POINT + AccessChurchEntity.CONFIRM_A, true))
 					.andFilter(new FilterDefEquals(ChurchEntity.ACCESS_A + EntityHelper.POINT + AccessChurchEntity.EDIT_GROUP_PERMIT_A, true))
-					.andFilter(new FilterDefEquals(ChurchEntity.ACCESS_A + EntityHelper.POINT + AccessChurchEntity.USER_A, userSessionBean.getPrincipal()));
+					.andFilter(new FilterDefEquals(ChurchEntity.ACCESS_A + EntityHelper.POINT + AccessChurchEntity.USER_A, userSessionBean.getSessionUser()));
 			churchs = genericService.find(criteria);
 		}
 		return churchs;
@@ -108,7 +108,7 @@ public class GroupCRUDBean extends GeneralCRUDBean<GroupEntity> {
 	public List<SessionUserEntity> accessUserComplete(String login) {
 		List<BigDecimal> existIds = new ArrayList<BigDecimal>();
 		entity.getAccesses().forEach(access -> existIds.add(access.getUser().getId()));
-		existIds.add(userSessionBean.getPrincipal().getId());
+		existIds.add(userSessionBean.getSessionUser().getId());
 		existIds.add(entity.getChurch().getOwner().getId());
 		SearchCriteria<SessionUserEntity> criteria = new SearchCriteria<>(new GenericFilterDefQueries<>(SessionUserEntity.class));
 		criteria.andFilter(new FilterDefStartsWith(SessionUserEntity.LOGIN_A, login))
@@ -130,7 +130,7 @@ public class GroupCRUDBean extends GeneralCRUDBean<GroupEntity> {
 	
 	public List<AccessGroupEntity> getAccess() {
 		return entity.getAccesses().stream().filter(item -> {
-			return !item.getUser().equals(userSessionBean.getPrincipal())
+			return !item.getUser().equals(userSessionBean.getSessionUser())
 					&& !item.getUser().equals(item.getGroup().getChurch().getOwner());
 		}).collect(Collectors.toList());
 	}

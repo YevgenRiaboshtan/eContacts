@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.econtact.authWeb.app.beans.view.GeneralCRUDBean;
+import com.econtact.authWeb.app.beans.view.AbstractCRUDBean;
 import com.econtact.authWeb.app.utils.CacheUtils;
 import com.econtact.dataModel.data.filter.FilterDefEquals;
 import com.econtact.dataModel.data.filter.FilterDefNotInList;
@@ -31,7 +31,7 @@ import com.econtact.dataModel.model.entity.church.GroupEntity;
 
 @ManagedBean(name = "churchCRUDBean")
 @ViewScoped
-public class ChurchCRUDBean extends GeneralCRUDBean<ChurchEntity> {
+public class ChurchCRUDBean extends AbstractCRUDBean<ChurchEntity> {
 	private static final long serialVersionUID = 5261936332118028517L;
 
 	private SessionUserEntity accessUser;
@@ -41,7 +41,7 @@ public class ChurchCRUDBean extends GeneralCRUDBean<ChurchEntity> {
 	public List<SessionUserEntity> accessUserComplete(String login) {
 		List<BigDecimal> existIds = new ArrayList<BigDecimal>();
 		entity.getAccess().forEach(access -> existIds.add(access.getUser().getId()));
-		existIds.add(userSessionBean.getPrincipal().getId());
+		existIds.add(userSessionBean.getSessionUser().getId());
 		existIds.add(entity.getOwner().getId());
 		SearchCriteria<SessionUserEntity> criteria = new SearchCriteria<>(new GenericFilterDefQueries<>(
 				SessionUserEntity.class));
@@ -73,13 +73,13 @@ public class ChurchCRUDBean extends GeneralCRUDBean<ChurchEntity> {
 			GroupEntity group = new GroupEntity();
 			group.setName(groupName);
 			AccessGroupEntity groupAccess = new AccessGroupEntity();
-			groupAccess.setUser(userSessionBean.getPrincipal());
+			groupAccess.setUser(userSessionBean.getSessionUser());
 			groupAccess.setConfirm(true);
 			groupAccess.setEditPermit(true);
 			groupAccess.setRegisterPermit(true);
 			groupAccess.setViewPermit(true);
 			group.addAccess(groupAccess);
-			if (!entity.getOwner().equals(userSessionBean.getPrincipal())) {
+			if (!entity.getOwner().equals(userSessionBean.getSessionUser())) {
 				AccessGroupEntity ownerAccess = new AccessGroupEntity();
 				ownerAccess.setUser(entity.getOwner());
 				ownerAccess.setConfirm(true);
@@ -125,10 +125,10 @@ public class ChurchCRUDBean extends GeneralCRUDBean<ChurchEntity> {
 	@Override
 	protected ChurchEntity createDefaultEntity() {
 		final ChurchEntity entity = new ChurchEntity();
-		entity.setOwner(userSessionBean.getPrincipal());
+		entity.setOwner(userSessionBean.getSessionUser());
 		entity.setCreateDate(new Date());
 		final AccessChurchEntity ownerAccess = new AccessChurchEntity();
-		ownerAccess.setUser(userSessionBean.getPrincipal());
+		ownerAccess.setUser(userSessionBean.getSessionUser());
 		ownerAccess.setConfirm(true);
 		ownerAccess.setViewPermit(true);
 		ownerAccess.setEditPermit(true);
@@ -165,7 +165,7 @@ public class ChurchCRUDBean extends GeneralCRUDBean<ChurchEntity> {
 				.getAccess()
 				.stream()
 				.filter(access -> {
-					return !userSessionBean.getPrincipal().equals(access.getUser())
+					return !userSessionBean.getSessionUser().equals(access.getUser())
 							&& !entity.getOwner().equals(access.getUser());
 				}).sorted((acc1, acc2) -> {
 					return acc1.getUser().getLogin().compareToIgnoreCase(acc2.getUser().getLogin());

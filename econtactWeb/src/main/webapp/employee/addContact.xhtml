@@ -7,7 +7,7 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	template="/WEB-INF/templates/default.xhtml">
 	<ui:define name="content">
-		<script type="text/javascript">
+		<!-- <script type="text/javascript" >
 		$(document).ready(function() {
 		    
 		    $('#mainForm').validate({
@@ -29,12 +29,12 @@
 		    });
 		    
 		});
-		</script>
+		</script> -->
 	Add new contact
 	<p:panel>
-			<h:form id="mainForm" prependId="false">
+			<h:form>
 				<p:messages id="messages" closable="true" autoUpdate="true" />
-				<h:panelGrid id="personPanel" columns="6">
+				<h:panelGrid id="personPanel" columns="7">
 					<p:outputLabel value="#{viewMsg['addContact.first.name.label']}"
 						name="field1" styleClass="mygroup"></p:outputLabel>
 					<p:outputLabel value="#{viewMsg['addContact.middle.name.label']}"
@@ -43,6 +43,7 @@
 					<p:outputLabel value="#{viewMsg['addContact.sex.label']}"></p:outputLabel>
 					<p:outputLabel value="#{viewMsg['addContact.status.label']}"></p:outputLabel>
 					<p:outputLabel value="#{viewMsg['addContact.ageRande.label']}"></p:outputLabel>
+					<p:outputLabel value="#{viewMsg['addContact.birthday.label']}"></p:outputLabel>
 
 					<p:inputText value="#{addContactBean.entity.firstName}"></p:inputText>
 					<p:inputText value="#{addContactBean.entity.middleName}"></p:inputText>
@@ -62,6 +63,7 @@
 						<f:selectItems
 							value="#{filterHelper.getUniverDictSelectItems('PERSON_AGE_RANGE', true)}"></f:selectItems>
 					</p:selectOneMenu>
+					<p:calendar value="#{addContactBean.entity.birthday}"></p:calendar>
 				</h:panelGrid>
 
 				<h:panelGrid id="addressPanel" columns="4">
@@ -90,46 +92,38 @@
 					<p:inputText value="#{addContactBean.entity.address.region}"></p:inputText>
 				</h:panelGrid>
 
-				<table>
-					<tr>
-						<td><p:outputLabel
-								value="#{viewMsg['addContact.contact.type.label']}"></p:outputLabel>
-						</td>
-						<td><p:outputLabel
-								value="#{viewMsg['addContact.contact.value.label']}"
-								for="addContactValue"></p:outputLabel></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td><p:selectOneMenu id="addContactType"
-								value="#{addContactBean.addingContact.typeUd}" required="true"
-								converter="univerDictConvert">
-								<f:selectItems
-									value="#{filterHelper.getUniverDictSelectItems('CONTACT_TYPE', false)}"></f:selectItems>
-							</p:selectOneMenu></td>
-						<td><p:inputText id="addContactValue" styleClass="notr"
-								value="#{addContactBean.addingContact.value}" required="true"></p:inputText>
-						</td>
-						<td><p:commandButton value="+" ajax="true"
-								actionListener="#{addContactBean.addContact()}"
-								partialSubmit="true" process="addContactType addContactValue"
-								update="contactsTable addContactType addContactValue"></p:commandButton></td>
-					</tr>
-				</table>
+				<h:panelGrid columns="3" id="addContacPanel">
+					<p:outputLabel value="#{viewMsg['addContact.contact.type.label']}"></p:outputLabel>
+					<p:outputLabel value="#{viewMsg['addContact.contact.value.label']}"
+						for="addContactValue"></p:outputLabel>
+					<p:outputLabel></p:outputLabel>
 
-				<p:dataTable id="contactsTable"
+					<p:selectOneMenu id="addContactType"
+						value="#{addContactBean.addingContact.typeUd}"
+						converter="univerDictConvert">
+						<f:selectItems
+							value="#{filterHelper.getUniverDictSelectItems('CONTACT_TYPE', false)}"></f:selectItems>
+					</p:selectOneMenu>
+					<p:inputText id="addContactValue" styleClass="notr"
+						value="#{addContactBean.addingContact.value}"></p:inputText>
+					<p:commandButton value="+"
+						actionListener="#{addContactBean.addContact}" partialSubmit="true"
+						process="addContacPanel" update="contactsTable addContacPanel"></p:commandButton>
+				</h:panelGrid>
+
+				<p:dataTable id="contactsTable" editable="true" editMode="row"
 					value="#{addContactBean.entity.contacts}" var="contact"
 					emptyMessage="#{viewMsg['datatable.empty.message']}">
 					<p:column>
 						<p:rowEditor></p:rowEditor>
 					</p:column>
-					<p:column>
+					<p:column headerText="#{viewMsg['addContact.contact.type.label']}">
 						<p:cellEditor>
 							<f:facet name="output">
 								<p:outputLabel value="#{contact.typeUd.nameRecDict}"></p:outputLabel>
 							</f:facet>
 							<f:facet name="input">
-								<p:selectOneMenu value="#{contact.typeUd}"
+								<p:selectOneMenu value="#{contact.typeUd}" style="width:100px;"
 									converter="univerDictConvert">
 									<f:selectItems
 										value="#{filterHelper.getUniverDictSelectItems('CONTACT_TYPE', false)}"></f:selectItems>
@@ -137,8 +131,16 @@
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
-					<p:column>
-						<p:outputLabel value="#{contact.value}"></p:outputLabel>
+					<p:column headerText="#{viewMsg['addContact.contact.value.label']}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<p:outputLabel value="#{contact.value}"></p:outputLabel>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{contact.value}" required="true"
+									label="#{viewMsg['addContact.contact.value.label']}"></p:inputText>
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
 				</p:dataTable>
 

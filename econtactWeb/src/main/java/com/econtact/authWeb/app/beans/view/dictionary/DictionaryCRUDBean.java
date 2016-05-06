@@ -87,7 +87,7 @@ public class DictionaryCRUDBean extends AbstractViewBean {
 	public List<SelectItem> getChurchs() {
 		List<SelectItem> result = new ArrayList<SelectItem>();
 		userSessionBean.getAvailableChurchs().stream().filter(item -> {
-			return item.getOwner().equals(userSessionBean.getPrincipal());
+			return item.getOwner().equals(userSessionBean.getSessionUser());
 		}).forEach(item -> result.add(new SelectItem(item, item.getNameChurch())));
 		return result;
 	}

@@ -6,6 +6,12 @@ import com.econtact.dataModel.model.entity.accout.AccountUserEntity;
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 import com.econtact.dataModel.model.entity.church.ChurchEntity;
 
+/**
+ * Authanticate service interface.
+ * Define authenticate operations.
+ * @author Yevgen Riaboshtan
+ *
+ */
 public interface AuthenticationService {
 	/**
 	 * Find user by login in DB.

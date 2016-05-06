@@ -20,6 +20,11 @@ import com.econtact.dataModel.data.context.EJBContext;
 import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.entity.AbstractEntity;
 
+/**
+ * Class represent address information of the Person {@link PersonEntity}.
+ * @author Yevgen Riaboshtan
+ *
+ */
 @Entity
 @Table(name = "address", schema = EntityHelper.E_CONTACT_SCHEMA)
 @SQLDelete(sql = "UPDATE econtactschema.address set sign = id where id = ? and version = ?")

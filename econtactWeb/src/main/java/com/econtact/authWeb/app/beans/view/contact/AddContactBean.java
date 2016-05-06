@@ -6,10 +6,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ComponentSystemEvent;
 
 import org.apache.commons.lang.StringUtils;
-import org.primefaces.component.inputtext.InputText;
 
 import com.econtact.authWeb.app.beans.view.GeneralCRUDBean;
 import com.econtact.dataModel.data.util.LocaleLabels;
@@ -52,6 +50,19 @@ public class AddContactBean extends GeneralCRUDBean<PersonEntity> {
 		navigationHelper.navigate(navigationHelper.getIndexPage());
 	}
 	
+	protected boolean validate() {
+		//FIXME add client side validation
+		if (StringUtils.isBlank(getEntity().getFirstName())
+				&& StringUtils.isBlank(getEntity().getMiddleName())
+				&& StringUtils.isBlank(getEntity().getLastName())) {
+			FacesMessage msg = new FacesMessage(labelsHelper.getLocalizedMessage(LocaleLabels.ADD_CONTACT_FIO_VALIDATION_MESSAGE));
+			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			return false;
+		}
+		return true;
+	}
+	
 	public void saveAndCreate() throws IOException {
 		save();
 	}
@@ -63,6 +74,13 @@ public class AddContactBean extends GeneralCRUDBean<PersonEntity> {
 	
 	public void addContact() {
 		if (addingContact != null) {
+			//FIXME add client side validation
+			if (StringUtils.isBlank(addingContact.getValue())) {
+				FacesMessage msg = new FacesMessage("Введите значение контакта");
+				msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+				FacesContext.getCurrentInstance().addMessage(null, msg);
+				return;
+			}
 			getEntity().addContact(addingContact);
 			addingContact = new ContactEntity();
 		}

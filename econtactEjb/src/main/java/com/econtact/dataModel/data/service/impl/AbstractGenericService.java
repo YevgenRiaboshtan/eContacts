@@ -28,14 +28,23 @@ import com.econtact.dataModel.model.AbstractView;
 import com.econtact.dataModel.model.entity.AbstractEntity;
 import com.econtact.dataModel.model.entity.AuditSupport;
 
+/**
+ * Abstract generic class for Service bean class.
+ * @author Yevgen Riaboshtan
+ *
+ */
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public abstract class AbstractGenericService implements EjbService {
 
+	//FIXME add find in em cache to the find methods?
 	/*--- event audit constants FIXME localization ----*/
     public static final String EV_NAME_CREATE = "Создание";
     public static final String EV_NAME_UPDATE = "Редактирование";
     public static final String EV_NAME_REMOVE = "Удаление";
     
+    /**
+     * UniverDictService bean instance
+     */
 	@EJB
 	UniverDictService univerDictService;
 
@@ -138,5 +147,9 @@ public abstract class AbstractGenericService implements EjbService {
 		return result;
 	}
 
+	/**
+	 * Return Entity Manager {@link EntityManager}
+	 * @return - entity manager {@link EntityManager}
+	 */
 	protected abstract EntityManager getEntityManager();
 }

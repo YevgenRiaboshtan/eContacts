@@ -33,6 +33,11 @@ import com.econtact.dataModel.model.entity.church.ChurchEntity;
 import com.econtact.dataModel.model.entity.dictionary.NamesDictConstant;
 import com.econtact.dataModel.model.entity.dictionary.UniverDictEntity;
 
+/**
+ * Class represent Person information of thw system.
+ * @author Yevgen Riaboshtan
+ *
+ */
 @Entity
 @Table(name = "person", schema = EntityHelper.E_CONTACT_SCHEMA)
 @SQLDelete(sql = "UPDATE econtactschema.contact set sign = id where id = ? and version = ?")

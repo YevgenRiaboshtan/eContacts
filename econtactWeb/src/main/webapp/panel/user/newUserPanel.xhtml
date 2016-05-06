@@ -55,7 +55,7 @@
 						value="#{filterHelper.getEnumSelectItems('com.econtact.dataModel.model.entity.accout.UserStatusEnum', false)}" />
 				</p:selectOneMenu>
 				<c:if
-					test="#{userSessionBean.principal.role.name.equals('ROLE_ADMIN')}">
+					test="#{userSessionBean.sessionUser.role.name.equals('ROLE_ADMIN')}">
 					<p:outputLabel value="#{viewMsg['newUser.roleType.label']}" />
 					<p:selectOneMenu editable="false" value="#{bean.entity.role}">
 						<f:selectItems

@@ -45,14 +45,14 @@ public class SuperAdminCRUDBean extends GeneralCRUDBean<AccountUserEntity> {
 		result.setRole(RoleType.ROLE_ADMIN);
 		result.setRoleConfirm(ConfirmStatusEnum.CONFIRMED);
 		result.setAllowCreateRegister(true);
-		result.setParentUser(userSessionBean.getPrincipal());
+		result.setParentUser(userSessionBean.getSessionUser());
 		result.setEnabledUser(UserStatusEnum.ENABLE);
 		result.setSalt(PasswordUtils.getRandomSalt());
 		return result;
 	}
 	
 	protected boolean canModifyEntity(AccountUserEntity entity){
-		if (userSessionBean.getPrincipal().getId().equals(entity.getId())) {
+		if (userSessionBean.getSessionUser().getId().equals(entity.getId())) {
 			return false;
 		}
 		return true;

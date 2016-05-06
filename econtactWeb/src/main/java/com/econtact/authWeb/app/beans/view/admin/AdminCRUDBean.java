@@ -26,7 +26,7 @@ public class AdminCRUDBean extends SuperAdminCRUDBean {
 	
 	@Override
 	protected boolean canModifyEntity(AccountUserEntity entity) {
-		return userSessionBean.getPrincipal().equals(entity.getParentUser()) && super.canModifyEntity(entity);
+		return userSessionBean.getSessionUser().equals(entity.getParentUser()) && super.canModifyEntity(entity);
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class AdminCRUDBean extends SuperAdminCRUDBean {
 		entity.setRole(RoleType.ROLE_EMPLOYEE);
 		entity.setRoleConfirm(ConfirmStatusEnum.CONFIRMED);
 		entity.setSalt(PasswordUtils.getRandomSalt());
-		entity.setParentUser(userSessionBean.getPrincipal());
+		entity.setParentUser(userSessionBean.getSessionUser());
 		entity.setEnabledUser(UserStatusEnum.ENABLE);
 		return entity;
 	}

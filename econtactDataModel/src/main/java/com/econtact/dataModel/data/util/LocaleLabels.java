@@ -1,5 +1,10 @@
 package com.econtact.dataModel.data.util;
 
+/**
+ * Class represents keys of the localized messages used in the beans.
+ * @author Yevgen Riaboshtan
+ *
+ */
 public class LocaleLabels {
 	/**
 	 * Объект был изменен другим пользователем. Object was update by other user.

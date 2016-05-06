@@ -22,26 +22,42 @@ import com.econtact.authWeb.app.utils.WebUtils;
 import com.econtact.dataModel.data.service.UniverDictService;
 import com.econtact.dataModel.data.util.LocaleLabels;
 import com.econtact.dataModel.model.AbstractEnum;
+import com.econtact.dataModel.model.entity.dictionary.UniverDictEntity;
 
+/**
+ * Filter helper application bean.
+ * Generate combobox elements to enum type or {@link UniverDictEntity} type filter.
+ * @author Yevgen Riaboshtan
+ *
+ */
 @Named
 @ApplicationScoped
 public class FilterHelper implements Serializable{
 	private static final long serialVersionUID = 3408088178055266453L;
 
+	/**
+	 * UniverDict Service instance {@link UniverDictService}.
+	 */
 	@EJB
 	UniverDictService univerDictService;
 	
+	/**
+	 * User session bean instance {@link UserSessionBean}.
+	 */
 	@Inject
 	UserSessionBean userSessionBean;
 	
+	/**
+	 * Labels helper bean instance {@link LabelsHelper}.
+	 */
 	@Inject
 	LabelsHelper labelsHelper;
 	
 	/**
-	 * Возвращает список елементов комбобокса для фильтра
-	 * @param dictionaryName - название справочника
-	 * @param optional - Добавлять ли пустой элемент комбобокса
-	 * @return - Список элементов {@link SelectItem}
+	 * Construct {@link SelectItem} items to {@link UniverDictEntity} 
+	 * @param dictionaryName - paramDict {@link UniverDictEntity#getParamDict()}  value of {@link UniverDictEntity}
+	 * @param optional - empty element without value will be added if true.
+	 * @return - list with {@link SelectItem} elements.
 	 */
 	public List<SelectItem> getUniverDictSelectItems(String dictionaryName, boolean optional) {
 		List<SelectItem> items = new ArrayList<>();
@@ -56,11 +72,11 @@ public class FilterHelper implements Serializable{
 	}
 	
 	/**
-	 * Возвращает список елементов комбобокса для фильтра
-	 * @param enumClassName - тип enum 
-	 * @param optional - добавлять ли пусто элемент комбобокса
-	 * @return список элементов фильтра
-	 * @throws ClassNotFoundException 
+	 * Construct {@link SelectItem} items to {@link AbstractEnum} enum
+	 * @param enumClassName - class name of the target {@link AbstractEnum} enum.
+	 * @param optional - empty element without value will be added if true.
+	 * @return - list with {@link SelectItem} elements.
+	 * @throws ClassNotFoundException  - if wrong class name.
 	 */
 	public List<SelectItem> getEnumSelectItems(String enumClassName, boolean optional) throws ClassNotFoundException {
 		List<SelectItem> items = new ArrayList<SelectItem>();
@@ -84,7 +100,7 @@ public class FilterHelper implements Serializable{
 	}
 	
 	/**
-	 * Build complete date
+	 * Method complete date
 	 * @param event blur event
 	 */
 	public void dateAutocomplete(AjaxBehaviorEvent  event) {
@@ -117,7 +133,11 @@ public class FilterHelper implements Serializable{
 		}
 	}
 	
-	
+	/**
+	 * Contruct {@link SelectItem} elements to sign field.
+	 * @param optional - empty element wthout value will be added if true.
+	 * @return - list with {@link SelectItem} elements.
+	 */
 	public List<SelectItem> getSignSelectItems(boolean optional) {
 		List<SelectItem> result = new ArrayList<>();
 		if (optional) {

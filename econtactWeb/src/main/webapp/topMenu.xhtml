@@ -10,7 +10,7 @@
 			<p:menuitem icon="fa fa-home" url="/index.jsf" />
 
 			<c:if
-				test="#{userSessionBean.sysAdminMode and userSessionBean.principal.role.name.equals('ROLE_SUPER_ADMIN')}">
+				test="#{userSessionBean.sysAdminMode and userSessionBean.sessionUser.role.name.equals('ROLE_SUPER_ADMIN')}">
 				<p:submenu label="#{viewMsg['topMenu.userItem.subMenu.label']}">
 					<p:menuitem
 						value="#{viewMsg['topMenu.userItem.subMenu.admin.list.menuItem.label']}"
@@ -21,7 +21,7 @@
 				</p:submenu>
 			</c:if>
 			<c:if
-				test="#{userSessionBean.principal.role.name.equals('ROLE_ADMIN')}">
+				test="#{userSessionBean.sessionUser.role.name.equals('ROLE_ADMIN')}">
 				<p:submenu rendered="#{userSessionBean.adminMode}">
 				
 				</p:submenu>
@@ -40,14 +40,14 @@
 				</p:submenu>
 			</c:if>
 
-			<c:if test="#{userSessionBean.principal.role.name.equals('ROLE_REGISTER')}">
+			<c:if test="#{userSessionBean.sessionUser.role.name.equals('ROLE_REGISTER')}">
 				<p:menuitem value="#{viewMsg['topMenu.register.menuItem.label']}" url="/employee/addContact.jsf"/>
 			</c:if>
 			<f:facet name="options">
-				<p:outputLabel value="#{userSessionBean.principal.login}"></p:outputLabel>
+				<p:outputLabel value="#{userSessionBean.sessionUser.login}"></p:outputLabel>
 				<p:commandButton id="showUserProfileBtn" icon="fa fa-user"
 					immediate="true" ajax="true"
-					actionListener="#{navigationHelper.navigateToProfile(userSessionBean.principal.role)}" />
+					actionListener="#{navigationHelper.navigateToProfile(userSessionBean.sessionUser.role)}" />
 				<p:tooltip for="showUserProfileBtn"
 					value="#{viewMsg['user.profile.show.tooltiptext.label']}" />
 				<a href="/econtact/j_spring_security_logout"> <h:outputLabel

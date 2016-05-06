@@ -4,11 +4,17 @@ import java.io.Serializable;
 
 import javax.inject.Inject;
 
+/**
+ * Abstract Bean class.
+ * @author Yevgen Riaboshtan
+ *
+ */
 public abstract class AbstractViewBean implements Serializable {
 	private static final long serialVersionUID = 5491413519461094802L;
 	
+	/**
+	 * User session instance. {@link UserSessionBean}
+	 */
 	@Inject
 	protected UserSessionBean userSessionBean;
-	
-	
 }

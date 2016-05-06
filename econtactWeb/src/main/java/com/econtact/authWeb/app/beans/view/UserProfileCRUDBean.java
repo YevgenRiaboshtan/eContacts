@@ -30,7 +30,7 @@ public class UserProfileCRUDBean extends AbstractViewBean implements Serializabl
 
 	@PostConstruct
 	public void init() {
-		entity = genericService.findById(AccountUserEntity.class, userSessionBean.getPrincipal().getId());
+		entity = genericService.findById(AccountUserEntity.class, userSessionBean.getSessionUser().getId());
 	}
 
 	public AccountUserEntity getEntity() {
