@@ -3,7 +3,11 @@ package com.econtact.dataModel.data.context;
 import java.util.TimeZone;
 
 import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
-
+/**
+ * 
+ * @author Yevgen Riaboshtan
+ *
+ */
 public class EJBContext {
 	private UserContext userContext;
 	private EnversContext enversContext;

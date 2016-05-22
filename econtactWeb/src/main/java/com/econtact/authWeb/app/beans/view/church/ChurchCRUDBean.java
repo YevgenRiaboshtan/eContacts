@@ -142,13 +142,13 @@ public class ChurchCRUDBean extends AbstractCRUDBean<ChurchEntity> {
 	}
 
 	@Override
-	protected void afterSaveNavigate() throws IOException {
+	protected void afterSaveNavigate() {
 		CacheUtils.clearChurchAccessCache();
 		navigationHelper.navigate("/admin/church/list.jsf");
 	}
 
 	@Override
-	protected void cancelNavigate() throws IOException {
+	protected void cancelNavigate() {
 		navigationHelper.navigate("/admin/church/list.jsf");
 	}
 

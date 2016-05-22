@@ -41,9 +41,8 @@ public class NavigationHelper {
 	/**
 	 * Navigate to the page.
 	 * @param page - target page.
-	 * @throws IOException - for details @see {@link ExternalContext#redirect(String)} 
 	 */
-	public void navigate(String page) throws IOException {
+	public void navigate(String page) {
 		navigate(page, null);
 	}
 	
@@ -51,13 +50,16 @@ public class NavigationHelper {
 	 * Navigate to the edit page and add id parameter with value to GET request.
 	 * @param page - target page.
 	 * @param id - entity id
-	 * @throws IOException - for details @see {@link ExternalContext#redirect(String)}
 	 */
-	public void navigate(String page, String id) throws IOException {
-		if (StringUtils.isNotBlank(id)) {
-			FacesContext.getCurrentInstance().getExternalContext().redirect(getRootPath() + page + "?" + ID_PARAM + "=" + id);
-		} else {
-			FacesContext.getCurrentInstance().getExternalContext().redirect(getRootPath() + page);
+	public void navigate(String page, String id) {
+		try {
+			if (StringUtils.isNotBlank(id)) {	
+				FacesContext.getCurrentInstance().getExternalContext().redirect(getRootPath() + page + "?" + ID_PARAM + "=" + id);
+			} else {
+				FacesContext.getCurrentInstance().getExternalContext().redirect(getRootPath() + page);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	

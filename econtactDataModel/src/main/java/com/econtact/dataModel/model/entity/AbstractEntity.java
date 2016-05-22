@@ -13,11 +13,12 @@ import com.econtact.dataModel.data.util.EntityHelper;
 import com.econtact.dataModel.model.AbstractView;
 
 /**
- * Абстрактный класс для всех сущностей
  * Abstract class for all entities.
+ * Абстрактный класс для всех сущностей
  * @author evgeniy
  *
- * @param <PK> - тип идентификатора сущности. Id`s type.
+ * @param <PK> - Id`s type.
+ * 				- тип идентификатора сущности
  */
 @MappedSuperclass
 public abstract class AbstractEntity<PK extends Serializable> implements AbstractView<PK> {
@@ -27,8 +28,8 @@ public abstract class AbstractEntity<PK extends Serializable> implements Abstrac
 	private Long uid;
 	
 	/**
-	 * Поле версии для оптимистической блокировки.
 	 * Version field for optimistic lock.
+	 * Поле версии для оптимистической блокировки.
 	 */
 	@Version
 	@Column(name="version")
@@ -42,18 +43,20 @@ public abstract class AbstractEntity<PK extends Serializable> implements Abstrac
 	}
 
 	/**
-	 * Возвращает версию объекта.
 	 * Return entity version.
-	 * @return - версия объекта. Entity version.
+	 * Возвращает версию объекта.
+	 * @return - Entity version.
+	 * 			- версия объекта. 
 	 */
 	public Long getVersion() {
 		return version;
 	}
 
 	/**
-	 * Устанавливает версию объекта
 	 * Set entity version.
-	 * @param version - версия объекта. Entity version.
+	 * Устанавливает версию объекта
+	 * @param version - Entity version.
+	 * 					- версия объекта.
 	 */
 	public void setVersion(Long version) {
 		this.version = version;

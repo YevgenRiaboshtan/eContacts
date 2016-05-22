@@ -1,7 +1,5 @@
 package com.econtact.authWeb.app.beans.view;
 
-import java.io.IOException;
-
 import com.econtact.dataModel.model.entity.AbstractEntity;
 
 /**
@@ -15,12 +13,12 @@ public abstract class GeneralCRUDBean<T extends AbstractEntity> extends Abstract
 	private static final long serialVersionUID = 4070735677888224418L;
 
 	@Override
-	protected void afterSaveNavigate() throws IOException {
+	protected void afterSaveNavigate() {
 		navigationHelper.navigate(navigationHelper.getIndexPage());
 	}
 	
 	@Override
-	protected void cancelNavigate() throws IOException {
+	protected void cancelNavigate() {
 		navigationHelper.navigate(navigationHelper.getIndexPage());
 	}
 }

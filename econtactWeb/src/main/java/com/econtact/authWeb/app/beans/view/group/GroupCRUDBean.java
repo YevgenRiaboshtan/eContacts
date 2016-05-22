@@ -1,6 +1,5 @@
 package com.econtact.authWeb.app.beans.view.group;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +85,7 @@ public class GroupCRUDBean extends GeneralCRUDBean<GroupEntity> {
 	}
 
 	@Override
-	protected void afterSaveNavigate() throws IOException {
+	protected void afterSaveNavigate() {
 		CacheUtils.clearGroupAccessCache();
 		navigationHelper.navigate("/employee/group/list.jsf");
 	}

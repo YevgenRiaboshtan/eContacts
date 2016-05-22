@@ -47,30 +47,10 @@ import com.econtact.dataModel.model.entity.accout.SessionUserEntity;
 @AuditTable(value = "church_aud", schema = EntityHelper.E_CONTACT_SCHEMA)
 @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 @SQLDelete(sql = "UPDATE econtactschema.church set sign = id where id = ? and version = ?")
-// FIXME not work with cache. Load only root entity from cache without graph attribute.
-/*
- * @NamedEntityGraphs({
- * 
- * @NamedEntityGraph(name = ChurchEntity.CHURCH_ACCESS_GRAPH, attributeNodes = { @NamedAttributeNode(value =
- * ChurchEntity.ACCESS_A) }),
- * 
- * @NamedEntityGraph(name = ChurchEntity.CHURCH_GROUPS_GRAPH, attributeNodes = { @NamedAttributeNode(value =
- * ChurchEntity.GROUPS_A) }),
- * 
- * @NamedEntityGraph(name = ChurchEntity.CHURCH_ACCESS_GROUPS_GRAPH, attributeNodes = {
- * 
- * @NamedAttributeNode(value = ChurchEntity.ACCESS_A), @NamedAttributeNode(value = ChurchEntity.GROUPS_A) }) })
- */
 public class ChurchEntity extends AbstractEntity<BigDecimal> implements AuditSupport {
 	private static final long serialVersionUID = 6692176964337384451L;
 	private static final String SEQ_NAME = "churchSeq";
 	private static final String NOTE_PATTERN = "Церковь ID: '%s'";
-
-	/*
-	 * public static final String CHURCH_ACCESS_GRAPH = "churchAccessGraph"; public static final String
-	 * CHURCH_GROUPS_GRAPH = "churchGroupsGraph"; public static final String CHURCH_ACCESS_GROUPS_GRAPH =
-	 * "churchAccessGroupsGraph";
-	 */
 
 	public static final String NAME_CHURCH_A = "nameChurch";
 	public static final String OWNER_A = "owner";

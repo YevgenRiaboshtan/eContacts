@@ -32,7 +32,8 @@ import com.econtact.dataModel.model.entity.church.ChurchEntity;
 import com.econtact.dataModel.model.entity.church.GroupEntity;
 
 /**
- * Сущность предоставление доступа пользователю к общине.
+ * Entity describes user {@link SessionUserEntity} permission to the church {@link ChurchEntity} entity.
+ * Класс предоставления доступов пользователя к общине.
  * 
  * @author evgeniy
  *
@@ -54,7 +55,8 @@ public class AccessChurchEntity extends AbstractEntity<BigDecimal> {
 	public static final String EDIT_GROUP_PERMIT_A = "editGroupPermit";
 
 	/**
-	 * идентификатор доступа
+	 * Id
+	 * Идентификатор записи
 	 */
 	@Id
 	@SequenceGenerator(name = SEQ_NAME, sequenceName = "seq_access_church_id", schema = EntityHelper.E_CONTACT_SCHEMA, allocationSize = 1)
@@ -63,7 +65,8 @@ public class AccessChurchEntity extends AbstractEntity<BigDecimal> {
 	private BigDecimal id;
 
 	/**
-	 * Пользователь {@link SessionUserEntity} которому предоставляется доступ к общине
+	 * User {@link SessionUserEntity} that has permission.
+	 * Пользователь {@link SessionUserEntity} которому предоставляется доступ к общине.
 	 */
 	@ManyToOne
 	@JoinColumn(name = "id_user_fk", nullable = false)
@@ -71,66 +74,87 @@ public class AccessChurchEntity extends AbstractEntity<BigDecimal> {
 	private SessionUserEntity user;
 
 	/**
-	 * Община {@link ChurchEntity} к которой предоставляется доступ
+	 * Target Church {@link ChurchEntity}
+	 * Община {@link ChurchEntity} к которой предоставляется доступ.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_church_fk", nullable = false)
 	private ChurchEntity church;
 
 	/**
-	 * Подтверждение предоставленого доступа
+	 * Access confirmation.
+	 * Подтверждение предоставление доступа
 	 */
 	@Column(name = "confirm", nullable = false)
 	private boolean confirm;
 
 	/**
+	 * Permission to view church information.
 	 * Доступ на просмотр общины {@link ChurchEntity}
 	 */
 	@Column(name = "view_permit", nullable = false)
 	private boolean viewPermit;
 
 	/**
+	 * Permission to edit church information.
 	 * Доступ на редактирование информации об общине {@link ChurchEntity}
 	 */
 	@Column(name = "edit_permit", nullable = false)
 	private boolean editPermit;
 
 	/**
-	 * Доступ на добавление/удаление пользователей {@link SessionUserEntity} в общине {@link ChurchEntity}
+	 * Permission to add/remove users {@link SessionUserEntity} in the church {@link ChurchEntity}.
+	 * Доступ на добавление/удаление пользователей {@link SessionUserEntity} в общине {@link ChurchEntity}.
 	 */
 	@Column(name = "edit_user_permit", nullable = false)
 	private boolean editUserPermit;
 
 	/**
-	 * Доступ на добавление/удаление групп {@link GroupEntity} в общине {@link ChurchEntity}
+	 * Permission to add/remove groups {@link GroupEntity} in the church {@link ChurchEntity}.
+	 * Доступ на добавление/удаление групп {@link GroupEntity} в общине {@link ChurchEntity}.
 	 */
 	@Column(name = "edit_group_permit", nullable = false)
 	private boolean editGroupPermit;
 
 	/**
-	 * Доступ на добавление контактов в общине {@link ChurchEntity}
+	 * Permission to add contacts in the church {@link ChurchEntity}.
+	 * Доступ на добавление контактов в общине {@link ChurchEntity}.
 	 */
 	@Column(name = "add_contact_permit", nullable = false)
 	private boolean addContactPermit;
 
 	/**
-	 * Доступ на управление доступами {@link AccessChurchEntity} к общине {@link ChurchEntity}
+	 * Permission to manage accesses {@link AccessChurchEntity} to the church {@link ChurchEntity}.
+	 * Доступ на управление доступами {@link AccessChurchEntity} к общине {@link ChurchEntity}.
 	 */
-	@Column(name = "adit_access_permit", nullable = false)
+	@Column(name = "edit_access_permit", nullable = false)
 	private boolean editAccessPermit;
 
 	/**
-	 * Доступ на изменение/удаление контактов в общине {@link ChurchEntity}
+	 * Permission to edit/delete contacts in the church {@link ChurchEntity}.
+	 * Доступ на изменение/удаление контактов в общине {@link ChurchEntity}.
 	 */
 	@Column(name = "edit_contact_permit", nullable = false)
 	private boolean editContactPermit;
 
+	/**
+	 * Entities last update date
+	 * Дата последних изменений
+	 */
 	@Column(name = EntityHelper.UPD_DATE_F, nullable = false)
 	private Date updDate;
 
+	/**
+	 * Author that provide last changes.
+	 * Автор последних изменений.
+	 */
 	@Column(name = EntityHelper.UPD_AUTHOR_F, nullable = false, length = 200)
 	private String updAuthor;
 
+	/**
+	 * Actual field.
+	 * Признак актуальности записи. 0 - запись актуальная, >0 - запись удалена.
+	 */
 	@Column(name = EntityHelper.SIGN_F, nullable = false, precision = 38, scale = 0)
 	private BigDecimal sign;
 
@@ -138,26 +162,57 @@ public class AccessChurchEntity extends AbstractEntity<BigDecimal> {
 		return id;
 	}
 
+	/**
+	 * Method set id value
+	 * Устанавливает значение идентификатора
+	 * @param id - id value
+	 *  		- значение идентификатора
+	 */
 	public void setId(BigDecimal id) {
 		this.id = id;
 	}
 
+	/**
+	 * Return user wich provides access to the church.
+	 * Возвращает пользователя которому предоставляется доступ
+	 * @return - user {@link SessionUserEntity}
+	 * 			- пользователь {@link SessionUserEntity}, которому предоставляется доступ
+	 */
 	public SessionUserEntity getUser() {
 		return user;
 	}
 
+	/**
+	 * Set user wich provides access to the church.
+	 * Устанавливает пользователя которму предоставляется доступ
+	 * @param user - user {@link SessionUserEntity}
+	 * 				- пользователь {@link SessionUserEntity}
+	 */
 	public void setUser(SessionUserEntity user) {
 		this.user = user;
 	}
 
+	/**
+	 * Return target church to provides access.
+	 * Возвращает общину которой предоставляется доступ
+	 * @return - church {@link ChurchEntity}
+	 * 			- община {@link ChurchEntity}
+	 */
 	public ChurchEntity getChurch() {
 		return church;
 	}
 
+	/**
+	 * Set target church to provides access.
+	 * Устанавливает общину которой предоставляется доступ
+	 * @param church - church {@link ChurchEntity}
+	 * 				- община {@link ChurchEntity}
+	 */
 	public void setChurch(ChurchEntity church) {
 		this.church = church;
 	}
 
+	
 	public boolean isConfirm() {
 		return confirm;
 	}

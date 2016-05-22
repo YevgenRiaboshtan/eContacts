@@ -47,6 +47,7 @@ public final class CacheUtils {
 
 	
 	//FIXME костыль костыльный
+	// Надо научить хибер кешировать эти списки 
 	private static volatile Map<BigDecimal, Boolean> clearGroupAccessCache = new ConcurrentHashMap<BigDecimal, Boolean>();
 	private static volatile Map<BigDecimal, Boolean> clearChurchAccessCache = new ConcurrentHashMap<BigDecimal, Boolean>();
 	

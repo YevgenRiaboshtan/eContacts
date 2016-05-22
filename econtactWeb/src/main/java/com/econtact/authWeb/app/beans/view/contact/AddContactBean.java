@@ -46,7 +46,7 @@ public class AddContactBean extends GeneralCRUDBean<PersonEntity> {
 		return entity;
 	}
 
-	protected void afterSaveNavigate() throws IOException {
+	protected void afterSaveNavigate() {
 		navigationHelper.navigate(navigationHelper.getIndexPage());
 	}
 	
