@@ -4,6 +4,7 @@ import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,6 +71,9 @@ public class UniverDictServiceImpl implements UniverDictService {
 		try {
 			final Map<BigDecimal, Map<String, Map<Integer, BigDecimal>>> univerDictLinks = getUniverDictLinks();
 			final Map<String, Map<Integer, BigDecimal>> churchUniverDictLinks = univerDictLinks.get(church.getId());
+			if (churchUniverDictLinks == null) {
+				return Collections.<UniverDictEntity>emptyList();
+			}
 			final Map<Integer, BigDecimal> idRecLinks = churchUniverDictLinks.get(paramDict);
 			final List<UniverDictEntity> result = new ArrayList<>();
 			if (idRecLinks == null || idRecLinks.isEmpty()) {

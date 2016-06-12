@@ -14,10 +14,10 @@
 	<h:form>
 		<p:messages id="messages" closable="true" autoUpdate="true" />
 		<p:outputLabel value="i1"></p:outputLabel>
-		<p:inputText value="#{testBean.i1}" label="i1" required="true"></p:inputText>
+		<p:inputText value="#{testBean.i1}" label="i1" ></p:inputText>
 		<h:panelGrid>
 			<p:outputLabel value="i2"></p:outputLabel>
-			<p:inputText id="i2" value="#{testBean.i2}" required="true"
+			<p:inputText id="i2" value="#{testBean.i2}"
 				label="i2" styleClass="notr"></p:inputText>
 			<p:commandButton value="add" actionListener="#{testBean.add}"
 				process="i2" ajax="true"></p:commandButton>

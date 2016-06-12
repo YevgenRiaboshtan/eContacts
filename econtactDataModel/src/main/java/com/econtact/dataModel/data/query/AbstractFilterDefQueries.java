@@ -40,7 +40,7 @@ public abstract class AbstractFilterDefQueries<T extends AbstractView> implement
 		final List<Order> orders = new ArrayList();
 		for (SortingInfo sortingInfo : sortingInfos) {
 			From parent = visitorCtx.getRoot();
-			final String[] names = sortingInfo.getColumnName().split("\\.");
+			final String[] names = sortingInfo.getColumnName().split("\\.".intern());
 			From result;
 			for (int index = 0; index < names.length - 1; index++) {
 				final String name = names[index];

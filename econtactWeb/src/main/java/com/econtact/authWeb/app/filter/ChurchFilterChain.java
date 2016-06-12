@@ -16,6 +16,7 @@ import org.springframework.security.core.Authentication;
 
 import com.econtact.authWeb.app.security.EcontactPrincipal;
 import com.econtact.dataModel.data.service.AuthenticationService;
+import com.econtact.dataModel.model.entity.accout.RoleType;
 
 public class ChurchFilterChain implements Filter {
 
@@ -30,7 +31,7 @@ public class ChurchFilterChain implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
 			ServletException {
 		//FIXME fix resource not found
-		if (!((HttpServletRequest) request).getRequestURI().startsWith("/econtact/javax.faces.resource")
+		if (!((HttpServletRequest) request).getRequestURI().startsWith("/econtact/javax.faces.resource".intern())
 				&& ((HttpServletRequest) request).getUserPrincipal() != null
 				&& ((HttpServletRequest) request).getUserPrincipal() instanceof Authentication) {
 			EcontactPrincipal principal = (EcontactPrincipal) ((Authentication) ((HttpServletRequest) request).getUserPrincipal()).getPrincipal();
@@ -39,16 +40,20 @@ public class ChurchFilterChain implements Filter {
 					|| principal.getSelectedChurch() != null) {
 				chain.doFilter(request, response);	
 			} else if (principal.getSelectedChurch() == null) {
-				if (principal.getAvailableChurchs().isEmpty()) {
+				if (RoleType.ROLE_ADMIN.equals(principal.getUserAccount().getRole())
+						&& principal.getAvailableChurchs().isEmpty()){
+					principal.setAdminMode(true);
+					chain.doFilter(request, response);
+				} else if (principal.getAvailableChurchs().isEmpty()) {
 					authenticationService.disconnectUser(((HttpServletRequest) request).getSession().getId());
 					((HttpServletRequest) request).getSession().invalidate();
 			    	((HttpServletRequest) request).logout();
-			    	((HttpServletResponse) response).sendRedirect("emptyChurch.xhtml");
+			    	((HttpServletResponse) response).sendRedirect("emptyChurch.xhtml".intern());
 				} else if (principal.getAvailableChurchs().size() == 1) {
 					principal.setSelectedChurch(principal.getAvailableChurchs().get(0));
 					chain.doFilter(request, response);
 				} else {
-					request.getRequestDispatcher("selectChurch.xhtml").forward(request, response);
+					request.getRequestDispatcher("selectChurch.xhtml".intern()).forward(request, response);
 				}
 			} 
 		} else {

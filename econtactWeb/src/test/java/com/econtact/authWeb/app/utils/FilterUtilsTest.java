@@ -39,7 +39,7 @@ public class FilterUtilsTest {
 	}
 	
 	private Map<String, Calendar> buildCorrectDate() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy".intern());
 		Map<String, Calendar> correct = new HashMap<String, Calendar>();
 		Calendar item = Calendar.getInstance();
 		try {

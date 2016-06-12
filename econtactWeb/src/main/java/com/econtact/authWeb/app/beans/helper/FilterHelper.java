@@ -62,7 +62,7 @@ public class FilterHelper implements Serializable{
 	public List<SelectItem> getUniverDictSelectItems(String dictionaryName, boolean optional) {
 		List<SelectItem> items = new ArrayList<>();
 		if (optional) {
-			SelectItem allItem = new SelectItem(null, "");
+			SelectItem allItem = new SelectItem(null, FilterUtils.EMPTY_STRING);
 			allItem.setNoSelectionOption(true);
 			items.add(allItem);
 		}
@@ -82,10 +82,10 @@ public class FilterHelper implements Serializable{
 		List<SelectItem> items = new ArrayList<SelectItem>();
 		Class<?> clazz = Class.forName(enumClassName);
 		if (!clazz.isEnum()) {
-			throw new IllegalArgumentException("enumType should be enumeration !!!");
+			throw new IllegalArgumentException("enumType should be enumeration !!!".intern());
 		}
 		if (!AbstractEnum.class.isAssignableFrom(clazz)) {
-			throw new IllegalArgumentException("enumType should implements AbstractEnum !!!");
+			throw new IllegalArgumentException("enumType should implements AbstractEnum !!!".intern());
 		}
 		if (optional) {
 			SelectItem allItem = new SelectItem(null,"");
@@ -110,25 +110,28 @@ public class FilterHelper implements Serializable{
 			InputText input = (InputText) event.getSource();
 			String value = input.getValue().toString();
 			String operation = "";
-			if (value.startsWith("<>")
-				|| value.startsWith("<=")
-				|| value.startsWith(">=")
-				|| value.startsWith("!@")) {
-				operation = value.substring(0, "<>".length());
-				value = value.substring("<>".length());
-			} else if (value.startsWith("<")
-					|| value.startsWith(">")
-					|| value.startsWith("=")
-					|| value.startsWith("@")) {
-				operation = value.substring(0, "<".length());
-				value = value.substring("<".length());
+			if (value.startsWith(FilterUtils.NOT_EQUAL_CHARACTER)
+				|| value.startsWith(FilterUtils.LESS_OR_EQUAL_CHARACTER)
+				|| value.startsWith(FilterUtils.GREAT_OR_EQUAL_CHARACTER)
+				|| value.startsWith(FilterUtils.IS_NOT_NULL_CHARACTER)) {
+				//2 - length of the <>, <=, =>, !@
+				operation = value.substring(0, 2);
+				//2 - length of the <>, <=, =>, !@
+				value = value.substring(2);
+			} else if (value.startsWith(FilterUtils.LESS_CHARACTER)
+					|| value.startsWith(FilterUtils.GREAT_CHARACTER)
+					|| value.startsWith(FilterUtils.EQUAL_CHARACTER)
+					|| value.startsWith(FilterUtils.IS_NULL_CHARACTER)) {
+				// 1 - length of the  <, >, =, @
+				operation = value.substring(0, 1);
+				value = value.substring(1);
 			}
 			String date;
 			try {
 				date = new SimpleDateFormat(WebUtils.DATE_PATTERN).format(FilterUtils.convertDate(value));
 				input.setValue(operation + date);
 			} catch (ParseException e) {
-				input.setValue("");
+				input.setValue(FilterUtils.EMPTY_STRING);
 			}
 		}
 	}
@@ -141,7 +144,7 @@ public class FilterHelper implements Serializable{
 	public List<SelectItem> getSignSelectItems(boolean optional) {
 		List<SelectItem> result = new ArrayList<>();
 		if (optional) {
-			SelectItem allItem = new SelectItem(null,"");
+			SelectItem allItem = new SelectItem(null, FilterUtils.EMPTY_STRING);
 			allItem.setNoSelectionOption(true);
 			result.add(allItem);
 		}

@@ -54,9 +54,11 @@ public class NavigationHelper {
 	public void navigate(String page, String id) {
 		try {
 			if (StringUtils.isNotBlank(id)) {	
-				FacesContext.getCurrentInstance().getExternalContext().redirect(getRootPath() + page + "?" + ID_PARAM + "=" + id);
+				FacesContext.getCurrentInstance().getExternalContext().redirect(
+						new StringBuilder(getRootPath()).append(page).append("?").append(ID_PARAM).append("=".intern()).append(id).toString());
 			} else {
-				FacesContext.getCurrentInstance().getExternalContext().redirect(getRootPath() + page);
+				FacesContext.getCurrentInstance().getExternalContext().redirect(
+						new StringBuilder(getRootPath()).append(page).toString());
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -71,7 +73,7 @@ public class NavigationHelper {
 	 */
 	@Deprecated
 	public void navigateToProfile(RoleType role) throws IOException {
-		StringBuffer page = new StringBuffer();
+		StringBuilder page = new StringBuilder(50);
 		switch (role) {
 		case ROLE_SUPER_ADMIN:
 			page.append("/superAdmin/showProfile.jsf");
@@ -92,7 +94,7 @@ public class NavigationHelper {
 	 * @return index page of the system
 	 */
 	public String getIndexPage() {
-		return new StringBuffer().append("/").append(INDEX_PAGE).toString();
+		return new String("/".intern() + INDEX_PAGE.intern()).intern();
 	}
 	
 	/**

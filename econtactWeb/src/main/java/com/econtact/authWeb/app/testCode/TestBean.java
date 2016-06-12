@@ -1,6 +1,7 @@
 package com.econtact.authWeb.app.testCode;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -16,13 +17,27 @@ public class TestBean implements Serializable {
 	private String i1;
 	private String i2;
 	
+	private void m(int a) {
+		System.out.println("1" + (a + 1));
+	}
+	
+	private void m(Integer a) {
+		System.out.println("2" + (a + 2));
+	}
 	
 	public void add() {
 		
 	}
 	
 	public void submit() {
+		System.out.println(Thread.currentThread().getName() + "START");
 		
+		int max = Integer.MAX_VALUE / 1_00;
+		ArrayList<String> arrayList = new ArrayList<String>(max);
+		for (int i = 0; i < max; i++) {
+			arrayList.add(new String("" + i));
+		}
+		System.out.println(arrayList.size() + " - " + Integer.MAX_VALUE);
 	}
 	
 	/**

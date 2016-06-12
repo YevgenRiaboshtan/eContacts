@@ -50,7 +50,7 @@ public class VisitorContext {
     }
 
     private String addParameter(Object value) {
-        final String key = "par_" + paramIndex++;
+        final String key = new StringBuilder("par_".intern()).append(paramIndex++).toString().intern();
         params.put(key, value);
         return key;
     }

@@ -33,7 +33,7 @@ public class LabelsHelper {
 	public String getLocalizedMessage(String key) {
 		if (key == null
 				|| key.trim().isEmpty()) {
-			return "";
+			return "".intern();
 		}
 		return bundle.getString(key);
 	}

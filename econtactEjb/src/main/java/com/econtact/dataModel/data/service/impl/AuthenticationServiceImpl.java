@@ -1,6 +1,6 @@
 package com.econtact.dataModel.data.service.impl;
 
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -51,7 +51,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Override
 	public void disconnectUser(String sessionId) {
        em.createQuery("Update ConnectAuditEntity entity set entity.endVisit=:date where entity.sessionId=:sessionId")
-       		.setParameter("date", Calendar.getInstance().getTime())
+       		.setParameter("date", new Date())
        		.setParameter("sessionId", sessionId)
        		.executeUpdate();
     }

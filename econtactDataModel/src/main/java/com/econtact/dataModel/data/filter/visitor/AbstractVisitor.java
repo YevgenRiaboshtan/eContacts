@@ -14,7 +14,7 @@ public abstract class AbstractVisitor<T extends AbstractFilterDef> implements Fi
 	 * Escape char will be used in like expression.
 	 */
 	protected static final char LIKE_ESCAPE_CHAR = '\\';
-	protected static final String LIKE_ANY_CHARS = "%";
+	protected static final String LIKE_ANY_CHARS = "%".intern();
 
 	protected final VisitorContext cbCtx;
 	protected Predicate predicate;
@@ -29,7 +29,7 @@ public abstract class AbstractVisitor<T extends AbstractFilterDef> implements Fi
 
 	protected Path getPath(final String fieldName) {
 		From parent = cbCtx.getRoot();
-		final String[] names = fieldName.split("\\.");
+		final String[] names = fieldName.split("\\.".intern());
 		From result;
 		for (int index = 0; index < names.length - 1; index++) {
 			final String name = names[index];

@@ -24,6 +24,53 @@ import com.econtact.dataModel.data.filter.FilterDefStartsWithIgnoreCase;
 import com.econtact.dataModel.data.util.EntityHelper;
 
 public final class FilterUtils {
+	//Cached String value used in filtering.
+	
+	/**
+	 * Empty String value.
+	 */
+	public static final String EMPTY_STRING = "".intern();
+	
+	/**
+	 * "<>" - represents Not equals filter type.
+	 */
+	public static final String NOT_EQUAL_CHARACTER = "<>".intern();
+	/**
+	 *  "=" - represents equal filter type.
+	 */
+	public static final String EQUAL_CHARACTER = "=".intern();
+	/**
+	 *  "_" - represents containt filter type.  
+	 */
+	public static final String CONTAINS_CHARACTER = "_".intern();
+	/**
+	 * "@" - represents IS NULL filter type.
+	 */
+	public static final String IS_NULL_CHARACTER = "@".intern();
+	/**
+	 * "!@" - represents IS NOT NULL filter type.
+	 */
+	public static final String IS_NOT_NULL_CHARACTER = "!@".intern();
+	/**
+	 * "%" - represents LIKE filter type.
+	 */
+	public static final String LIKE_CHARACTER = "%".intern();
+	/**
+	 * ">" - represents great filter type.
+	 */
+	public static final String GREAT_CHARACTER = ">".intern();
+	/**
+	 * ">=" - represents great or equals filter type.
+	 */
+	public static final String GREAT_OR_EQUAL_CHARACTER = ">=".intern();
+	/**
+	 * "<" - represents less filter type.
+	 */
+	public static final String LESS_CHARACTER = "<".intern();
+	/**
+	 * "<=" - represents less or equals filter type.
+	 */
+	public static final String LESS_OR_EQUAL_CHARACTER = "<=".intern();
 	
 	public static AbstractFieldFilterDef getMakeFilter(FilterDataTypeEnum dataType, String field, Object value) {
 		AbstractFieldFilterDef result = null;
@@ -68,30 +115,30 @@ public final class FilterUtils {
 		if (searchLine.isEmpty()) {
 			return null;
 		}
-		if (searchLine.startsWith("<>")) {
-			return new FilterDefNotEquals(field, searchLine.substring("<>".length()).trim());
+		if (searchLine.startsWith(NOT_EQUAL_CHARACTER)) {
+			return new FilterDefNotEquals(field, searchLine.substring(NOT_EQUAL_CHARACTER.length()).trim());
 		}
-		if (searchLine.startsWith("=")) {
-			return new FilterDefEquals(field, searchLine.substring("=".length()).trim());
+		if (searchLine.startsWith(EQUAL_CHARACTER)) {
+			return new FilterDefEquals(field, searchLine.substring(EQUAL_CHARACTER.length()).trim());
 		}
-		if (searchLine.contains("_")) {
+		if (searchLine.contains(CONTAINS_CHARACTER)) {
 			return new FilterDefLike(field, searchLine);
 		}
-		if ("@".equals(searchLine)) {
+		if (IS_NULL_CHARACTER.equals(searchLine)) {
 			return new FilterDefIsNull(field);
 		}
-		if ("!@".equals(searchLine)) {
+		if (IS_NOT_NULL_CHARACTER.equals(searchLine)) {
 			return new FilterDefNotNull(field);
 		}
-		if (searchLine.indexOf("%") == 0
-				&& searchLine.lastIndexOf("%") == 0) {
-			return new FilterDefEndsWithIgnoreCase(field, searchLine.substring("%".length()).trim());
+		if (searchLine.indexOf(LIKE_CHARACTER) == 0
+				&& searchLine.lastIndexOf(LIKE_CHARACTER) == 0) {
+			return new FilterDefEndsWithIgnoreCase(field, searchLine.substring(LIKE_CHARACTER.length()).trim());
 		}
-		if (searchLine.indexOf("%") == searchLine.length() - 1
-				&& searchLine.indexOf("%") == searchLine.lastIndexOf("%")) {
+		if (searchLine.indexOf(LIKE_CHARACTER) == searchLine.length() - 1
+				&& searchLine.indexOf(LIKE_CHARACTER) == searchLine.lastIndexOf(LIKE_CHARACTER)) {
 			return new FilterDefStartsWithIgnoreCase(field, searchLine.substring(0, searchLine.length() - 1).trim());
 		}
-		if (searchLine.indexOf("%") >= 0) {
+		if (searchLine.indexOf(LIKE_CHARACTER) >= 0) {
 			return new FilterDefLike(field, searchLine);
 		}
 		return new FilterDefStartsWithIgnoreCase(field, searchLine);
@@ -102,49 +149,49 @@ public final class FilterUtils {
 		if (searchLine.isEmpty()) {
 			return null;
 		}
-		if (searchLine.startsWith("<>")) {
+		if (searchLine.startsWith(NOT_EQUAL_CHARACTER)) {
 			return new FilterDefNotEquals(
 					field,
 					isLong 
-						? Long.valueOf(searchLine.substring("<>".length()).trim())
-						: BigDecimal.valueOf(Long.valueOf(searchLine.substring("<>".length()).trim())));
+						? Long.valueOf(searchLine.substring(NOT_EQUAL_CHARACTER.length()).trim())
+						: BigDecimal.valueOf(Long.valueOf(searchLine.substring(NOT_EQUAL_CHARACTER.length()).trim())));
 		}
-		if (searchLine.startsWith("<=")) {
+		if (searchLine.startsWith(LESS_OR_EQUAL_CHARACTER)) {
 			return new FilterDefLessEq(
 					field,
 					isLong
-						? Long.valueOf(searchLine.substring("<=".length()).trim())
-						: BigDecimal.valueOf(Long.valueOf(searchLine.substring("<=".length()).trim())));
+						? Long.valueOf(searchLine.substring(LESS_OR_EQUAL_CHARACTER.length()).trim())
+						: BigDecimal.valueOf(Long.valueOf(searchLine.substring(LESS_OR_EQUAL_CHARACTER.length()).trim())));
 		}
-		if (searchLine.startsWith("<")) {
+		if (searchLine.startsWith(LESS_CHARACTER)) {
 			return new FilterDefLess(
 					field,
 					isLong 
-						? Long.valueOf(searchLine.substring("<".length()).trim())
-						: BigDecimal.valueOf(Long.valueOf(searchLine.substring("<".length()).trim())));
+						? Long.valueOf(searchLine.substring(LESS_CHARACTER.length()).trim())
+						: BigDecimal.valueOf(Long.valueOf(searchLine.substring(LESS_CHARACTER.length()).trim())));
 		}
-		if (searchLine.startsWith(">=")){
+		if (searchLine.startsWith(GREAT_OR_EQUAL_CHARACTER)){
 			return new FilterDefGreaterEq(
 					field,
 					isLong
-						? Long.valueOf(searchLine.substring(">=".length()).trim())
-						: BigDecimal.valueOf(Long.valueOf(searchLine.substring(">=".length()).trim())));
+						? Long.valueOf(searchLine.substring(GREAT_OR_EQUAL_CHARACTER.length()).trim())
+						: BigDecimal.valueOf(Long.valueOf(searchLine.substring(GREAT_OR_EQUAL_CHARACTER.length()).trim())));
 		}
-		if (searchLine.startsWith(">")) {
+		if (searchLine.startsWith(GREAT_CHARACTER)) {
 			return new FilterDefGreater(
 					field,
 					isLong
-						? Long.valueOf(searchLine.substring(">".length()).trim())
-						: BigDecimal.valueOf(Long.valueOf(searchLine.substring(">".length()).trim())));
+						? Long.valueOf(searchLine.substring(GREAT_CHARACTER.length()).trim())
+						: BigDecimal.valueOf(Long.valueOf(searchLine.substring(GREAT_CHARACTER.length()).trim())));
 		}
-		if ("@".equals(searchLine)) {
+		if (IS_NULL_CHARACTER.equals(searchLine)) {
 			return new FilterDefIsNull(field);
 		}
-		if ("!@".equals(searchLine)) {
+		if (IS_NOT_NULL_CHARACTER.equals(searchLine)) {
 			return new FilterDefNotNull(field);
 		}
-		if (searchLine.startsWith("=")) {
-			searchLine = searchLine.substring("=".length()).trim();
+		if (searchLine.startsWith(EQUAL_CHARACTER)) {
+			searchLine = searchLine.substring(EQUAL_CHARACTER.length()).trim();
 		}
 		return new FilterDefEquals(
 					field,
@@ -155,23 +202,23 @@ public final class FilterUtils {
 	
 	private static AbstractFieldFilterDef makeDateFilter(String field, String value) {
 		try {
-			if (value.startsWith("<>")) {
-				return new FilterDefNotEquals(field, convertDate(value.substring("<>".length())));
+			if (value.startsWith(NOT_EQUAL_CHARACTER)) {
+				return new FilterDefNotEquals(field, convertDate(value.substring(NOT_EQUAL_CHARACTER.length())));
 			}
-			if (value.startsWith("<=")) {
-				return new FilterDefLessEq(field, convertDate(value.substring("<=".length())));
+			if (value.startsWith(LESS_OR_EQUAL_CHARACTER)) {
+				return new FilterDefLessEq(field, convertDate(value.substring(LESS_OR_EQUAL_CHARACTER.length())));
 			}
-			if (value.startsWith(">=")) {
-				return new FilterDefGreaterEq(field, convertDate(value.substring(">=".length())));
+			if (value.startsWith(GREAT_OR_EQUAL_CHARACTER)) {
+				return new FilterDefGreaterEq(field, convertDate(value.substring(GREAT_OR_EQUAL_CHARACTER.length())));
 			}
-			if (value.startsWith(">")) {
-				return new FilterDefGreater(field, convertDate(value.substring(">".length())));
+			if (value.startsWith(GREAT_CHARACTER)) {
+				return new FilterDefGreater(field, convertDate(value.substring(GREAT_CHARACTER.length())));
 			}
-			if (value.startsWith("<")) {
-				return new FilterDefLess(field, convertDate(value.substring("<".length())));
+			if (value.startsWith(LESS_CHARACTER)) {
+				return new FilterDefLess(field, convertDate(value.substring(LESS_CHARACTER.length())));
 			}
-			if (value.startsWith("=")) {
-				value = value.substring("=".length());
+			if (value.startsWith(EQUAL_CHARACTER)) {
+				value = value.substring(EQUAL_CHARACTER.length());
 			}
 			return new FilterDefEquals(field, convertDate(value));
 		} catch (ParseException e) {
@@ -180,24 +227,26 @@ public final class FilterUtils {
 	}
 	
 	public static Date convertDate(String sDate) throws ParseException {
-		String splitterString = "";
+		String splitterString;
 		/*
 		 * Проверка даты на соответствие формату
 		 * дд.мм.гггг
 		 * разделителем могут быть симовлы . / -
 		 * а может и не быть вовсе
 		 */
-		Pattern p = Pattern.compile("[\\d]{1,8}|[\\d]{1,2}\\.[\\d]{1,6}|[\\d]{1,2}\\.[\\d]{1,2}\\.[\\d]{1,4}|[\\d]{1,2}\\-[\\d]{1,6}|[\\d]{1,2}\\-[\\d]{1,2}\\-[\\d]{1,4}|[\\d]{1,2}\\/[\\d]{1,6}|[\\d]{1,2}\\/[\\d]{1,2}\\/[\\d]{1,4}");
+		Pattern p = Pattern.compile("[\\d]{1,8}|[\\d]{1,2}\\.[\\d]{1,6}|[\\d]{1,2}\\.[\\d]{1,2}\\.[\\d]{1,4}|[\\d]{1,2}\\-[\\d]{1,6}|[\\d]{1,2}\\-[\\d]{1,2}\\-[\\d]{1,4}|[\\d]{1,2}\\/[\\d]{1,6}|[\\d]{1,2}\\/[\\d]{1,2}\\/[\\d]{1,4}".intern());
 		if (!p.matcher(sDate).matches()) {
-			throw new ParseException("", 0);
+			throw new ParseException(EMPTY_STRING, 0);
 		}		
 		
-		if (sDate.contains(".")) {
+		if (sDate.contains(".".intern())) {
 			splitterString = ".";
-		} else if (sDate.contains("/")) {
+		} else if (sDate.contains("/".intern())) {
 			splitterString = "/";
-		} else if (sDate.contains("-")) {
+		} else if (sDate.contains("-".intern())) {
 			splitterString = "-";
+		} else {
+			splitterString = EMPTY_STRING;
 		}
 		
 		if (StringUtils.isNotBlank(splitterString)) {
@@ -210,7 +259,7 @@ public final class FilterUtils {
 			case 1:
 				return parseStringToDate(dateStrings[0], null, null);
 			default:
-				throw new ParseException("", 0);
+				throw new ParseException(EMPTY_STRING, 0);
 			}
 		} else {
 			switch (sDate.length()) {
@@ -237,7 +286,7 @@ public final class FilterUtils {
 				} catch (ParseException e){
 					
 				}
-				throw new ParseException("", 0);
+				throw new ParseException(EMPTY_STRING, 0);
 			case 6:
 				//add F
 			case 5:
@@ -268,7 +317,7 @@ public final class FilterUtils {
 				} catch (ParseException e){
 					
 				}
-				throw new ParseException("", 0);
+				throw new ParseException(EMPTY_STRING, 0);
 			case 7:
 				//ABCDEFG - dateString 
 				try{
@@ -289,13 +338,13 @@ public final class FilterUtils {
 				} catch (ParseException e){
 					
 				}
-				throw new ParseException("", 0);
+				throw new ParseException(EMPTY_STRING, 0);
 			case 8:
 				// ABCDEFGH - date string
 				//AB.CD.EFGH
 				return parseStringToDate(sDate.substring(0, 2), sDate.substring(2, 4), sDate.substring(4));
 			default:
-				throw new ParseException("", 0);
+				throw new ParseException(EMPTY_STRING, 0);
 			}
 		}
 	}
@@ -313,26 +362,26 @@ public final class FilterUtils {
 			if (year.length() <= 4 && Integer.parseInt(year) > 0) {
 				// Если вводят только 3 последние цифры года то добавлять 2 чтобы было 2...
 				if (year.length() == 3) {
-					year = "2" + year;
+					year = "2".intern() + year;
 				}
 				// Если вводят только 2 последние цифры года то добавлять 20 чтобы было 20..
 				if (year.length() == 2) {
-					year = "20" + year;
+					year = "20".intern() + year;
 				}
 				// Если год указан одно цифрой то добавлять 200 в начало.
 				if (year.length() == 1) {
-					year = "200" + year;
+					year = "200".intern() + year;
 				}
 				date.set(Calendar.YEAR, Integer.parseInt(year));
 			} else {
-				throw new ParseException("", 0);
+				throw new ParseException(EMPTY_STRING, 0);
 			}
 		}
 		if (mount != null) {
 			if (mount.length() <= 2 && Integer.parseInt(mount) > 0 && Integer.parseInt(mount) <= 12) {
 				date.set(Calendar.MONTH, Integer.parseInt(mount) - 1);
 			} else {
-				throw new ParseException("", 0);
+				throw new ParseException(EMPTY_STRING, 0);
 			}
 		}
 		if (days != null) {
@@ -340,7 +389,7 @@ public final class FilterUtils {
 					&& Integer.parseInt(days) <= date.getActualMaximum(Calendar.DAY_OF_MONTH)) {
 				date.set(Calendar.DAY_OF_MONTH, Integer.parseInt(days));
 			} else {
-				throw new ParseException("", 0);
+				throw new ParseException(EMPTY_STRING, 0);
 			}
 		}
 		return date.getTime();

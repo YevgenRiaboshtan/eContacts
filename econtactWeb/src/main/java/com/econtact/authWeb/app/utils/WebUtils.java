@@ -6,8 +6,8 @@ import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.CDI;
 
 public final class WebUtils {
-	public static final String DATE_PATTERN = "dd.MM.yyyy";
-    public static final String DATE_TIME_PATTERN = "dd.MM.yyyy HH:mm:ss";
+	public static final String DATE_PATTERN = "dd.MM.yyyy".intern();
+    public static final String DATE_TIME_PATTERN = "dd.MM.yyyy HH:mm:ss".intern();
     
 	public static <T> T getBean(final Class<T> beanClass) {
 		final BeanManager beanManager = CDI.current().getBeanManager();
