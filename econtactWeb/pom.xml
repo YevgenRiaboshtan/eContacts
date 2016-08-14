@@ -20,10 +20,28 @@
 			<name>Primefaces repository</name>
 			<url>http://repository.primefaces.org</url>
 		</repository>
+		<repository>
+			<id>share</id>
+			<name>shareEntity</name>
+			<url>file://${project.basedir}/lib</url>
+		</repository>
 	</repositories>
 
 
 	<dependencies>
+		<dependency>
+			<groupId>com</groupId>
+			<artifactId>share</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.elasticsearch</groupId>
+			<artifactId>elasticsearch</artifactId>
+			<version>2.3.4</version>
+		</dependency>
+
+
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>

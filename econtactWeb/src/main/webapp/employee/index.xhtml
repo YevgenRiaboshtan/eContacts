@@ -15,15 +15,8 @@
 		<p:messages id="messages" closable="true" autoUpdate="true" />
 		<p:outputLabel value="i1"></p:outputLabel>
 		<p:inputText value="#{testBean.i1}" label="i1" ></p:inputText>
-		<h:panelGrid>
-			<p:outputLabel value="i2"></p:outputLabel>
-			<p:inputText id="i2" value="#{testBean.i2}"
-				label="i2" styleClass="notr"></p:inputText>
-			<p:commandButton value="add" actionListener="#{testBean.add}"
-				process="i2" ajax="true"></p:commandButton>
-		</h:panelGrid>
-		<p:commandButton value="submit" action="#{testBean.submit}"
-			process="@(form :not(.notr))"></p:commandButton>
+		<p:commandButton value="put" action="#{testBean.put}" ajax="true" update="@all"></p:commandButton>
+		<p:commandButton value="search" action="#{testBean.search}" ajax="true" update="@all"></p:commandButton>
 	</h:form>
 
 </ui:composition>

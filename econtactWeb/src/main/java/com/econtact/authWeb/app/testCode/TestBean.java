@@ -1,43 +1,64 @@
 package com.econtact.authWeb.app.testCode;
 
+import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Named;
+import javax.json.JsonBuilderFactory;
 
-@ManagedBean(name = "testBean")
-@ViewScoped
+import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.Client;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.common.xcontent.XContentFactory;
+
+import com.google.common.net.InetAddresses;
+
+@Named
+@ApplicationScoped
 public class TestBean implements Serializable {
 	private static final long serialVersionUID = -292856430946906320L;
 
 	private String i1;
-	private String i2;
 	
-	private void m(int a) {
-		System.out.println("1" + (a + 1));
+	private Client client;
+	
+	@PostConstruct
+	public void init() {
+		client = TransportClient.builder().build().addTransportAddress(new InetSocketTransportAddress(InetAddresses.forString("127.0.0.1"), 9300));
+		System.out.println("init");
 	}
 	
-	private void m(Integer a) {
-		System.out.println("2" + (a + 2));
-	}
 	
-	public void add() {
+	public void search() {
+		System.out.println(i1);
+		GetResponse resp = client.prepareGet("index1", "indextype1", "indexid1").get();
+		
+		SearchResponse sresp = client.prepareSearch("index1")
+		.execute()
+		.actionGet();
+		
+		System.out.println(sresp.toString());
+		i1="";
 		
 	}
 	
-	public void submit() {
-		System.out.println(Thread.currentThread().getName() + "START");
+	
+	public void put() throws IOException {
 		
-		int max = Integer.MAX_VALUE / 1_00;
-		ArrayList<String> arrayList = new ArrayList<String>(max);
-		for (int i = 0; i < max; i++) {
-			arrayList.add(new String("" + i));
-		}
-		System.out.println(arrayList.size() + " - " + Integer.MAX_VALUE);
+		System.out.println(i1);
+		XContentBuilder builder = XContentFactory.jsonBuilder()
+				.startObject()
+				.field("f1", i1)
+				.field("f2", 0)
+				.endObject();
+		IndexResponse resp = client.prepareIndex("index1","indextype1").setSource(builder).execute().actionGet();
+		i1 = "";
 	}
 	
 	/**
@@ -54,23 +75,5 @@ public class TestBean implements Serializable {
 	 */
 	public void setI1(String i1) {
 		this.i1 = i1;
-	}
-
-	/**
-	 * Method to return i2 
-	 * @return the i2
-	 */
-	public String getI2() {
-		return i2;
-	}
-
-	/**
-	 * Method to set i2
-	 * @param i2 the i2 to set
-	 */
-	public void setI2(String i2) {
-		this.i2 = i2;
-	}
-
-	
+	}	
 }
